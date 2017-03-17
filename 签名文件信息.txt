@@ -1,2 +1,5 @@
 别名：lsj
 密码：123456789
+
+包名：com.oushangfeng.lsj
+签名MD5：c87a11987a0221df1e0853ec0454072b

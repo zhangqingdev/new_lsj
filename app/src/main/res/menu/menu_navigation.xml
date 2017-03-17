@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/action_info"
+            android:checked="true"
+            android:icon="@drawable/ic_news_black"
+            android:title="邀请兄弟入伙"/>
+
+        <item
+            android:id="@+id/action_invite_friend"
+            android:icon="@drawable/ic_ondemand_video_black"
+            android:title="我的消息"/>
+
+        <item
+            android:id="@+id/action_feed_back"
+            android:icon="@drawable/ic_insert_photo_black"
+            android:title="意见反馈"/>
+
+        <item
+            android:id="@+id/action_update"
+            android:icon="@drawable/ic_more_black"
+            android:title="检查更新"/>
+
+    </group>
+
+</menu>

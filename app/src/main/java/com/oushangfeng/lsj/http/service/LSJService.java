@@ -9,16 +9,20 @@ import rx.Observable;
 public interface LSJService {
     /**
      *  获取首页内容
-     * @param banner_num
-     * @param recomdListSize
-     * @param articleListSize
+     * @param imei
+
      * @return
      */
-    @GET("insider/app/index")
+    @GET("app/index/{imei}")
     Observable<String> getNewsList(
-            @Query("banner") String banner_num,
-            @Query("recomdListSize") String recomdListSize,
-            @Query("articleListSize") int articleListSize);
+            @Path("imei") String imei);
+
+    /**  *  获取首页分页内容  * @param imei  * @return  */ 
+    @GET("app/index/{imei}/{lastMaxId}/{pageSize}")
+    Observable<String> getLastNewsList( 
+            @Path("imei") String imei, 
+            @Path("lastMaxId") String lastMaxId, 
+            @Path("pageSize") String pageSize);
 
     /**
      *  微信登陆接口

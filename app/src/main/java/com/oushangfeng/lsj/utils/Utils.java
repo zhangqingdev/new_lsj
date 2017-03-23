@@ -42,7 +42,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Utils {
-    public static HashMap<String, String> getDeviceInfo(Context context) {
+    public static HashMap<String, String>getDeviceInfo(Context context) {
         String params = "";
         String deviceId = getDevId(context);
         String screenDensity = "";

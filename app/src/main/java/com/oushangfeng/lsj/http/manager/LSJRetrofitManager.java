@@ -1,7 +1,10 @@
 package com.oushangfeng.lsj.http.manager;
 
+import android.util.Log;
 import android.util.SparseArray;
 import com.oushangfeng.lsj.app.App;
+import com.oushangfeng.lsj.base.BaseSchedulerTransformer;
+import com.oushangfeng.lsj.bean.NeteastNewsSummary;
 import com.oushangfeng.lsj.http.Api;
 import com.oushangfeng.lsj.http.HostType;
 import com.oushangfeng.lsj.http.service.LSJService;
@@ -12,6 +15,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
@@ -87,6 +92,7 @@ public class LSJRetrofitManager {
                 try {
                     charset = contentType.charset(charset);
                 } catch (UnsupportedCharsetException e) {
+                     KLog.e("Couldn't decode the response body; charset is likely malformed.");
                     return response;
                 }
             }
@@ -133,7 +139,7 @@ public class LSJRetrofitManager {
                     // 指定缓存路径,缓存大小100Mb
                     Cache cache = new Cache(new File(App.getContext().getCacheDir(), "HttpCache"), 1024 * 1024 * 100);
                     sOkHttpClient = new OkHttpClient.Builder().cache(cache).addNetworkInterceptor(mRewriteCacheControlInterceptor)
-                            .addInterceptor(mRewriteCacheControlInterceptor).addInterceptor(mLoggingInterceptor).addInterceptor(paramsInterceptor).retryOnConnectionFailure(true)
+                            .addInterceptor(mRewriteCacheControlInterceptor).addInterceptor(mLoggingInterceptor).retryOnConnectionFailure(true)
                             .connectTimeout(30, TimeUnit.SECONDS).build();
 
                 }
@@ -144,13 +150,20 @@ public class LSJRetrofitManager {
 
     /**
      * 获取新闻列表
-     * @param banner_num
-     * @param recomdListSize
-     * @param articleListSize
+     * @param imei
      * @return
      */
-    public Observable<String> getNewsListObservable(String banner_num, String recomdListSize, int articleListSize){
-        return  mNewsService.getNewsList(banner_num,recomdListSize,articleListSize);
+    public Observable<String> getNewsListObservable(String imei){
+        return  mNewsService.getNewsList(imei).compose(new BaseSchedulerTransformer<String>());
+    }
+
+    /**
+     * 获取下一页新闻列表
+     * @param imei
+     * @return
+     */
+    public Observable<String> getgetLastNewsListObservable(String imei,String lastMaxId,String pageSize){
+        return  mNewsService.getNewsList(imei).compose(new BaseSchedulerTransformer<String>());
     }
 
     /**

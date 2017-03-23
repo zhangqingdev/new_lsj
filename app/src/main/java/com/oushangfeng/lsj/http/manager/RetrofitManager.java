@@ -87,7 +87,7 @@ public class RetrofitManager {
 
             final Response response = chain.proceed(request);
 
-            KLog.e("请求网址: \n" + request.url() + " \n " + "请求头部信息：\n" + request.headers() + "响应头部信息：\n" + response.headers());
+            //KLog.e("请求网址: \n" + request.url() + " \n " + "请求头部信息：\n" + request.headers() + "响应头部信息：\n" + response.headers());
 
             final ResponseBody responseBody = response.body();
             final long contentLength = responseBody.contentLength();
@@ -102,16 +102,16 @@ public class RetrofitManager {
                 try {
                     charset = contentType.charset(charset);
                 } catch (UnsupportedCharsetException e) {
-                    KLog.e("");
-                    KLog.e("Couldn't decode the response body; charset is likely malformed.");
+                   // KLog.e("");
+                   // KLog.e("Couldn't decode the response body; charset is likely malformed.");
                     return response;
                 }
             }
 
             if (contentLength != 0) {
-                KLog.v("--------------------------------------------开始打印返回数据----------------------------------------------------");
-                KLog.json(buffer.clone().readString(charset));
-                KLog.v("--------------------------------------------结束打印返回数据----------------------------------------------------");
+               // KLog.v("--------------------------------------------开始打印返回数据----------------------------------------------------");
+               // KLog.json(buffer.clone().readString(charset));
+               // KLog.v("--------------------------------------------结束打印返回数据----------------------------------------------------");
             }
 
             return response;
@@ -198,7 +198,7 @@ public class RetrofitManager {
      * @return 被观察对象
      */
     public Observable<SinaPhotoList> getSinaPhotoListObservable(String photoTypeId, int page) {
-        KLog.e("新浪图片新闻列表: " + photoTypeId + ";" + page);
+       // KLog.e("新浪图片新闻列表: " + photoTypeId + ";" + page);
         return mNewsService.getSinaPhotoList(photoTypeId, "4ad30dabe134695c3b7c3a65977d7e72", "b207", "6042095012", "12050_0001", "12050_0001", "867064013906290",
                 "802909da86d9f5fc", page).compose(new BaseSchedulerTransformer<SinaPhotoList>());
     }
@@ -222,7 +222,7 @@ public class RetrofitManager {
      * @return 被观察者
      */
     public Observable<Map<String, List<NeteastVideoSummary>>> getVideoListObservable(String id, int startPage) {
-        KLog.e("网易视频列表: " + id + ";" + startPage);
+        //KLog.e("网易视频列表: " + id + ";" + startPage);
         return mNewsService.getVideoList(id, startPage).compose(new BaseSchedulerTransformer<Map<String, List<NeteastVideoSummary>>>());
     }
 

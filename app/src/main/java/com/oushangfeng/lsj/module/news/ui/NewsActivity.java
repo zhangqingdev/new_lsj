@@ -10,6 +10,7 @@ import com.oushangfeng.lsj.base.BaseActivity;
 import com.oushangfeng.lsj.base.BaseFragment;
 import com.oushangfeng.lsj.base.BaseFragmentAdapter;
 import com.oushangfeng.lsj.greendao.NewsChannelTable;
+import com.oushangfeng.lsj.http.manager.LSJRetrofitManager;
 import com.oushangfeng.lsj.module.news.presenter.INewsPresenter;
 import com.oushangfeng.lsj.module.news.presenter.INewsPresenterImpl;
 import com.oushangfeng.lsj.module.news.view.INewsView;
@@ -53,7 +54,6 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 
         AppManager.getAppManager().orderNavActivity(getClass().getName(), false);
         mPresenter = new INewsPresenterImpl(this);
-
     }
 
     @Override

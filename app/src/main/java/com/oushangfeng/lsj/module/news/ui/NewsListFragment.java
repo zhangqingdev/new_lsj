@@ -24,6 +24,7 @@ import com.oushangfeng.lsj.callback.OnEmptyClickListener;
 import com.oushangfeng.lsj.callback.OnItemClickAdapter;
 import com.oushangfeng.lsj.callback.OnLoadMoreListener;
 import com.oushangfeng.lsj.common.DataLoadType;
+import com.oushangfeng.lsj.http.manager.LSJRetrofitManager;
 import com.oushangfeng.lsj.module.news.presenter.INewsListPresenter;
 import com.oushangfeng.lsj.module.news.presenter.INewsListPresenterImpl;
 import com.oushangfeng.lsj.module.news.view.INewsListView;
@@ -71,7 +72,6 @@ public class NewsListFragment extends BaseFragment<INewsListPresenter> implement
             mNewsType = getArguments().getString(NEWS_TYPE);
             mPosition = getArguments().getInt(POSITION);
         }
-
     }
 
     public static NewsListFragment newInstance(String newsId, String newsType, int position) {

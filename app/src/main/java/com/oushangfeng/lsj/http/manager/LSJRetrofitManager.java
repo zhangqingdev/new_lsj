@@ -97,14 +97,15 @@ public class LSJRetrofitManager {
         }
     };
 
-    private LSJRetrofitManager() {
-    }
 
-    private LSJRetrofitManager(@HostType.HostTypeChecker int hostType) {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Api.getHost(hostType)).client(getOkHttpClient()).addConverterFactory(JacksonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
-        mNewsService = retrofit.create(LSJService.class);
-    }
+	private LSJRetrofitManager() {
+//        Retrofit retrofit = new Retrofit.Builder().baseUrl(Api.getHost(hostType)).client(getOkHttpClient()).addConverterFactory(JacksonConverterFactory.create())
+//                .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
+//        mNewsService = retrofit.create(LSJService.class);
+		Retrofit retrofit = new Retrofit.Builder().baseUrl(Api.LSJ_BASE_HOST).client(getOkHttpClient()).addConverterFactory(JacksonConverterFactory.create())
+				.addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
+		mNewsService = retrofit.create(LSJService.class);
+	}
 
     /**
      * 获取单例
@@ -115,7 +116,7 @@ public class LSJRetrofitManager {
     public static LSJRetrofitManager getInstance(int hostType) {
         LSJRetrofitManager instance = sInstanceManager.get(hostType);
         if (instance == null) {
-            instance = new LSJRetrofitManager(hostType);
+            instance = new LSJRetrofitManager();
             sInstanceManager.put(hostType, instance);
             return instance;
         } else {

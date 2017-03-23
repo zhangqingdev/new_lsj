@@ -2,7 +2,7 @@ package com.oushangfeng.lsj.http;
 
 public class Api {
      //老司机客户端api接口
-      public static final  String LSJ_BASE_HOST="http://www.lsj.com/";
+      public static final  String LSJ_BASE_HOST="http://insider.bbvip.me/";
       //获取首页新闻列表
       public static final String GET_INDEX_INFO="insider/app/index";
       //微信登录接口

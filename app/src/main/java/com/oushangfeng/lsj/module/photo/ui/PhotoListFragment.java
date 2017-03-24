@@ -1,10 +1,7 @@
 package com.oushangfeng.lsj.module.photo.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -27,12 +24,11 @@ import com.oushangfeng.lsj.common.DataLoadType;
 import com.oushangfeng.lsj.module.photo.presenter.ILSJPhotoListPresenter;
 import com.oushangfeng.lsj.module.photo.presenter.ILSJPhotoListPresenterImpl;
 import com.oushangfeng.lsj.module.photo.view.ILSJPhotoListView;
-import com.oushangfeng.lsj.utils.ClickUtils;
 import com.oushangfeng.lsj.utils.GlideUtils;
 import com.oushangfeng.lsj.utils.MeasureUtil;
+import com.oushangfeng.lsj.utils.Utils;
 import com.oushangfeng.lsj.widget.ThreePointLoadingView;
 import com.oushangfeng.lsj.widget.refresh.RefreshLayout;
-import com.socks.library.KLog;
 
 /**
  * ClassName: PhotoListFragment<p>
@@ -43,10 +39,7 @@ import com.socks.library.KLog;
         handleRefreshLayout = true)
 public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> implements ILSJPhotoListView {
 
-    protected static final String PHOTO_ID = "photo_id";
-    protected static final String POSITION = "position";
 
-    protected String mPhotoId;
 
     private BaseRecyclerAdapter<IndexPhotoModel.PhotoModel> mAdapter;
     private RecyclerView mRecyclerView;
@@ -57,18 +50,10 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mPhotoId = getArguments().getString(PHOTO_ID);
-            mPosition = getArguments().getInt(POSITION);
-        }
     }
 
-    public static PhotoListFragment newInstance(String newsId, int position) {
+    public static PhotoListFragment newInstance() {
         PhotoListFragment fragment = new PhotoListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(PHOTO_ID, newsId);
-        bundle.putInt(POSITION, position);
-        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -83,7 +68,7 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 
         mRefreshLayout = (RefreshLayout) fragmentRootView.findViewById(R.id.refresh_layout);
 
-		mPresenter = new ILSJPhotoListPresenterImpl(this,"7777777","0",0);
+		mPresenter = new ILSJPhotoListPresenterImpl(this, Utils.getDevId(getActivity()),"0",0);
     }
 
     @Override
@@ -129,18 +114,18 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
             @Override
             public void onItemClick(View view, int position) {
 
-                if (ClickUtils.isFastDoubleClick()) {
-                    return;
-                }
-
-                KLog.e(mAdapter.getData().get(position).title + ";" + mAdapter.getData().get(position).id);
-
-                view = view.findViewById(R.id.iv_photo_summary);
-                Intent intent = new Intent(getActivity(), PhotoDetailActivity.class);
-                intent.putExtra("photoId", mAdapter.getData().get(position).id);
-                //让新的Activity从一个小的范围扩大到全屏
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
-                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
+//                if (ClickUtils.isFastDoubleClick()) {
+//                    return;
+//                }
+//
+//                KLog.e(mAdapter.getData().get(position).title + ";" + mAdapter.getData().get(position).id);
+//
+//                view = view.findViewById(R.id.iv_photo_summary);
+//                Intent intent = new Intent(getActivity(), PhotoDetailActivity.class);
+//                intent.putExtra("photoId", mAdapter.getData().get(position).id);
+//                //让新的Activity从一个小的范围扩大到全屏
+//                ActivityOptionsCompat options = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
+//                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
 
             }
         });

@@ -2,6 +2,7 @@ package com.oushangfeng.lsj.module.photo.presenter;
 
 import com.oushangfeng.lsj.base.BasePresenterImpl;
 import com.oushangfeng.lsj.bean.IndexPhotoModel;
+import com.oushangfeng.lsj.common.DataLoadType;
 import com.oushangfeng.lsj.module.photo.model.ILSJIIndexPhotoList;
 import com.oushangfeng.lsj.module.photo.model.ILSJIPhotosListImpl;
 import com.oushangfeng.lsj.module.photo.view.ILSJPhotoListView;
@@ -39,7 +40,15 @@ public class ILSJPhotoListPresenterImpl extends BasePresenterImpl<ILSJPhotoListV
     @Override
     public void requestError(String e) {
         super.requestError(e);
-        mView.getPhotoList(null);
+        mView.getPhotoList(null, e, mIsRefresh ? DataLoadType.TYPE_REFRESH_FAIL : DataLoadType.TYPE_LOAD_MORE_FAIL);
+
+    }
+
+    @Override
+    public void refreshData() {
+        mStartPage = 1;
+        mIsRefresh = true;
+        mSubscription=mPhotoListInteractor.getIndexPhotos(this,imei,mPhotoId,"10");
     }
 
     @Override
@@ -53,7 +62,6 @@ public class ILSJPhotoListPresenterImpl extends BasePresenterImpl<ILSJPhotoListV
       //  if (data != null && data.size() > 0) {
        //     mStartPage++;
       //  }
-      //  mView.updatePhotoList(data, "", mIsRefresh ? DataLoadType.TYPE_REFRESH_SUCCESS : DataLoadType.TYPE_LOAD_MORE_SUCCESS);
-     mView.getPhotoList(data);
+        mView.getPhotoList(data, "", mIsRefresh ? DataLoadType.TYPE_REFRESH_SUCCESS : DataLoadType.TYPE_LOAD_MORE_SUCCESS);
     }
 }

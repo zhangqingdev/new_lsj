@@ -8,5 +8,7 @@ import com.oushangfeng.lsj.base.BasePresenter;
 
 public interface ILSJPhotoListPresenter extends BasePresenter {
 
+    void refreshData();
+
     void loadPhotoData();
 }

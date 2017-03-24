@@ -8,7 +8,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -34,8 +33,6 @@ import com.oushangfeng.lsj.utils.MeasureUtil;
 import com.oushangfeng.lsj.widget.ThreePointLoadingView;
 import com.oushangfeng.lsj.widget.refresh.RefreshLayout;
 import com.socks.library.KLog;
-
-import java.util.Random;
 
 /**
  * ClassName: PhotoListFragment<p>
@@ -114,18 +111,17 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 
             @Override
             public void bindData(BaseRecyclerViewHolder holder, final int position, final IndexPhotoModel.PhotoModel item) {
+				ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+				layoutParams.height = 500;
+				holder.itemView.setLayoutParams(layoutParams);
 
+//				Glide.with(getActivity()).load(item.img.get(0)).dontAnimate().thumbnail(0.2f).into(holder.getImageView(R.id.iv_photo_summary));
                 GlideUtils.loadDefault(item.img.get(0), holder.getImageView(R.id.iv_photo_summary), false, DecodeFormat.PREFER_ARGB_8888, DiskCacheStrategy.RESULT);
+//				Glide.with(getActivity()).load(item.img.get(0)).into(holder.getImageView(R.id.iv_photo_summary));
                 //                Glide.with(getActivity()).load(item.kpic).asBitmap().animate(R.anim.image_load).placeholder(R.drawable.ic_loading).error(R.drawable.ic_fail).format(DecodeFormat.PREFER_ARGB_8888)
                 //                        .diskCacheStrategy(DiskCacheStrategy.RESULT).into(holder.getImageView(R.id.iv_photo_summary));
 
 //                holder.getTextView(R.id.tv_photo_summary).setText(item.title);
-                holder.getTextView(R.id.tv_photo_summary).setVisibility(View.GONE);
-				Random random = new Random();
-				int height = 300 +random.nextInt(400);
-				ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
-				layoutParams.height = height;
-				holder.itemView.setLayoutParams(layoutParams);
             }
         };
 
@@ -190,8 +186,6 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 		if (mAdapter == null) {
 			initNewsList(data);
 		}
-			data.list.addAll(data.list);
-		Log.e("info",data.list.size()+"size");
 
 		switch (type) {
 			case DataLoadType.TYPE_REFRESH_SUCCESS:

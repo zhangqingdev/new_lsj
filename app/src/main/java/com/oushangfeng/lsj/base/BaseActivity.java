@@ -201,7 +201,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             }
         });
 
-        LSJRetrofitManager.getInstance(1).getgetPhotoListObservable("77777","0","0").subscribe(new Observer<IndexPhotoModel>() {
+        LSJRetrofitManager.getInstance(1).getPhotoListObservable("77777","0","0").subscribe(new Observer<IndexPhotoModel>() {
             @Override
             public void onCompleted() {
                 Log.i("test","hahhahahh");

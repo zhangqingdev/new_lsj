@@ -31,7 +31,6 @@ import okio.Buffer;
 import okio.BufferedSource;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import rx.Observable;
 
@@ -115,7 +114,7 @@ public class LSJRetrofitManager {
 //				.addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
 //		mNewsService = retrofit.create(LSJService.class);
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Api.LSJ_BASE_HOST).client(getOkHttpClient()).addConverterFactory(GsonConverterFactory.create())
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Api.LSJ_BASE_HOST).client(getOkHttpClient()).addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
         mNewsService = retrofit.create(LSJService.class);
 	}

@@ -10,10 +10,10 @@ import com.oushangfeng.lsj.base.BaseActivity;
 import com.oushangfeng.lsj.base.BaseFragment;
 import com.oushangfeng.lsj.base.BaseFragmentAdapter;
 import com.oushangfeng.lsj.greendao.NewsChannelTable;
-import com.oushangfeng.lsj.http.manager.LSJRetrofitManager;
 import com.oushangfeng.lsj.module.news.presenter.INewsPresenter;
 import com.oushangfeng.lsj.module.news.presenter.INewsPresenterImpl;
 import com.oushangfeng.lsj.module.news.view.INewsView;
+import com.oushangfeng.lsj.module.photo.ui.PhotoListFragment;
 import com.oushangfeng.lsj.utils.RxBus;
 import com.oushangfeng.lsj.utils.ViewUtil;
 
@@ -69,12 +69,19 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
         if (newsChannels != null) {
             // 有除了固定的其他频道被选中，添加
             for (NewsChannelTable news : newsChannels) {
-                final NewsListFragment fragment = NewsListFragment
-                        .newInstance(news.getNewsChannelId(), news.getNewsChannelType(),
-                                news.getNewsChannelIndex());
+				if(news.getNewsChannelName().equals("看图")){
+					PhotoListFragment photoListFragment = PhotoListFragment.newInstance(news.getNewsChannelId(),news.getNewsChannelIndex());
+					fragments.add(photoListFragment);
+					title.add(news.getNewsChannelName());
 
-                fragments.add(fragment);
-                title.add(news.getNewsChannelName());
+				}else {
+					final NewsListFragment fragment = NewsListFragment
+							.newInstance(news.getNewsChannelId(), news.getNewsChannelType(),
+									news.getNewsChannelIndex());
+
+					fragments.add(fragment);
+					title.add(news.getNewsChannelName());
+				}
             }
 
             if (viewPager.getAdapter() == null) {

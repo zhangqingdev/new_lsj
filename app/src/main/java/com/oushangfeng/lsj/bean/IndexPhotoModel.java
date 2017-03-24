@@ -23,20 +23,20 @@ public class IndexPhotoModel {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class PhotoModel{
         @JsonProperty("desc")
-        private String desc;
+        public String desc;
         @JsonProperty("title")
-        private String title;
+        public String title;
         @JsonProperty("laud")
-        private int laud;
+        public int laud;
         @JsonProperty("comm")
-        private int comm;
+        public int comm;
         @JsonProperty("id")
-        private int id;
+        public int id;
         @JsonProperty("publishDate")
-        private String publishDate;
+        public String publishDate;
         @JsonProperty("url")
-        private String url;
+        public String url;
         @JsonProperty("img")
-        private List<?> img;
+        public List<?> img;
     }
 }

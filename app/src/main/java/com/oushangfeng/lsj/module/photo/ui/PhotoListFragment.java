@@ -2,12 +2,14 @@ package com.oushangfeng.lsj.module.photo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -17,14 +19,14 @@ import com.oushangfeng.lsj.base.BaseFragment;
 import com.oushangfeng.lsj.base.BaseRecyclerAdapter;
 import com.oushangfeng.lsj.base.BaseRecyclerViewHolder;
 import com.oushangfeng.lsj.base.BaseSpacesItemDecoration;
-import com.oushangfeng.lsj.bean.SinaPhotoList;
+import com.oushangfeng.lsj.bean.IndexPhotoModel;
 import com.oushangfeng.lsj.callback.OnEmptyClickListener;
 import com.oushangfeng.lsj.callback.OnItemClickAdapter;
 import com.oushangfeng.lsj.callback.OnLoadMoreListener;
 import com.oushangfeng.lsj.common.DataLoadType;
-import com.oushangfeng.lsj.module.photo.presenter.IPhotoListPresenter;
-import com.oushangfeng.lsj.module.photo.presenter.IPhotoListPresenterImpl;
-import com.oushangfeng.lsj.module.photo.view.IPhotoListView;
+import com.oushangfeng.lsj.module.photo.presenter.ILSJPhotoListPresenter;
+import com.oushangfeng.lsj.module.photo.presenter.ILSJPhotoListPresenterImpl;
+import com.oushangfeng.lsj.module.photo.view.ILSJPhotoListView;
 import com.oushangfeng.lsj.utils.ClickUtils;
 import com.oushangfeng.lsj.utils.GlideUtils;
 import com.oushangfeng.lsj.utils.MeasureUtil;
@@ -32,7 +34,7 @@ import com.oushangfeng.lsj.widget.ThreePointLoadingView;
 import com.oushangfeng.lsj.widget.refresh.RefreshLayout;
 import com.socks.library.KLog;
 
-import java.util.List;
+import java.util.Random;
 
 /**
  * ClassName: PhotoListFragment<p>
@@ -41,14 +43,14 @@ import java.util.List;
  */
 @ActivityFragmentInject(contentViewId = R.layout.fragment_photo_list,
         handleRefreshLayout = true)
-public class PhotoListFragment extends BaseFragment<IPhotoListPresenter> implements IPhotoListView {
+public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> implements ILSJPhotoListView {
 
     protected static final String PHOTO_ID = "photo_id";
     protected static final String POSITION = "position";
 
     protected String mPhotoId;
 
-    private BaseRecyclerAdapter<SinaPhotoList.DataEntity.PhotoListEntity> mAdapter;
+    private BaseRecyclerAdapter<IndexPhotoModel.PhotoModel> mAdapter;
     private RecyclerView mRecyclerView;
     private RefreshLayout mRefreshLayout;
 
@@ -83,7 +85,7 @@ public class PhotoListFragment extends BaseFragment<IPhotoListPresenter> impleme
 
         mRefreshLayout = (RefreshLayout) fragmentRootView.findViewById(R.id.refresh_layout);
 
-        mPresenter = new IPhotoListPresenterImpl(this, mPhotoId, 1);
+		mPresenter = new ILSJPhotoListPresenterImpl(this,"7777777",mPhotoId,1);
     }
 
     @Override
@@ -96,45 +98,13 @@ public class PhotoListFragment extends BaseFragment<IPhotoListPresenter> impleme
         mLoadingView.stop();
     }
 
-    @Override
-    public void updatePhotoList(final List<SinaPhotoList.DataEntity.PhotoListEntity> data, String errorMsg, @DataLoadType.DataLoadTypeChecker int type) {
 
-        if (mAdapter == null) {
-            initNewsList(data);
-        }
+    private void initNewsList(IndexPhotoModel data) {
 
-        switch (type) {
-            case DataLoadType.TYPE_REFRESH_SUCCESS:
-                mRefreshLayout.refreshFinish();
-                mAdapter.enableLoadMore(true);
-                mAdapter.setData(data);
-                break;
-            case DataLoadType.TYPE_REFRESH_FAIL:
-                mRefreshLayout.refreshFinish();
-                mAdapter.enableLoadMore(false);
-                mAdapter.showEmptyView(true, errorMsg);
-                mAdapter.notifyDataSetChanged();
-                break;
-            case DataLoadType.TYPE_LOAD_MORE_SUCCESS:
-                mAdapter.loadMoreSuccess();
-                if (data == null || data.size() == 0) {
-                    mAdapter.enableLoadMore(null);
-                    toast("全部加载完毕");
-                    return;
-                }
-                mAdapter.addMoreData(data);
-                break;
-            case DataLoadType.TYPE_LOAD_MORE_FAIL:
-                mAdapter.loadMoreFailed(errorMsg);
-                break;
-        }
-    }
+//        final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+		StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
 
-    private void initNewsList(List<SinaPhotoList.DataEntity.PhotoListEntity> data) {
-
-        final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
-
-        mAdapter = new BaseRecyclerAdapter<SinaPhotoList.DataEntity.PhotoListEntity>(getActivity(), data, layoutManager) {
+        mAdapter = new BaseRecyclerAdapter<IndexPhotoModel.PhotoModel>(getActivity(), data.list, layoutManager) {
 
             @Override
             public int getItemLayoutId(int viewType) {
@@ -142,13 +112,19 @@ public class PhotoListFragment extends BaseFragment<IPhotoListPresenter> impleme
             }
 
             @Override
-            public void bindData(BaseRecyclerViewHolder holder, final int position, final SinaPhotoList.DataEntity.PhotoListEntity item) {
+            public void bindData(BaseRecyclerViewHolder holder, final int position, final IndexPhotoModel.PhotoModel item) {
 
-                GlideUtils.loadDefault(item.kpic, holder.getImageView(R.id.iv_photo_summary), false, DecodeFormat.PREFER_ARGB_8888, DiskCacheStrategy.RESULT);
+                GlideUtils.loadDefault(item.img.get(0), holder.getImageView(R.id.iv_photo_summary), false, DecodeFormat.PREFER_ARGB_8888, DiskCacheStrategy.RESULT);
                 //                Glide.with(getActivity()).load(item.kpic).asBitmap().animate(R.anim.image_load).placeholder(R.drawable.ic_loading).error(R.drawable.ic_fail).format(DecodeFormat.PREFER_ARGB_8888)
                 //                        .diskCacheStrategy(DiskCacheStrategy.RESULT).into(holder.getImageView(R.id.iv_photo_summary));
 
-                holder.getTextView(R.id.tv_photo_summary).setText(item.title);
+//                holder.getTextView(R.id.tv_photo_summary).setText(item.title);
+                holder.getTextView(R.id.tv_photo_summary).setVisibility(View.GONE);
+				Random random = new Random();
+				int height = 300 +random.nextInt(400);
+				ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+				layoutParams.height = height;
+				holder.itemView.setLayoutParams(layoutParams);
             }
         };
 
@@ -183,7 +159,7 @@ public class PhotoListFragment extends BaseFragment<IPhotoListPresenter> impleme
         mAdapter.setOnLoadMoreListener(10, new OnLoadMoreListener() {
             @Override
             public void loadMore() {
-                mPresenter.loadMoreData();
+                mPresenter.loadPhotoData();
                 // mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
             }
         });
@@ -205,4 +181,39 @@ public class PhotoListFragment extends BaseFragment<IPhotoListPresenter> impleme
         });
 
     }
+
+
+
+	@Override
+	public void getPhotoList(IndexPhotoModel data, @NonNull String errorMsg, @DataLoadType.DataLoadTypeChecker int type) {
+		if (mAdapter == null) {
+			initNewsList(data);
+		}
+
+		switch (type) {
+			case DataLoadType.TYPE_REFRESH_SUCCESS:
+				mRefreshLayout.refreshFinish();
+				mAdapter.enableLoadMore(true);
+				mAdapter.setData(data.list);
+				break;
+			case DataLoadType.TYPE_REFRESH_FAIL:
+				mRefreshLayout.refreshFinish();
+				mAdapter.enableLoadMore(false);
+				mAdapter.showEmptyView(true, errorMsg);
+				mAdapter.notifyDataSetChanged();
+				break;
+			case DataLoadType.TYPE_LOAD_MORE_SUCCESS:
+				mAdapter.loadMoreSuccess();
+				if (data == null || data.list.size() == 0) {
+					mAdapter.enableLoadMore(null);
+					toast("全部加载完毕");
+					return;
+				}
+				mAdapter.addMoreData(data.list);
+				break;
+			case DataLoadType.TYPE_LOAD_MORE_FAIL:
+				mAdapter.loadMoreFailed(errorMsg);
+				break;
+		}
+	}
 }

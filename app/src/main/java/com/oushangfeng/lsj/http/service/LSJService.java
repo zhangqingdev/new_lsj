@@ -1,5 +1,7 @@
 package com.oushangfeng.lsj.http.service;
 
+import com.oushangfeng.lsj.bean.IndexPhotoModel;
+
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -17,12 +19,34 @@ public interface LSJService {
     Observable<String> getNewsList(
             @Path("imei") String imei);
 
-    /**  *  获取首页分页内容  * @param imei  * @return  */ 
+
+    /**
+     * 获取首页分页内容
+     * @param imei
+     * @param lastMaxId
+     * @param pageSize
+     * @return
+     */
     @GET("app/index/{imei}/{lastMaxId}/{pageSize}")
-    Observable<String> getLastNewsList( 
-            @Path("imei") String imei, 
-            @Path("lastMaxId") String lastMaxId, 
+    Observable<String> getLastNewsList(
+            @Path("imei") String imei,
+            @Path("lastMaxId") String lastMaxId,
             @Path("pageSize") String pageSize);
+
+
+    /**
+     * 获取图片墙数据接口
+      * @param imei
+     * @param lastMaxId
+     * @param pageSize
+     * @return
+     */
+    @GET("app/photo/{imei}/{lastMaxId}/{pageSize}")
+    Observable<IndexPhotoModel> getPhotoList(
+            @Path("imei") String imei,
+            @Path("lastMaxId") String lastMaxId,
+            @Path("pageSize") String pageSize);
+
 
     /**
      *  微信登陆接口

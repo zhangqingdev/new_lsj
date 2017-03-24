@@ -4,6 +4,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import com.oushangfeng.lsj.app.App;
 import com.oushangfeng.lsj.base.BaseSchedulerTransformer;
+import com.oushangfeng.lsj.bean.IndexPhotoModel;
 import com.oushangfeng.lsj.bean.NeteastNewsSummary;
 import com.oushangfeng.lsj.http.Api;
 import com.oushangfeng.lsj.http.HostType;
@@ -29,6 +30,7 @@ import okio.Buffer;
 import okio.BufferedSource;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import rx.Observable;
 
@@ -108,9 +110,13 @@ public class LSJRetrofitManager {
 //        Retrofit retrofit = new Retrofit.Builder().baseUrl(Api.getHost(hostType)).client(getOkHttpClient()).addConverterFactory(JacksonConverterFactory.create())
 //                .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
 //        mNewsService = retrofit.create(LSJService.class);
-		Retrofit retrofit = new Retrofit.Builder().baseUrl(Api.LSJ_BASE_HOST).client(getOkHttpClient()).addConverterFactory(JacksonConverterFactory.create())
-				.addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
-		mNewsService = retrofit.create(LSJService.class);
+//		Retrofit retrofit = new Retrofit.Builder().baseUrl(Api.LSJ_BASE_HOST).client(getOkHttpClient()).addConverterFactory(JacksonConverterFactory.create())
+//				.addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
+//		mNewsService = retrofit.create(LSJService.class);
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Api.LSJ_BASE_HOST).client(getOkHttpClient()).addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
+        mNewsService = retrofit.create(LSJService.class);
 	}
 
     /**
@@ -167,6 +173,16 @@ public class LSJRetrofitManager {
     }
 
     /**
+     * 获取图片列表
+     * @param imei
+     * @return
+     */
+    public Observable<IndexPhotoModel> getgetPhotoListObservable(String imei, String lastMaxId, String pageSize){
+        return  mNewsService.getPhotoList(imei,lastMaxId,pageSize).compose(new BaseSchedulerTransformer<IndexPhotoModel>());
+    }
+
+
+    /**
      * 第三方登录接口
      * @param code
      * @param appId
@@ -197,4 +213,5 @@ public class LSJRetrofitManager {
     public Observable<String> getUpdateToken(String uid,String token, String signKey){
          return mNewsService.getUpdateToken(uid,token,signKey);
     }
+
 }

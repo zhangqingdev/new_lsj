@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
@@ -16,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.oubowu.slideback.SlideBackHelper;
 import com.oubowu.slideback.SlideConfig;
@@ -36,13 +40,24 @@ import com.oushangfeng.lsj.module.news.ui.NewsActivity;
 import com.oushangfeng.lsj.module.settings.ui.SettingsActivity;
 import com.oushangfeng.lsj.utils.GlideCircleTransform;
 import com.oushangfeng.lsj.utils.GlideUtils;
+import com.oushangfeng.lsj.utils.MainConstants;
 import com.oushangfeng.lsj.utils.MeasureUtil;
 import com.oushangfeng.lsj.utils.RxBus;
 import com.oushangfeng.lsj.utils.SpUtil;
 import com.oushangfeng.lsj.utils.ThemeUtil;
+import com.oushangfeng.lsj.utils.Utils;
 import com.oushangfeng.lsj.utils.ViewUtil;
+import com.oushangfeng.lsj.widget.LoadingDialog;
 import com.socks.library.KLog;
+import com.tencent.connect.common.Constants;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.zhy.changeskin.SkinManager;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import rx.Observable;
 import rx.functions.Action1;
@@ -115,11 +130,29 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
      */
     private Class mClass;
 
+	private Tencent mTencent;
+
+	private LoadingDialog loadingDialog;
+
+	private Handler handler = new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what){
+				case 1:
+					loadingDialog.dismiss();
+					Toast.makeText(BaseActivity.this,(String)msg.obj,Toast.LENGTH_SHORT).show();
+					break;
+			}
+			super.handleMessage(msg);
+		}
+	};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
+		loadingDialog = new LoadingDialog(this);
         if (getClass().isAnnotationPresent(ActivityFragmentInject.class)) {
             ActivityFragmentInject annotation = getClass().getAnnotation(ActivityFragmentInject.class);
             mContentViewId = annotation.contentViewId();
@@ -341,9 +374,64 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             }
         });
 
+		mNavigationView.getHeaderView(0).findViewById(R.id.tv_qq).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				qqAuth();
+			}
+		});
+
     }
 
-    /**
+	IUiListener loginListener = new IUiListener() {
+
+		@Override
+		public void onError(UiError arg0) {
+			handler.sendMessage(handler.obtainMessage(1, Utils.isEmpty(arg0.errorMessage) ? "QQ登录失败" : arg0.errorMessage));
+		}
+
+		@Override
+		public void onComplete(Object arg0) {
+			try {
+				JSONObject data = (JSONObject) arg0;
+				HashMap<String, String> params = new HashMap<String, String>();
+				params.put("rs", "qq");
+				params.put("access_token", data.getString("access_token"));
+				params.put("openid", data.getString("openid"));
+				Log.e("info","qq:"+ params.toString());
+			} catch (Exception e) {
+				handler.sendMessage(handler.obtainMessage(1, "网络异常"));
+			}
+		}
+
+		@Override
+		public void onCancel() {
+			loadingDialog.dismiss();
+		}
+	};
+
+	public void  qqAuth() {
+		loadingDialog.show("登录中...");
+		if (mTencent == null) {
+			mTencent = Tencent.createInstance(MainConstants.QQ_APPID, this);
+		}
+		if (!mTencent.isSessionValid()) {
+			mTencent.login(this, "all", loginListener);
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == Constants.REQUEST_LOGIN) {
+			Tencent.onActivityResultData(requestCode, resultCode, data,
+					loginListener);
+		} else {
+
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	/**
      * 处理与AppBarLayout偏移量相关事件处理
      */
     private void handleAppBarLayoutOffset() {

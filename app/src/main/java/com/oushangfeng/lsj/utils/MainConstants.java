@@ -91,10 +91,11 @@ public class MainConstants {
 	//mac
 	public static final String MAC="mac";
 
-	public static final String QQ_APPID="";
+	public static final String QQ_APPID="1106063084";
 	public static final String WB_APPID="";
 	public static final String WB_REDIRECT_URL="";
 	public static final String WB_SCOPE="";
 	public static final String WX_APPID="";
 	public static final String ACTION_WX_SHARE="";
+	public static final String ACTION_WX_AUTH="";
 }

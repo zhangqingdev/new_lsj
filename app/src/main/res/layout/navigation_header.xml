@@ -47,6 +47,7 @@
             android:textColor="#333333"
             android:layout_marginLeft="3dp"
             android:textSize="14sp"
-            android:text="QQ登录"/>
+            android:text="QQ登录"
+            android:id="@+id/tv_qq"/>
     </LinearLayout>
 </RelativeLayout>

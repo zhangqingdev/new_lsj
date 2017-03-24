@@ -85,7 +85,7 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 
         mRefreshLayout = (RefreshLayout) fragmentRootView.findViewById(R.id.refresh_layout);
 
-		mPresenter = new ILSJPhotoListPresenterImpl(this,"7777777",mPhotoId,1);
+		mPresenter = new ILSJPhotoListPresenterImpl(this,"7777777","0",0);
     }
 
     @Override

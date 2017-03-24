@@ -16,7 +16,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,9 +32,6 @@ import com.oushangfeng.lsj.R;
 import com.oushangfeng.lsj.annotation.ActivityFragmentInject;
 import com.oushangfeng.lsj.app.App;
 import com.oushangfeng.lsj.app.AppManager;
-import com.oushangfeng.lsj.bean.IndexPageModel;
-import com.oushangfeng.lsj.bean.IndexPhotoModel;
-import com.oushangfeng.lsj.http.manager.LSJRetrofitManager;
 import com.oushangfeng.lsj.module.news.ui.NewsActivity;
 import com.oushangfeng.lsj.module.settings.ui.SettingsActivity;
 import com.oushangfeng.lsj.utils.GlideCircleTransform;
@@ -49,7 +45,6 @@ import com.socks.library.KLog;
 import com.zhy.changeskin.SkinManager;
 
 import rx.Observable;
-import rx.Observer;
 import rx.functions.Action1;
 
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements View.OnClickListener, BaseView {
@@ -184,44 +179,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (mPresenter != null) {
             mPresenter.onResume();
         }
-        LSJRetrofitManager.getInstance(1).getNewsListObservable("7777777777777").subscribe(new Observer<IndexPageModel>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(IndexPageModel s) {
-
-            }
-        });
-
-        LSJRetrofitManager.getInstance(1).getPhotoListObservable("77777","0","0").subscribe(new Observer<IndexPhotoModel>() {
-            @Override
-            public void onCompleted() {
-                Log.i("test","hahhahahh");
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.i("test","hahhahahh");
-
-            }
-
-            @Override
-            public void onNext(IndexPhotoModel indexPhotoModel) {
-                Log.i("test","hahhahahh");
-
-            }
-        });
-        Log.i("test","hahhahahh");
-
     }
 
     @Override

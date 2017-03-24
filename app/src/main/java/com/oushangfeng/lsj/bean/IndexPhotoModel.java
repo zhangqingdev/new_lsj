@@ -12,11 +12,11 @@ import java.util.List;
 public class IndexPhotoModel {
 
     @JsonProperty("list")
-    public List<IndexPhotoModel.PhotoModel> photoContent;
-    @JsonProperty("status")
-    public int status;
-    @JsonProperty("msg")
-    public String msg;
+    public List<IndexPhotoModel.PhotoModel> list;
+//    @JsonProperty("status")
+//    public int status;
+//    @JsonProperty("msg")
+//    public String msg;
     @JsonProperty("lastMaxId")
     public int lastMaxId;
 

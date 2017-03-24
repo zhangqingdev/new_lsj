@@ -4,6 +4,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import com.oushangfeng.lsj.app.App;
 import com.oushangfeng.lsj.base.BaseSchedulerTransformer;
+import com.oushangfeng.lsj.bean.IndexPageModel;
 import com.oushangfeng.lsj.bean.IndexPhotoModel;
 import com.oushangfeng.lsj.bean.NeteastNewsSummary;
 import com.oushangfeng.lsj.http.Api;
@@ -159,8 +160,8 @@ public class LSJRetrofitManager {
      * @param imei
      * @return
      */
-    public Observable<String> getNewsListObservable(String imei){
-        return  mNewsService.getNewsList(imei).compose(new BaseSchedulerTransformer<String>());
+    public Observable<IndexPageModel> getNewsListObservable(String imei){
+        return  mNewsService.getNewsList(imei).compose(new BaseSchedulerTransformer<IndexPageModel>());
     }
 
     /**
@@ -168,8 +169,8 @@ public class LSJRetrofitManager {
      * @param imei
      * @return
      */
-    public Observable<String> getgetLastNewsListObservable(String imei,String lastMaxId,String pageSize){
-        return  mNewsService.getNewsList(imei).compose(new BaseSchedulerTransformer<String>());
+    public Observable<IndexPageModel> getgetLastNewsListObservable(String imei,String lastMaxId,String pageSize){
+        return  mNewsService.getNewsList(imei).compose(new BaseSchedulerTransformer<IndexPageModel>());
     }
 
     /**
@@ -177,7 +178,7 @@ public class LSJRetrofitManager {
      * @param imei
      * @return
      */
-    public Observable<IndexPhotoModel> getgetPhotoListObservable(String imei, String lastMaxId, String pageSize){
+    public Observable<IndexPhotoModel> getPhotoListObservable(String imei, String lastMaxId, String pageSize){
         return  mNewsService.getPhotoList(imei,lastMaxId,pageSize).compose(new BaseSchedulerTransformer<IndexPhotoModel>());
     }
 

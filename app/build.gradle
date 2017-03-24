@@ -105,6 +105,8 @@ dependencies {
     compile('com.afollestad.material-dialogs:core:0.9.0.1') {
         transitive = true
     }
+    //compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+
     compile project(':changeskin')
     compile project(':slideback')
 }

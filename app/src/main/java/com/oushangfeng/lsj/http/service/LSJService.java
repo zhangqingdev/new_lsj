@@ -1,5 +1,6 @@
 package com.oushangfeng.lsj.http.service;
 
+import com.oushangfeng.lsj.bean.IndexPageModel;
 import com.oushangfeng.lsj.bean.IndexPhotoModel;
 
 import retrofit2.http.GET;
@@ -16,7 +17,7 @@ public interface LSJService {
      * @return
      */
     @GET("app/index/{imei}")
-    Observable<String> getNewsList(
+    Observable<IndexPageModel> getNewsList(
             @Path("imei") String imei);
 
 
@@ -28,7 +29,7 @@ public interface LSJService {
      * @return
      */
     @GET("app/index/{imei}/{lastMaxId}/{pageSize}")
-    Observable<String> getLastNewsList(
+    Observable<IndexPageModel> getLastNewsList(
             @Path("imei") String imei,
             @Path("lastMaxId") String lastMaxId,
             @Path("pageSize") String pageSize);

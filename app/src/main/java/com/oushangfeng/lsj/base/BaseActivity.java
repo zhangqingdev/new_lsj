@@ -33,6 +33,8 @@ import com.oushangfeng.lsj.R;
 import com.oushangfeng.lsj.annotation.ActivityFragmentInject;
 import com.oushangfeng.lsj.app.App;
 import com.oushangfeng.lsj.app.AppManager;
+import com.oushangfeng.lsj.bean.IndexPageModel;
+import com.oushangfeng.lsj.bean.IndexPhotoModel;
 import com.oushangfeng.lsj.http.manager.LSJRetrofitManager;
 import com.oushangfeng.lsj.module.news.ui.NewsActivity;
 import com.oushangfeng.lsj.module.settings.ui.SettingsActivity;
@@ -182,7 +184,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (mPresenter != null) {
             mPresenter.onResume();
         }
-        LSJRetrofitManager.getInstance(1).getNewsListObservable("7777777777777").subscribe(new Observer<String>() {
+        LSJRetrofitManager.getInstance(1).getNewsListObservable("7777777777777").subscribe(new Observer<IndexPageModel>() {
             @Override
             public void onCompleted() {
 
@@ -194,7 +196,27 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             }
 
             @Override
-            public void onNext(String s) {
+            public void onNext(IndexPageModel s) {
+
+            }
+        });
+
+        LSJRetrofitManager.getInstance(1).getgetPhotoListObservable("77777","0","0").subscribe(new Observer<IndexPhotoModel>() {
+            @Override
+            public void onCompleted() {
+                Log.i("test","hahhahahh");
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.i("test","hahhahahh");
+
+            }
+
+            @Override
+            public void onNext(IndexPhotoModel indexPhotoModel) {
+                Log.i("test","hahhahahh");
 
             }
         });

@@ -1,4 +1,4 @@
-package com.oushangfeng.lsj.module.news.model;
+package com.oushangfeng.lsj.module.photo.model;
 
 import com.oushangfeng.lsj.base.BaseSubscriber;
 import com.oushangfeng.lsj.bean.IndexPhotoModel;
@@ -14,6 +14,6 @@ import rx.Subscription;
 public class ILSJIPhotosListImpl implements ILSJIIndexPhotoList<IndexPhotoModel> {
     @Override
     public Subscription getIndexPhotos(final RequestCallback<IndexPhotoModel> callback,String imei,String lastMaxId, String pageSize) {
-        return LSJRetrofitManager.getInstance(0).getPhotoListObservable(imei,lastMaxId,pageSize).subscribe(new BaseSubscriber<IndexPhotoModel>(callback));
+        return LSJRetrofitManager.getInstance(0).getPhotoListObservable(imei,lastMaxId,pageSize).subscribe(new BaseSubscriber<>(callback));
     }
 }

@@ -1,4 +1,4 @@
-package com.oushangfeng.lsj.module.news.model;
+package com.oushangfeng.lsj.module.photo.model;
 
 import com.oushangfeng.lsj.callback.RequestCallback;
 

@@ -13,6 +13,7 @@
     <color name="background_color_night">#303030</color>
     <color name="item_color_night">#404040</color>
     <color name="fab_color_night">#ddffab00</color>
+    <color name="status_bar_color">#ED9780</color>
 
     <!--配色-->
     <color name="primary">#009688</color>

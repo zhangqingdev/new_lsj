@@ -6,7 +6,7 @@
         <!--这是App深色调的基本颜色，主要用于通知栏背景-->
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <!--这是App的主要颜色，用于工具栏背景-->
-        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimary">@color/status_bar_color</item>
         <!--这是文本的主要颜色，用于工具栏标题-->
         <item name="android:textColorPrimary">@color/primary_text</item>
         <!--这是次文本的主要颜色，用于工具栏次标题-->

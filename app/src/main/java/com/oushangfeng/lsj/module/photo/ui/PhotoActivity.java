@@ -8,7 +8,6 @@ import com.oushangfeng.lsj.annotation.ActivityFragmentInject;
 import com.oushangfeng.lsj.base.BaseActivity;
 import com.oushangfeng.lsj.base.BaseFragment;
 import com.oushangfeng.lsj.base.BaseFragmentAdapter;
-import com.oushangfeng.lsj.http.Api;
 import com.oushangfeng.lsj.module.photo.presenter.IPhotoPresenter;
 import com.oushangfeng.lsj.module.photo.presenter.IPhotoPresenterImpl;
 import com.oushangfeng.lsj.module.photo.view.IPhotoView;
@@ -47,10 +46,10 @@ public class PhotoActivity extends BaseActivity<IPhotoPresenter> implements IPho
         List<BaseFragment> fragments = new ArrayList<>();
         final List<String> title = Arrays.asList("精选", "趣图", "美图", "故事");
 
-        fragments.add(PhotoListFragment.newInstance(Api.SINA_PHOTO_CHOICE_ID, 0));
-        fragments.add(PhotoListFragment.newInstance(Api.SINAD_PHOTO_FUN_ID, 1));
-        fragments.add(PhotoListFragment.newInstance(Api.SINAD_PHOTO_PRETTY_ID, 2));
-        fragments.add(PhotoListFragment.newInstance(Api.SINA_PHOTO_STORY_ID, 3));
+//        fragments.add(PhotoListFragment.newInstance(Api.SINA_PHOTO_CHOICE_ID, 0));
+//        fragments.add(PhotoListFragment.newInstance(Api.SINAD_PHOTO_FUN_ID, 1));
+//        fragments.add(PhotoListFragment.newInstance(Api.SINAD_PHOTO_PRETTY_ID, 2));
+//        fragments.add(PhotoListFragment.newInstance(Api.SINA_PHOTO_STORY_ID, 3));
 
         BaseFragmentAdapter adapter = new BaseFragmentAdapter(getSupportFragmentManager(), fragments,
                 title);

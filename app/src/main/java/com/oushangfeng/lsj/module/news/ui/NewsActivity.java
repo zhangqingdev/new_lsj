@@ -70,7 +70,7 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
             // 有除了固定的其他频道被选中，添加
             for (NewsChannelTable news : newsChannels) {
 				if(news.getNewsChannelName().equals("看图")){
-					PhotoListFragment photoListFragment = PhotoListFragment.newInstance(news.getNewsChannelId(),news.getNewsChannelIndex());
+					PhotoListFragment photoListFragment = PhotoListFragment.newInstance();
 					fragments.add(photoListFragment);
 					title.add(news.getNewsChannelName());
 

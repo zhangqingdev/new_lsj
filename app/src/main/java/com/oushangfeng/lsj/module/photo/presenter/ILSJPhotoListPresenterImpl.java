@@ -23,7 +23,7 @@ public class ILSJPhotoListPresenterImpl extends BasePresenterImpl<ILSJPhotoListV
         super(view);
         mStartPage = startPage;
         mPhotoId=photoId;
-        imei=imei;
+        this.imei=imei;
         mPhotoListInteractor=new ILSJIPhotosListImpl();
         mSubscription=mPhotoListInteractor.getIndexPhotos(this,imei,mPhotoId,"10");
     }

@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -189,6 +190,8 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 		if (mAdapter == null) {
 			initNewsList(data);
 		}
+			data.list.addAll(data.list);
+		Log.e("info",data.list.size()+"size");
 
 		switch (type) {
 			case DataLoadType.TYPE_REFRESH_SUCCESS:

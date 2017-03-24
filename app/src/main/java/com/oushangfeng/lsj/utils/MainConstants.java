@@ -90,4 +90,11 @@ public class MainConstants {
 	public static final String LATITUDE="lat";
 	//mac
 	public static final String MAC="mac";
+
+	public static final String QQ_APPID="";
+	public static final String WB_APPID="";
+	public static final String WB_REDIRECT_URL="";
+	public static final String WB_SCOPE="";
+	public static final String WX_APPID="";
+	public static final String ACTION_WX_SHARE="";
 }

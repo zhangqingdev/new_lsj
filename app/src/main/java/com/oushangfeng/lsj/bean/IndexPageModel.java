@@ -2,7 +2,7 @@ package com.oushangfeng.lsj.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.reflect.Array;
+
 import java.util.List;
 
 /**
@@ -18,23 +18,32 @@ public class IndexPageModel {
   @JsonIgnoreProperties(ignoreUnknown = true)
   public static class IndexArticleContent{
       @JsonProperty("desc")
-      private String desc;
+      public String desc;
       @JsonProperty("title")
-      private String title;
+      public String title;
       @JsonProperty("laud")
-      private int laud;
+      public int laud;
       @JsonProperty("comm")
-      private int comm;
+      public int comm;
       @JsonProperty("id")
-      private int id;
+      public int id;
       @JsonProperty("publishDate")
-      private String publishDate;
+      public String publishDate;
       @JsonProperty("url")
-      private String url;
+      public String url;
       @JsonProperty("img")
-      private List<?> img;
+      public List<ImgEntity> img;
       @JsonProperty("showType")
-      private int showType;
+      public int showType;
 
   }
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	public static class ImgEntity {
+		@JsonProperty("url")
+		public String url;
+		@JsonProperty("width")
+		public int width;
+		@JsonProperty("height")
+		public int height;
+	}
 }

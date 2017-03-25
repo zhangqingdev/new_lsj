@@ -98,4 +98,5 @@ public class MainConstants {
 	public static final String WX_APPID="";
 	public static final String ACTION_WX_SHARE="";
 	public static final String ACTION_WX_AUTH="";
+	public static final String SCHEME = "lsj";
 }

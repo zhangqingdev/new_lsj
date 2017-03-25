@@ -171,7 +171,7 @@ public class LSJRetrofitManager {
      * @return
      */
     public Observable<IndexPageModel> getgetLastNewsListObservable(String imei,String lastMaxId,String pageSize){
-        return  mNewsService.getNewsList(imei).compose(new BaseSchedulerTransformer<IndexPageModel>());
+        return  mNewsService.getLastNewsList(imei,lastMaxId,pageSize).compose(new BaseSchedulerTransformer<IndexPageModel>());
     }
 
     /**

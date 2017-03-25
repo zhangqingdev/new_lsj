@@ -1,19 +1,13 @@
 package com.oushangfeng.lsj.module.news.presenter;
 
 import com.oushangfeng.lsj.base.BasePresenterImpl;
-import com.oushangfeng.lsj.base.BaseSubscriber;
-import com.oushangfeng.lsj.bean.IndexPageBannerModel;
 import com.oushangfeng.lsj.bean.IndexPageModel;
-import com.oushangfeng.lsj.callback.RequestCallback;
 import com.oushangfeng.lsj.common.DataLoadType;
-import com.oushangfeng.lsj.http.manager.LSJRetrofitManager;
 import com.oushangfeng.lsj.module.news.model.ILSJIndexListNews;
 import com.oushangfeng.lsj.module.news.model.ILSJIndexNewsListImpl;
 import com.oushangfeng.lsj.module.news.view.ILSJNewsView;
 
 import java.util.List;
-
-import rx.Subscription;
 
 /**
  * Created by zhangqing on 2017/3/25.
@@ -67,8 +61,5 @@ public class ILSJNewsPresenterImpl extends BasePresenterImpl<ILSJNewsView,IndexP
 
     }
 
-    public Subscription getIndexBannerList(RequestCallback<List<IndexPageBannerModel>> callback, String imei, String pageSize){
-        return LSJRetrofitManager.getInstance(0).getIndexBannerList(imei,pageSize).subscribe(new BaseSubscriber<>(callback));
 
-    }
 }

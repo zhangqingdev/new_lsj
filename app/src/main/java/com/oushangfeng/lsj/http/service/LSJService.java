@@ -41,7 +41,7 @@ public interface LSJService {
      * @param pageSize
      * @return
      */
-    @GET("app/index/{imei}/{lastMaxId}/{pageSize}")
+    @GET("app/index/last/{imei}/{lastMaxId}/{pageSize}")
     Observable<IndexPageModel> getLastNewsList(
             @Path("imei") String imei,
             @Path("lastMaxId") String lastMaxId,

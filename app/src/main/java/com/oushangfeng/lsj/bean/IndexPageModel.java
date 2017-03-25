@@ -12,12 +12,20 @@ import java.util.List;
 public class IndexPageModel {
     @JsonProperty("banner")
     public List<IndexBanner> banner;
-    @JsonProperty("articleContent")
-    public List<IndexArticleContent> articleContent;
-    @JsonProperty("status")
-    public int status;
-    @JsonProperty("msg")
-    public String msg;
+    @JsonProperty("indexContent")
+    public ArticleContent indexContent;
+//    @JsonProperty("status")
+//    public int status;
+//    @JsonProperty("msg")
+//    public String msg;
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+     public static class ArticleContent{
+         @JsonProperty("list")
+         public List<IndexArticleContent> list;
+         @JsonProperty("lastMaxId")
+         public int lastMaxId;
+     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class IndexBanner{
@@ -58,8 +66,8 @@ public class IndexPageModel {
       private String url;
       @JsonProperty("img")
       private List<?> img;
-      @JsonProperty("type")
-      private int type;
+      @JsonProperty("showType")
+      private int showType;
 
   }
 }

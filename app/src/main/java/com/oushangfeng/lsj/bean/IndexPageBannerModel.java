@@ -6,22 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * Created by zhangqing on 2017/3/24.
+ * Created by zhangqing on 2017/3/25.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class IndexPhotoModel {
-
-    @JsonProperty("list")
-    public List<IndexPhotoModel.PhotoModel> list;
-//    @JsonProperty("status")
-//    public int status;
-//    @JsonProperty("msg")
-//    public String msg;
-    @JsonProperty("lastMaxId")
-    public int lastMaxId;
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class PhotoModel{
+public class IndexPageBannerModel {
         @JsonProperty("desc")
         public String desc;
         @JsonProperty("title")
@@ -38,8 +26,6 @@ public class IndexPhotoModel {
         public String url;
         @JsonProperty("img")
         public List<ImgEntity> img;
-    }
-
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ImgEntity {
         @JsonProperty("url")

@@ -27,7 +27,7 @@ public class ILSJNewsPresenterImpl extends BasePresenterImpl<ILSJNewsView,IndexP
         this.imei=imei;
          this.mNewsId=id;
         mNewsListInteractor=new ILSJIndexNewsListImpl();
-        mSubscription=mNewsListInteractor.getNewsListObservable(this,imei) ;
+        mSubscription=mNewsListInteractor.getLastNewsList(this,imei,"0","10") ;
 
     }
 

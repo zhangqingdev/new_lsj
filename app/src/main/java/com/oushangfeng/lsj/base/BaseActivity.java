@@ -36,6 +36,10 @@ import com.oushangfeng.lsj.R;
 import com.oushangfeng.lsj.annotation.ActivityFragmentInject;
 import com.oushangfeng.lsj.app.App;
 import com.oushangfeng.lsj.app.AppManager;
+import com.oushangfeng.lsj.bean.IndexPageBannerModel;
+import com.oushangfeng.lsj.bean.IndexPageModel;
+import com.oushangfeng.lsj.bean.IndexPhotoModel;
+import com.oushangfeng.lsj.http.manager.LSJRetrofitManager;
 import com.oushangfeng.lsj.module.news.ui.NewsActivity;
 import com.oushangfeng.lsj.module.settings.ui.SettingsActivity;
 import com.oushangfeng.lsj.utils.GlideCircleTransform;
@@ -58,8 +62,10 @@ import com.zhy.changeskin.SkinManager;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.functions.Action1;
 
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements View.OnClickListener, BaseView {
@@ -212,6 +218,79 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (mPresenter != null) {
             mPresenter.onResume();
         }
+//        LSJRetrofitManager.getInstance(0).getNewsListObservable("123").subscribe(new Subscriber<IndexPageModel>() {
+//            @Override
+//            public void onCompleted() {
+//                Log.i("test","DAS");
+//
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                Log.i("test","DAS");
+//
+//            }
+//
+//            @Override
+//            public void onNext(IndexPageModel indexPageModel) {
+//               Log.i("test","DAS");
+//            }
+//        });
+
+
+//        LSJRetrofitManager.getInstance(0).getgetLastNewsListObservable("123","3","10").subscribe(new Subscriber<IndexPageModel>() {
+//            @Override
+//            public void onCompleted() {
+//                Log.i("test","DAS");
+//
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                Log.i("test","DAS");
+//
+//            }
+//
+//            @Override
+//            public void onNext(IndexPageModel indexPageModel) {
+//                Log.i("test","DAS");
+//            }
+//        });
+
+//        LSJRetrofitManager.getInstance(0).getIndexBannerList("121","1").subscribe(new Subscriber<List<IndexPageBannerModel>>() {
+//            @Override
+//            public void onCompleted() {
+//                Log.i("test","DAS");
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                Log.i("test","DAS");
+//            }
+//
+//            @Override
+//            public void onNext(List<IndexPageBannerModel> indexPageBannerModels) {
+//                Log.i("test","DAS");
+//            }
+//        });
+
+//        LSJRetrofitManager.getInstance(0).getPhotoListObservable("1313","0","11").subscribe(new Subscriber<IndexPhotoModel>() {
+//            @Override
+//            public void onCompleted() {
+//                Log.i("test","DAS");
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                Log.i("test","DAS");
+//            }
+//
+//            @Override
+//            public void onNext(IndexPhotoModel indexPhotoModel) {
+//                Log.i("test","DAS");
+//            }
+//        });
+
     }
 
     @Override

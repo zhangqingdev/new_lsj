@@ -10,43 +10,10 @@ import java.util.List;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IndexPageModel {
-    @JsonProperty("banner")
-    public List<IndexBanner> banner;
-    @JsonProperty("indexContent")
-    public ArticleContent indexContent;
-//    @JsonProperty("status")
-//    public int status;
-//    @JsonProperty("msg")
-//    public String msg;
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
-     public static class ArticleContent{
-         @JsonProperty("list")
-         public List<IndexArticleContent> list;
-         @JsonProperty("lastMaxId")
-         public int lastMaxId;
-     }
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class IndexBanner{
-      @JsonProperty("desc")
-      private String desc;
-      @JsonProperty("title")
-      private String title;
-      @JsonProperty("laud")
-      private int laud;
-      @JsonProperty("comm")
-      private int comm;
-      @JsonProperty("id")
-      private int id;
-      @JsonProperty("publishDate")
-      private String publishDate;
-      @JsonProperty("url")
-      private String url;
-      @JsonProperty("img")
-      private List<?> img;
-
-  }
+    @JsonProperty("list")
+    public List<IndexArticleContent> list;
+    @JsonProperty("lastMaxId")
+    public int lastMaxId;
 
   @JsonIgnoreProperties(ignoreUnknown = true)
   public static class IndexArticleContent{

@@ -4,6 +4,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import com.oushangfeng.lsj.app.App;
 import com.oushangfeng.lsj.base.BaseSchedulerTransformer;
+import com.oushangfeng.lsj.bean.IndexPageBannerModel;
 import com.oushangfeng.lsj.bean.IndexPageModel;
 import com.oushangfeng.lsj.bean.IndexPhotoModel;
 import com.oushangfeng.lsj.bean.NeteastNewsSummary;
@@ -32,6 +33,7 @@ import okio.BufferedSource;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+import retrofit2.http.Path;
 import rx.Observable;
 
 public class LSJRetrofitManager {
@@ -172,6 +174,16 @@ public class LSJRetrofitManager {
         return  mNewsService.getNewsList(imei).compose(new BaseSchedulerTransformer<IndexPageModel>());
     }
 
+    /**
+     * 获取首页banner数据
+     * @param imei
+     * @param pageSize
+     * @return
+     */
+    public Observable<List<IndexPageBannerModel>> getIndexBannerList(String imei,String pageSize){
+        return  mNewsService.getIndexBannerList(imei,pageSize).compose(new BaseSchedulerTransformer<List<IndexPageBannerModel>>());
+
+    }
     /**
      * 获取图片列表
      * @param imei

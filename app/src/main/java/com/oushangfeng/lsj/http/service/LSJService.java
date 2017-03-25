@@ -1,7 +1,10 @@
 package com.oushangfeng.lsj.http.service;
 
+import com.oushangfeng.lsj.bean.IndexPageBannerModel;
 import com.oushangfeng.lsj.bean.IndexPageModel;
 import com.oushangfeng.lsj.bean.IndexPhotoModel;
+
+import java.util.List;
 
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -19,6 +22,16 @@ public interface LSJService {
     @GET("app/index/{imei}")
     Observable<IndexPageModel> getNewsList(
             @Path("imei") String imei);
+
+    /**
+     *  获取首页banner内容
+     * @param imei
+
+     * @return
+     */
+    @GET("app/index/banner/{imei}/{pageSize}")
+    Observable<List<IndexPageBannerModel>> getIndexBannerList(
+            @Path("imei") String imei,@Path("pageSize")String pageSize);
 
 
     /**
@@ -42,7 +55,7 @@ public interface LSJService {
      * @param pageSize
      * @return
      */
-    @GET("app/photo/{imei}/{lastMaxId}/{pageSize}")
+    @GET("app/photo/list/{imei}/{lastMaxId}/{pageSize}")
     Observable<IndexPhotoModel> getPhotoList(
             @Path("imei") String imei,
             @Path("lastMaxId") String lastMaxId,

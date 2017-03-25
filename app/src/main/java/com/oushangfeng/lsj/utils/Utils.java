@@ -156,6 +156,9 @@ public class Utils {
             params += MainConstants.ANDROID_ID + "=" + getAndroidId(context);
             params += "&" + MainConstants.NET_WORK_TYPE + "="
                     + getNetworkInfo(context);
+            params+="&"+MainConstants.CHANNEL+"="+"需要配合打包脚本";
+            params+="&"+MainConstants.UUID+"="+"邀请码，需要配合打包脚本";
+
         } catch (Exception ex) {
 
         }

@@ -29,16 +29,8 @@ public class MainConstants {
 	/** 设备所处地区的语言 **/
 	static final String LANGUAGE = "language";
 
-	/** 程序ID **/
-	static final String APP_ID = "app_id";
-	/** float app_ID **/
-	static final String AD_FLOAT_APP_ID = "float_app_id";
-
 	/** 程序的版本 **/
 	static final String APP_VERSION = "app_version";
-
-	/** Jar包的版本 **/
-	static final String LIBRARY_VERSION = "library_version";
 
 	/** 持有设备的用户编号/用户账户 **/
 	static final String USER_ID = "snuid";
@@ -56,40 +48,16 @@ public class MainConstants {
 
 	/** 联网方式 **/
 	static final String NET_WORK_TYPE = "net";
-	/** 时间戳 **/
-	static final String REQUEST_TIME = "re_time";
 
-	static final String BSSID = "bssid";
-
-	static final String SSID = "ssid";
-
-	/** 设备平台类型 **/
-	static final String PLATFORM_TYPE = "android";
 	static final String EMULATOR_ID = "emulator0000000";
 
-	public static final String KEY = "dianABCDEF12";
-
-	public static final String VERTIFY = "popo_make_money";
-
-	public static final String CHANNEL = "channel";
-
-	public static final String DATA_KEY = "akquajskq97";
-
-	public static final String KUAIYA_PACK = "com.dewmobile.kuaiya";
-
-	public static final String BANNER_KEY = "happyscreen";
-	
-	public static final String USER_AGENT = "dianjoy_lock";
 
 	public final static String ANDROID_ID="android_id";
 	public final static String SERIAL_NUMBER ="serialnumber";
-	public final static String CARRIER ="carrier";
-	//经度
-	public static final String LONGITUDE="lon";
-	//维度
-	public static final String LATITUDE="lat";
-	//mac
-	public static final String MAC="mac";
+	//渠道号
+	public final static String CHANNEL="channel";
+	//邀请码
+	public final static String UUID="uuid";
 
 	public static final String QQ_APPID="1106063084";
 	public static final String WB_APPID="";

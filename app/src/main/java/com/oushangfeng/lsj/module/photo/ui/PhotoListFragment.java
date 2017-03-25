@@ -168,6 +168,9 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 
 	@Override
 	public void getPhotoList(IndexPhotoModel data, @NonNull String errorMsg, @DataLoadType.DataLoadTypeChecker int type) {
+		if(data == null){
+			data = new IndexPhotoModel();
+		}
 		if (mAdapter == null) {
 			initNewsList(data);
 		}

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -42,6 +43,13 @@ import java.util.Map;
 import java.util.Set;
 
 public class Utils {
+
+	public static boolean isIntentAvailable(Context context, Intent intent) {
+		final PackageManager packageManager = context.getPackageManager();
+		List<ResolveInfo> list = packageManager.queryIntentActivities(intent,
+				PackageManager.MATCH_DEFAULT_ONLY);
+		return list.size() > 0;
+	}
 
 	public static boolean isEmpty(String str) {
 		if (str == null || str.trim().equals("") || str.trim().equals("null")) {

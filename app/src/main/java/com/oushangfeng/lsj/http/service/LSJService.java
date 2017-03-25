@@ -3,9 +3,13 @@ package com.oushangfeng.lsj.http.service;
 import com.oushangfeng.lsj.bean.IndexPageBannerModel;
 import com.oushangfeng.lsj.bean.IndexPageModel;
 import com.oushangfeng.lsj.bean.IndexPhotoModel;
+import com.oushangfeng.lsj.bean.InitModel;
 
 import java.util.List;
+import java.util.Map;
 
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -98,4 +102,12 @@ public interface LSJService {
             @Path("uid") String uid,
             @Query("token") String token,
             @Query("signKey") String signKey);
+
+    /**
+     * 初始化接口
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("app/default")
+    Observable<InitModel> initEnv(@FieldMap Map<String,String> map);
 }

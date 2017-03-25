@@ -7,6 +7,7 @@ import com.oushangfeng.lsj.base.BaseSchedulerTransformer;
 import com.oushangfeng.lsj.bean.IndexPageBannerModel;
 import com.oushangfeng.lsj.bean.IndexPageModel;
 import com.oushangfeng.lsj.bean.IndexPhotoModel;
+import com.oushangfeng.lsj.bean.InitModel;
 import com.oushangfeng.lsj.bean.NeteastNewsSummary;
 import com.oushangfeng.lsj.http.Api;
 import com.oushangfeng.lsj.http.HostType;
@@ -226,4 +227,11 @@ public class LSJRetrofitManager {
          return mNewsService.getUpdateToken(uid,token,signKey);
     }
 
+    /**
+     * 初始化接口
+     * @return
+     */
+    public Observable<InitModel> initEnv(Map<String,String> map){
+        return mNewsService.initEnv(map);
+    }
 }

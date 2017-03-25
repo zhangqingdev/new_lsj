@@ -16,10 +16,10 @@ import rx.Subscription;
 
 public class ILSJIndexNewsListImpl implements ILSJIndexListNews<IndexPageModel> {
 
-    public Subscription getIndexBannerList(RequestCallback<List<IndexPageBannerModel>> callback, String imei, String pageSize){
-        return LSJRetrofitManager.getInstance(0).getIndexBannerList(imei,pageSize).subscribe(new BaseSubscriber<>(callback));
-
-    }
+//    public Subscription getIndexBannerList(RequestCallback<List<IndexPageBannerModel>> callback, String imei, String pageSize){
+//        return LSJRetrofitManager.getInstance(0).getIndexBannerList(imei,pageSize).subscribe(new BaseSubscriber<>(callback));
+//
+//    }
 
     @Override
     public Subscription getNewsListObservable(RequestCallback<IndexPageModel> callback, String imei) {

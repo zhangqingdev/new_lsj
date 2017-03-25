@@ -39,6 +39,7 @@ import com.oushangfeng.lsj.app.AppManager;
 import com.oushangfeng.lsj.bean.IndexPageBannerModel;
 import com.oushangfeng.lsj.bean.IndexPageModel;
 import com.oushangfeng.lsj.bean.IndexPhotoModel;
+import com.oushangfeng.lsj.callback.RequestCallback;
 import com.oushangfeng.lsj.http.manager.LSJRetrofitManager;
 import com.oushangfeng.lsj.module.news.ui.NewsActivity;
 import com.oushangfeng.lsj.module.settings.ui.SettingsActivity;
@@ -66,6 +67,7 @@ import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.functions.Action1;
 
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements View.OnClickListener, BaseView {
@@ -290,6 +292,33 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 //                Log.i("test","DAS");
 //            }
 //        });
+
+//        getIndexBannerList(new RequestCallback<List<IndexPageBannerModel>>() {
+//            @Override
+//            public void beforeRequest() {
+//                Log.i("test","DAS");
+//            }
+//
+//            @Override
+//            public void requestError(String msg) {
+//                Log.i("test","DAS");
+//            }
+//
+//            @Override
+//            public void requestComplete() {
+//                Log.i("test","DAS");
+//            }
+//
+//            @Override
+//            public void requestSuccess(List<IndexPageBannerModel> data) {
+//                Log.i("test","DAS");
+//            }
+//        },"0","0");
+
+    }
+
+    public Subscription getIndexBannerList(RequestCallback<List<IndexPageBannerModel>> callback, String imei, String pageSize){
+        return LSJRetrofitManager.getInstance(0).getIndexBannerList(imei,pageSize).subscribe(new BaseSubscriber<>(callback));
 
     }
 

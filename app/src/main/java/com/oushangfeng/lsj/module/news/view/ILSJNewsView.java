@@ -3,6 +3,7 @@ package com.oushangfeng.lsj.module.news.view;
 import android.support.annotation.NonNull;
 
 import com.oushangfeng.lsj.base.BaseView;
+import com.oushangfeng.lsj.bean.IndexPageBannerModel;
 import com.oushangfeng.lsj.bean.IndexPageModel;
 import com.oushangfeng.lsj.bean.NeteastNewsSummary;
 import com.oushangfeng.lsj.common.DataLoadType;

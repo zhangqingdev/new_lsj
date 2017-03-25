@@ -31,6 +31,21 @@ public class ILSJNewsPresenterImpl extends BasePresenterImpl<ILSJNewsView,IndexP
     }
 
     @Override
+    public void beforeRequest() {
+        if (!mHasInit) {
+            mHasInit = true;
+            mView.showProgress();
+        }
+    }
+
+    @Override
+    public void requestError(String e) {
+        super.requestError(e);
+        mView.updateNewsList(null, e, mIsRefresh ? DataLoadType.TYPE_REFRESH_FAIL : DataLoadType.TYPE_LOAD_MORE_FAIL);
+    }
+
+
+    @Override
     public void refreshData() {
 
     }

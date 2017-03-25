@@ -14,5 +14,5 @@ import java.util.List;
  */
 
 public interface ILSJNewsView extends BaseView {
-    void updateNewsList(IndexPageModel data, @NonNull String errorMsg, @DataLoadType.DataLoadTypeChecker int type);
+    void getIndexNewsList(IndexPageModel data, @NonNull String errorMsg, @DataLoadType.DataLoadTypeChecker int type);
 }

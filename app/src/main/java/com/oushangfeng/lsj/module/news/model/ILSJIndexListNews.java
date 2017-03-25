@@ -11,4 +11,7 @@ import rx.Subscription;
 public interface ILSJIndexListNews<T> {
     public Subscription getNewsListObservable(RequestCallback<T> callback, String imei);
 
+    public Subscription getLastNewsList(RequestCallback<T> callback, String imei,String lastMaxId,String pageSize);
+
+
 }

@@ -17,14 +17,15 @@ public class ILSJNewsPresenterImpl extends BasePresenterImpl<ILSJNewsView,IndexP
 
     private ILSJIndexListNews<IndexPageModel> mNewsListInteractor;
     private String imei;
-    private String mNewsId;
-    private int mStartPage;
+    private int mNewsId;
+    private int mStartPage=10;
 
     private boolean mIsRefresh = true;
     private boolean mHasInit;
-    public ILSJNewsPresenterImpl(ILSJNewsView view,String imei) {
+    public ILSJNewsPresenterImpl(ILSJNewsView view,String imei,int id) {
         super(view);
         this.imei=imei;
+         this.mNewsId=id;
         mNewsListInteractor=new ILSJIndexNewsListImpl();
         mSubscription=mNewsListInteractor.getNewsListObservable(this,imei) ;
 
@@ -41,23 +42,23 @@ public class ILSJNewsPresenterImpl extends BasePresenterImpl<ILSJNewsView,IndexP
     @Override
     public void requestError(String e) {
         super.requestError(e);
-        mView.updateNewsList(null, e, mIsRefresh ? DataLoadType.TYPE_REFRESH_FAIL : DataLoadType.TYPE_LOAD_MORE_FAIL);
+        mView.getIndexNewsList(null, e, mIsRefresh ? DataLoadType.TYPE_REFRESH_FAIL : DataLoadType.TYPE_LOAD_MORE_FAIL);
     }
 
 
     @Override
     public void refreshData() {
-
+        mSubscription=mNewsListInteractor.getLastNewsList(this,imei,mNewsId+"",mStartPage+"") ;
     }
 
     @Override
     public void loadMoreData() {
-
+        mSubscription=mNewsListInteractor.getLastNewsList(this,imei,mNewsId+"",mStartPage+"") ;
     }
 
     @Override
     public void requestSuccess(IndexPageModel data) {
-        mView.updateNewsList(data, "", mIsRefresh ? DataLoadType.TYPE_REFRESH_SUCCESS : DataLoadType.TYPE_LOAD_MORE_SUCCESS);
+        mView.getIndexNewsList(data, "", mIsRefresh ? DataLoadType.TYPE_REFRESH_SUCCESS : DataLoadType.TYPE_LOAD_MORE_SUCCESS);
 
     }
 }

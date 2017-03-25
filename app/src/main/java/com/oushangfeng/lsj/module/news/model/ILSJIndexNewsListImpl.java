@@ -17,4 +17,9 @@ public class ILSJIndexNewsListImpl implements ILSJIndexListNews<IndexPageModel> 
     public Subscription getNewsListObservable(RequestCallback<IndexPageModel> callback, String imei) {
         return LSJRetrofitManager.getInstance(0).getNewsListObservable(imei).subscribe(new BaseSubscriber<>(callback));
     }
+
+    @Override
+    public Subscription getLastNewsList(RequestCallback<IndexPageModel> callback, String imei, String lastMaxId, String pageSize) {
+        return LSJRetrofitManager.getInstance(0).getgetLastNewsListObservable(imei,lastMaxId,pageSize).subscribe(new BaseSubscriber<>(callback));
+    }
 }

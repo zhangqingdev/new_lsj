@@ -288,27 +288,12 @@ public class NewsListFragment extends BaseFragment<ILSJNewsPresenter> implements
 		super.onDestroyView();
 	}
 
-	private IndexPageModel test(){
-		IndexPageModel data = new IndexPageModel();
-		data.lastMaxId = 1;
-		List<IndexPageModel.IndexArticleContent> list = new ArrayList<>();
-		for(int i = 0;i<10;i++){
-			IndexPageModel.IndexArticleContent content = new IndexPageModel.IndexArticleContent();
-			content.showType = i%2;
-			list.add(content);
-		}
-		data.list = list;
-		return data;
-	}
+
 
 	@Override
 	public void getIndexNewsList(IndexPageModel data, @NonNull String errorMsg, @DataLoadType.DataLoadTypeChecker int type) {
-//		data = test();
-//		type = DataLoadType.TYPE_REFRESH_SUCCESS;
 
 		List<IndexNewsWapper> list = new ArrayList<>();
-
-
 
 		if (mAdapter == null) {
 			initNewsList(list);

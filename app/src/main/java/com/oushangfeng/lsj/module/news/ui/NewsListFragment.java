@@ -282,6 +282,12 @@ public class NewsListFragment extends BaseFragment<ILSJNewsPresenter> implements
         });
     }
 
+	@Override
+	public void onDestroyView() {
+		mAdapter.stopBannerScroll();
+		super.onDestroyView();
+	}
+
 	private IndexPageModel test(){
 		IndexPageModel data = new IndexPageModel();
 		data.lastMaxId = 1;

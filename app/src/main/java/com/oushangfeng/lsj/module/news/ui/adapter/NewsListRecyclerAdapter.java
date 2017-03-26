@@ -1,6 +1,8 @@
 package com.oushangfeng.lsj.module.news.ui.adapter;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.oushangfeng.lsj.R;
@@ -27,6 +30,7 @@ import com.oushangfeng.lsj.callback.OnLoadMoreListener;
 import com.oushangfeng.lsj.utils.GlideUtils;
 import com.oushangfeng.lsj.widget.NoScrollViewPager;
 import com.oushangfeng.lsj.widget.ViewPagerIndicator;
+import com.oushangfeng.lsj.widget.ViewPagerScroller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +65,21 @@ public  class NewsListRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerV
     private OnLoadMoreListener mOnLoadMoreListener;
 
     private Boolean mEnableLoadMore;
+	NoScrollViewPager viewPager;
+
+	private Handler handler = new Handler(){
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what){
+				case 1:
+					viewPager.setCurrentItem(
+							viewPager.getCurrentItem() + 1, true);
+					handler.sendEmptyMessageDelayed(1,4000);
+					break;
+			}
+			super.handleMessage(msg);
+		}
+	};
 
 
     public NewsListRecyclerAdapter(Context context, List<IndexNewsWapper> data) {
@@ -73,6 +92,19 @@ public  class NewsListRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerV
         mData = data == null ? new ArrayList<IndexNewsWapper>() : data;
         mInflater = LayoutInflater.from(context);
     }
+
+	public void startBannerScroll(){
+		if(viewPager!=null){
+			List<View> views = ((GuidePageAdapter)viewPager.getAdapter()).getViews();
+			if(views != null && views.size() > 2 && !handler.hasMessages(1)){
+				handler.sendEmptyMessageDelayed(1,4000);
+			}
+		}
+	}
+
+	public void stopBannerScroll(){
+		handler.removeMessages(1);
+	}
 
 
     @Override
@@ -111,8 +143,10 @@ public  class NewsListRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerV
             return holder;
         } else if(viewType == TYPE_BANNER){
 			final BaseRecyclerViewHolder holder = new BaseRecyclerViewHolder(mContext, mInflater.inflate(R.layout.news_item_banner, parent, false));
-			NoScrollViewPager viewPager = (NoScrollViewPager) holder.itemView.findViewById(R.id.viewpager);
+			viewPager = (NoScrollViewPager) holder.itemView.findViewById(R.id.viewpager);
 			ViewPagerIndicator indicator = (ViewPagerIndicator)holder.itemView.findViewById(R.id.indicator);
+			ViewPagerScroller viewPagerScroller = new ViewPagerScroller(mContext);
+			viewPagerScroller.initViewPagerScroll(viewPager);
 			indicator.setViewPager(viewPager);
 			GuidePageAdapter adapter = new GuidePageAdapter(new ArrayList<View>());
 			viewPager.setAdapter(adapter);
@@ -171,7 +205,6 @@ public  class NewsListRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerV
             fullSpan(holder, TYPE_EMPTY);
             holder.setText(R.id.tv_error, mExtraMsg);
         } else if(getItemViewType(position) == TYPE_BANNER){
-			NoScrollViewPager viewPager = (NoScrollViewPager) holder.itemView.findViewById(R.id.viewpager);
 			GuidePageAdapter adapter = (GuidePageAdapter) viewPager.getAdapter();
 			List<View> views = adapter.getViews();
 			views.clear();
@@ -180,10 +213,11 @@ public  class NewsListRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerV
 			ViewPagerIndicator indicator = (ViewPagerIndicator)holder.itemView.findViewById(R.id.indicator);
 			if(bannerModel != null && !bannerModel.isEmpty()){
 				indicator.refreshIndicator(bannerModel.size());
+				LayoutInflater inflater = LayoutInflater.from(mContext);
 				for(int i = 0;i<bannerModel.size();i++){
+					View view = inflater.inflate(R.layout.banner_item,viewPager,false);
 					final IndexPageBannerModel item = bannerModel.get(i);
-					ImageView imageView = new ImageView(mContext);
-					imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+					ImageView imageView = (ImageView) view.findViewById(R.id.iv_banner);
 					imageView.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
@@ -193,10 +227,13 @@ public  class NewsListRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerV
 						}
 					});
 					GlideUtils.loadDefault(item.img.get(0).url,imageView, null, null, DiskCacheStrategy.RESULT);
-					views.add(imageView);
+					TextView tvBanner = (TextView) view.findViewById(R.id.tv_banner);
+					tvBanner.setText(item.title);
+					views.add(view);
 
 				}
 				adapter.notifyDataSetChanged();
+				startBannerScroll();
 			}
         }else if(getItemViewType(position) == TYPE_MULT){
 			IndexNewsWapper wapper = mData.get(position);

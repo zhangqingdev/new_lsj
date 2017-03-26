@@ -30,6 +30,8 @@ import com.oushangfeng.lsj.utils.Utils;
 import com.oushangfeng.lsj.widget.ThreePointLoadingView;
 import com.oushangfeng.lsj.widget.refresh.RefreshLayout;
 
+import java.util.List;
+
 /**
  * ClassName: PhotoListFragment<p>
  * Fuction: 图片新闻列表界面<p>
@@ -68,7 +70,7 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 
         mRefreshLayout = (RefreshLayout) fragmentRootView.findViewById(R.id.refresh_layout);
 
-		mPresenter = new ILSJPhotoListPresenterImpl(this, Utils.getDevId(getActivity()),"0",0);
+		mPresenter = new ILSJPhotoListPresenterImpl(this, Utils.getDevId(getActivity()),0,10);
     }
 
     @Override
@@ -91,20 +93,29 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 
             @Override
             public int getItemLayoutId(int viewType) {
-                return R.layout.item_photo_summary;
+                return R.layout.item_photo;
             }
 
             @Override
             public void bindData(BaseRecyclerViewHolder holder, final int position, final IndexPhotoModel.PhotoModel item) {
 				ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
-				layoutParams.height = 500;
-				holder.itemView.setLayoutParams(layoutParams);
+				List<IndexPhotoModel.ImgEntity> imgs = item.img;
+				if(imgs != null && !imgs.isEmpty()){
+					//宽度340dp
+					IndexPhotoModel.ImgEntity entity = imgs.get(0);
+					layoutParams.height = entity.height*Utils.dip2px(mContext,340)/entity.width;
+					holder.itemView.setLayoutParams(layoutParams);
 
 //				Glide.with(getActivity()).load(item.img.get(0)).dontAnimate().thumbnail(0.2f).into(holder.getImageView(R.id.iv_photo_summary));
-                GlideUtils.loadDefault(item.img.get(0), holder.getImageView(R.id.iv_photo_summary), false, DecodeFormat.PREFER_ARGB_8888, DiskCacheStrategy.RESULT);
+					GlideUtils.loadDefault(item.img.get(0).url, holder.getImageView(R.id.iv_photo_summary), false, DecodeFormat.PREFER_ARGB_8888, DiskCacheStrategy.RESULT);
 //				Glide.with(getActivity()).load(item.img.get(0)).into(holder.getImageView(R.id.iv_photo_summary));
-                //                Glide.with(getActivity()).load(item.kpic).asBitmap().animate(R.anim.image_load).placeholder(R.drawable.ic_loading).error(R.drawable.ic_fail).format(DecodeFormat.PREFER_ARGB_8888)
-                //                        .diskCacheStrategy(DiskCacheStrategy.RESULT).into(holder.getImageView(R.id.iv_photo_summary));
+					//                Glide.with(getActivity()).load(item.kpic).asBitmap().animate(R.anim.image_load).placeholder(R.drawable.ic_loading).error(R.drawable.ic_fail).format(DecodeFormat.PREFER_ARGB_8888)
+					//                        .diskCacheStrategy(DiskCacheStrategy.RESULT).into(holder.getImageView(R.id.iv_photo_summary));
+				}else {
+					holder.getImageView(R.id.iv_photo_summary).setImageResource(R.drawable.ic_error_outline_black);
+
+				}
+
 
 //                holder.getTextView(R.id.tv_photo_summary).setText(item.title);
             }
@@ -189,7 +200,7 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 				break;
 			case DataLoadType.TYPE_LOAD_MORE_SUCCESS:
 				mAdapter.loadMoreSuccess();
-				if (data == null || data.list.size() == 0) {
+				if (data == null || data.list == null ||data.list.size() == 0) {
 					mAdapter.enableLoadMore(null);
 					toast("全部加载完毕");
 					return;

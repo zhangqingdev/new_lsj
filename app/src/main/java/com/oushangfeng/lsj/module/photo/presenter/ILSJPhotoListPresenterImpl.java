@@ -15,17 +15,17 @@ public class ILSJPhotoListPresenterImpl extends BasePresenterImpl<ILSJPhotoListV
 
     ILSJIIndexPhotoList<IndexPhotoModel> mPhotoListInteractor;
     private int mStartPage;
-    private String mPhotoId;
+    private int mPhotoId;
     private boolean mIsRefresh = true;
     private boolean mHasInit;
     private String imei;
-    public ILSJPhotoListPresenterImpl(ILSJPhotoListView view,String imei,String photoId,int startPage) {
+    public ILSJPhotoListPresenterImpl(ILSJPhotoListView view,String imei,int photoId,int startPage) {
         super(view);
         mStartPage = startPage;
         mPhotoId=photoId;
         this.imei=imei;
         mPhotoListInteractor=new ILSJIPhotosListImpl();
-        mSubscription=mPhotoListInteractor.getIndexPhotos(this,imei,mPhotoId,"10");
+        mSubscription=mPhotoListInteractor.getIndexPhotos(this,imei,mPhotoId+"","10");
     }
 
 
@@ -48,13 +48,18 @@ public class ILSJPhotoListPresenterImpl extends BasePresenterImpl<ILSJPhotoListV
     public void refreshData() {
         mStartPage = 1;
         mIsRefresh = true;
-        mSubscription=mPhotoListInteractor.getIndexPhotos(this,imei,mPhotoId,"10");
+		mPhotoId  = 0;
+        mSubscription=mPhotoListInteractor.getIndexPhotos(this,imei,mPhotoId+"","10");
     }
 
     @Override
     public void loadPhotoData() {
         mIsRefresh = false;
-        mSubscription=mPhotoListInteractor.getIndexPhotos(this,imei,mPhotoId,"10");
+		if(mPhotoId == -1){
+			mView.getPhotoList(new IndexPhotoModel(),"",DataLoadType.TYPE_LOAD_MORE_SUCCESS);
+		}else {
+			mSubscription=mPhotoListInteractor.getIndexPhotos(this,imei,mPhotoId+"","10");
+		}
     }
 
     @Override
@@ -62,6 +67,7 @@ public class ILSJPhotoListPresenterImpl extends BasePresenterImpl<ILSJPhotoListV
       //  if (data != null && data.size() > 0) {
        //     mStartPage++;
       //  }
+		mPhotoId = data.lastMaxId;
         mView.getPhotoList(data, "", mIsRefresh ? DataLoadType.TYPE_REFRESH_SUCCESS : DataLoadType.TYPE_LOAD_MORE_SUCCESS);
     }
 }

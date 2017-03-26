@@ -159,18 +159,12 @@ public class Utils {
             params += "&";
             params += MainConstants.SERIAL_NUMBER + "=" + getSerialNumber(context);
             params += "&";
-            params += MainConstants.CARRIER + "=" + getCarrier(context);
-            params += "&";
-            params += MainConstants.MAC + "="
-                    + getMacAddress(context);
-            params += "&";
             params += MainConstants.ANDROID_ID + "=" + getAndroidId(context);
             params += "&" + MainConstants.NET_WORK_TYPE + "="
                     + getNetworkInfo(context);
-            params += "&" + MainConstants.REQUEST_TIME + "="
-                    + System.currentTimeMillis();
-            params += "&" + MainConstants.BSSID + "=" + getBSSID(context);
-            params += "&" + MainConstants.SSID + "=" + getSSID(context);
+            params+="&"+MainConstants.CHANNEL+"="+"需要配合打包脚本";
+            params+="&"+MainConstants.UUID+"="+"邀请码，需要配合打包脚本";
+
         } catch (Exception ex) {
 
         }

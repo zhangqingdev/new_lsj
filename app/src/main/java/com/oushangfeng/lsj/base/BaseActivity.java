@@ -39,6 +39,7 @@ import com.oushangfeng.lsj.app.AppManager;
 import com.oushangfeng.lsj.bean.IndexPageBannerModel;
 import com.oushangfeng.lsj.bean.IndexPageModel;
 import com.oushangfeng.lsj.bean.IndexPhotoModel;
+import com.oushangfeng.lsj.bean.InitModel;
 import com.oushangfeng.lsj.callback.RequestCallback;
 import com.oushangfeng.lsj.http.manager.LSJRetrofitManager;
 import com.oushangfeng.lsj.module.news.ui.NewsActivity;
@@ -315,6 +316,23 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 //            }
 //        },"0","0");
 
+
+//        LSJRetrofitManager.getInstance(0).initEnv(Utils.getDeviceInfo(this)).subscribe(new Subscriber<InitModel>() {
+//            @Override
+//            public void onCompleted() {
+//                Log.i("test","DAS");
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                Log.i("test","DAS");
+//            }
+//
+//            @Override
+//            public void onNext(InitModel initModel) {
+//                Log.i("test","DAS");
+//            }
+//        });
     }
 
     public Subscription getIndexBannerList(RequestCallback<List<IndexPageBannerModel>> callback, String imei, String pageSize){

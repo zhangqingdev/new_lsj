@@ -53,16 +53,20 @@ public class ILSJNewsPresenterImpl extends BasePresenterImpl<ILSJNewsView,IndexP
 
     @Override
     public void refreshData() {
+		mIsRefresh = true;
+		mNewsId = 0;
         mSubscription=mNewsListInteractor.getLastNewsList(this,imei,mNewsId+"",mStartPage+"") ;
     }
 
     @Override
     public void loadMoreData() {
+		mIsRefresh = false;
         mSubscription=mNewsListInteractor.getLastNewsList(this,imei,mNewsId+"",mStartPage+"") ;
     }
 
     @Override
     public void requestSuccess(IndexPageModel data) {
+		mNewsId = data.lastMaxId;
         mView.getIndexNewsList(data, "", mIsRefresh ? DataLoadType.TYPE_REFRESH_SUCCESS : DataLoadType.TYPE_LOAD_MORE_SUCCESS);
 
     }

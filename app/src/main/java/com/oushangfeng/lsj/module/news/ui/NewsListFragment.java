@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.oushangfeng.lsj.R;
 import com.oushangfeng.lsj.annotation.ActivityFragmentInject;
@@ -14,7 +15,9 @@ import com.oushangfeng.lsj.base.BaseSpacesItemDecoration;
 import com.oushangfeng.lsj.bean.IndexNewsWapper;
 import com.oushangfeng.lsj.bean.IndexPageBannerModel;
 import com.oushangfeng.lsj.bean.IndexPageModel;
+import com.oushangfeng.lsj.callback.OnBannerClickListener;
 import com.oushangfeng.lsj.callback.OnEmptyClickListener;
+import com.oushangfeng.lsj.callback.OnItemClickAdapter;
 import com.oushangfeng.lsj.callback.OnLoadMoreListener;
 import com.oushangfeng.lsj.callback.RequestCallback;
 import com.oushangfeng.lsj.common.DataLoadType;
@@ -22,6 +25,7 @@ import com.oushangfeng.lsj.module.news.presenter.ILSJNewsPresenter;
 import com.oushangfeng.lsj.module.news.presenter.ILSJNewsPresenterImpl;
 import com.oushangfeng.lsj.module.news.ui.adapter.NewsListRecyclerAdapter;
 import com.oushangfeng.lsj.module.news.view.ILSJNewsView;
+import com.oushangfeng.lsj.utils.ClickUtils;
 import com.oushangfeng.lsj.utils.MeasureUtil;
 import com.oushangfeng.lsj.utils.Utils;
 import com.oushangfeng.lsj.widget.ThreePointLoadingView;
@@ -151,6 +155,32 @@ public class NewsListFragment extends BaseFragment<ILSJNewsPresenter> implements
 //                holder.getTextView(R.id.tv_news_summary_ptime).setText(item.ptime);
 //            }
 //        };
+		mAdapter.setOnItemClickListener(new OnItemClickAdapter() {
+			@Override
+			public void onItemClick(View view, int position) {
+				if(ClickUtils.isFastDoubleClick()){
+					return ;
+				}
+				List<IndexNewsWapper> data = mAdapter.getData();
+				IndexNewsWapper wapper = data.get(position);
+				if(wapper.type == 100){
+					return ;
+				}else {
+					IndexPageModel.IndexArticleContent content = (IndexPageModel.IndexArticleContent) wapper.data;
+					Toast.makeText(getActivity(),"id="+content.id,Toast.LENGTH_SHORT).show();
+				}
+
+			}
+		});
+
+		mAdapter.setOnBannerClickListener(new OnBannerClickListener() {
+			@Override
+			public void onBannerClick(IndexPageBannerModel item) {
+				if(item != null){
+					Toast.makeText(getActivity(),"banner id="+item.id,Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 
 //        mAdapter.setOnItemClickListener(new OnItemClickAdapter() {
 //            @Override

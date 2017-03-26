@@ -20,10 +20,13 @@ import com.oushangfeng.lsj.base.BaseRecyclerViewHolder;
 import com.oushangfeng.lsj.bean.IndexNewsWapper;
 import com.oushangfeng.lsj.bean.IndexPageBannerModel;
 import com.oushangfeng.lsj.bean.IndexPageModel;
+import com.oushangfeng.lsj.callback.OnBannerClickListener;
 import com.oushangfeng.lsj.callback.OnEmptyClickListener;
 import com.oushangfeng.lsj.callback.OnItemClickListener;
 import com.oushangfeng.lsj.callback.OnLoadMoreListener;
 import com.oushangfeng.lsj.utils.GlideUtils;
+import com.oushangfeng.lsj.widget.NoScrollViewPager;
+import com.oushangfeng.lsj.widget.ViewPagerIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,11 +55,13 @@ public  class NewsListRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerV
     private int mLastPosition = -1;
     private String mExtraMsg;
     private OnEmptyClickListener mEmptyClickListener;
+	private OnBannerClickListener mOnBannerClickListener;
     private int mMoreItemCount;
 
     private OnLoadMoreListener mOnLoadMoreListener;
 
     private Boolean mEnableLoadMore;
+
 
     public NewsListRecyclerAdapter(Context context, List<IndexNewsWapper> data) {
         this(context, data, null);
@@ -106,22 +111,54 @@ public  class NewsListRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerV
             return holder;
         } else if(viewType == TYPE_BANNER){
 			final BaseRecyclerViewHolder holder = new BaseRecyclerViewHolder(mContext, mInflater.inflate(R.layout.news_item_banner, parent, false));
-			ViewPager viewPager = (ViewPager) holder.itemView.findViewById(R.id.viewpager);
+			NoScrollViewPager viewPager = (NoScrollViewPager) holder.itemView.findViewById(R.id.viewpager);
+			ViewPagerIndicator indicator = (ViewPagerIndicator)holder.itemView.findViewById(R.id.indicator);
+			indicator.setViewPager(viewPager);
 			GuidePageAdapter adapter = new GuidePageAdapter(new ArrayList<View>());
 			viewPager.setAdapter(adapter);
 			viewPager.setOffscreenPageLimit(2);
 			return holder;
 		} else if(viewType == TYPE_MULT){
 			final BaseRecyclerViewHolder holder = new BaseRecyclerViewHolder(mContext, mInflater.inflate(R.layout.news_item_mult, parent, false));
-
+			if (mClickListener != null) {
+				holder.itemView.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (holder.getLayoutPosition() != RecyclerView.NO_POSITION) {
+							try {
+								mClickListener.onItemClick(v, holder.getLayoutPosition());
+							} catch (IndexOutOfBoundsException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				});
+			}
 			return holder;
 		} else {
 			final BaseRecyclerViewHolder holder = new BaseRecyclerViewHolder(mContext, mInflater.inflate(R.layout.item_news_summary, parent, false));
-
+			if (mClickListener != null) {
+				holder.itemView.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (holder.getLayoutPosition() != RecyclerView.NO_POSITION) {
+							try {
+								mClickListener.onItemClick(v, holder.getLayoutPosition());
+							} catch (IndexOutOfBoundsException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				});
+			}
 			return holder;
 		}
 
     }
+
+	public void setOnBannerClickListener(OnBannerClickListener listener){
+		this.mOnBannerClickListener = listener;
+	}
 
     @Override
     public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
@@ -134,20 +171,30 @@ public  class NewsListRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerV
             fullSpan(holder, TYPE_EMPTY);
             holder.setText(R.id.tv_error, mExtraMsg);
         } else if(getItemViewType(position) == TYPE_BANNER){
-			ViewPager viewPager = (ViewPager) holder.itemView.findViewById(R.id.viewpager);
+			NoScrollViewPager viewPager = (NoScrollViewPager) holder.itemView.findViewById(R.id.viewpager);
 			GuidePageAdapter adapter = (GuidePageAdapter) viewPager.getAdapter();
 			List<View> views = adapter.getViews();
 			views.clear();
 			IndexNewsWapper wapper = mData.get(position);
 			List<IndexPageBannerModel> bannerModel = (List<IndexPageBannerModel>) wapper.data;
+			ViewPagerIndicator indicator = (ViewPagerIndicator)holder.itemView.findViewById(R.id.indicator);
 			if(bannerModel != null && !bannerModel.isEmpty()){
+				indicator.refreshIndicator(bannerModel.size());
 				for(int i = 0;i<bannerModel.size();i++){
-					IndexPageBannerModel item = bannerModel.get(i);
+					final IndexPageBannerModel item = bannerModel.get(i);
 					ImageView imageView = new ImageView(mContext);
 					imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-					imageView.setTag(R.string.app_name,item);
+					imageView.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							if(mOnBannerClickListener != null){
+								mOnBannerClickListener.onBannerClick(item);
+							}
+						}
+					});
 					GlideUtils.loadDefault(item.img.get(0).url,imageView, null, null, DiskCacheStrategy.RESULT);
 					views.add(imageView);
+
 				}
 				adapter.notifyDataSetChanged();
 			}

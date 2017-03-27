@@ -1,7 +1,9 @@
 package com.oushangfeng.lsj.module.photo.view;
 
 import com.oushangfeng.lsj.base.BaseView;
-import com.oushangfeng.lsj.bean.SinaPhotoDetail;
+import com.oushangfeng.lsj.bean.PhotoModel;
+
+import java.util.ArrayList;
 
 /**
  * ClassName: IPhotoDetailView<p>
@@ -10,6 +12,6 @@ import com.oushangfeng.lsj.bean.SinaPhotoDetail;
  */
 public interface IPhotoDetailView extends BaseView {
 
-    void initViewPager(SinaPhotoDetail photoList);
+    void initViewPager(ArrayList<PhotoModel> images, int index, String title);
 
 }

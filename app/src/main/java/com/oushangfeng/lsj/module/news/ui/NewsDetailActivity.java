@@ -30,7 +30,7 @@ import com.oushangfeng.lsj.widget.ThreePointLoadingView;
  */
 @ActivityFragmentInject(contentViewId = R.layout.activity_news_detail,
         menuId = R.menu.menu_settings,
-        enableSlidr = false,
+        enableSlidr = true,
 		toolbarTitle = R.string.news_detail)
 public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> implements INewsDetailView {
 

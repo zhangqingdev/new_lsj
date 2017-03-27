@@ -1,6 +1,5 @@
 package com.oushangfeng.lsj.module.photo.ui;
 
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
@@ -11,9 +10,8 @@ import android.widget.TextView;
 import com.oushangfeng.lsj.R;
 import com.oushangfeng.lsj.annotation.ActivityFragmentInject;
 import com.oushangfeng.lsj.base.BaseActivity;
-import com.oushangfeng.lsj.bean.SinaPhotoDetail;
+import com.oushangfeng.lsj.bean.PhotoModel;
 import com.oushangfeng.lsj.module.photo.presenter.IPhotoDetailPresenter;
-import com.oushangfeng.lsj.module.photo.presenter.IPhotoDetailPresenterImpl;
 import com.oushangfeng.lsj.module.photo.ui.adapter.OnPageChangeListenerAdapter;
 import com.oushangfeng.lsj.module.photo.ui.adapter.PhotoAdapter;
 import com.oushangfeng.lsj.module.photo.view.IPhotoDetailView;
@@ -23,6 +21,8 @@ import com.oushangfeng.lsj.utils.StringUtils;
 import com.oushangfeng.lsj.widget.HackyViewPager;
 import com.oushangfeng.lsj.widget.ThreePointLoadingView;
 import com.socks.library.KLog;
+
+import java.util.ArrayList;
 
 import zhou.widget.RichText;
 
@@ -75,25 +75,26 @@ public class PhotoDetailActivity extends BaseActivity<IPhotoDetailPresenter> imp
 
         mContentTv = (RichText) findViewById(R.id.tv_photo_detail_content);
 
-        String photoId = getIntent().getStringExtra("photoId");
-
-        // 若收到此数据不为空的话，说明是网易新闻那边封装好跳过来的，交给代理类处理
-        SinaPhotoDetail data = (SinaPhotoDetail) getIntent().getSerializableExtra("neteast");
-
-        mPresenter = new IPhotoDetailPresenterImpl(this, photoId, data);
+		int index = getIntent().getIntExtra("index",0);
+		ArrayList<PhotoModel> data = (ArrayList<PhotoModel>) getIntent().getSerializableExtra("data");
+		String title = getIntent().getStringExtra("title");
+		initViewPager(data,index,title);
 
     }
 
     @Override
-    public void initViewPager(final SinaPhotoDetail photoList) {
+    public void initViewPager(final ArrayList<PhotoModel> images, final int index, String title) {
 
         mOffset = MeasureUtil.getScreenSize(this).y / 4;
 
-        mTitleTv.setText(photoList.data.title);
-        mTitleTv.setTag(true);
+		if(!TextUtils.isEmpty(title)){
+			mTitleTv.setText(title);
+		}
+		mTitleTv.setTag(true);
 
-        final PhotoAdapter photoAdapter = new PhotoAdapter(this, photoList.data.pics);
+        final PhotoAdapter photoAdapter = new PhotoAdapter(this, images);
         mViewPager.setAdapter(photoAdapter);
+
 
         final OnPageChangeListenerAdapter mPageChangeListenerAdapter = new OnPageChangeListenerAdapter() {
 
@@ -109,19 +110,19 @@ public class PhotoDetailActivity extends BaseActivity<IPhotoDetailPresenter> imp
                     }
                 }
 
-                if (photoList.data.pics.size() > 0) {
+                if (images.size() > 0) {
 
-                    final String s = getString(R.string.photo_page, position + 1, photoList.data.pics.size());
+                    final String s = getString(R.string.photo_page, position + 1, images.size());
 
                     mPageTv.setText(s);
 
-                    final String alt = photoList.data.pics.get(position).alt;
-                    if (!TextUtils.isEmpty(alt) && !mContentTv.getText().toString().contains(alt)) {
-                        ObjectAnimator.ofFloat(mContentTv, "alpha", 0.5f, 1).setDuration(500).start();
-                        mContentTv.setRichText(getString(R.string.photo_detail_content, alt));
-                        dynamicSetTextViewGravity();
-                    }
-                    // 每次切换回来都要处理一下，因为切换回来当前的图片不会调用OnPhotoExpandListener的onExpand方法
+//                    final String alt = photoList.data.pics.get(position).alt;
+//                    if (!TextUtils.isEmpty(alt) && !mContentTv.getText().toString().contains(alt)) {
+//                        ObjectAnimator.ofFloat(mContentTv, "alpha", 0.5f, 1).setDuration(500).start();
+//                        mContentTv.setRichText(getString(R.string.photo_detail_content, alt));
+//                        dynamicSetTextViewGravity();
+//                    }
+//                    // 每次切换回来都要处理一下，因为切换回来当前的图片不会调用OnPhotoExpandListener的onExpand方法
                     controlView(photoAdapter.getPics().get(position).showTitle);
                 } else {
                     mPageTv.setText(getString(R.string.photo_page, 0, 0));
@@ -131,7 +132,11 @@ public class PhotoDetailActivity extends BaseActivity<IPhotoDetailPresenter> imp
 
         };
 
+
+
         mViewPager.addOnPageChangeListener(mPageChangeListenerAdapter);
+
+		mViewPager.setCurrentItem(index);
 
         mContentTv.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -139,7 +144,7 @@ public class PhotoDetailActivity extends BaseActivity<IPhotoDetailPresenter> imp
                 mPageTvWidth = mPageTv.getMeasuredWidth();
                 mContentTvWidth = mContentTv.getMeasuredWidth();
                 KLog.e("长度：" + mPageTvWidth + ";" + mContentTvWidth);
-                mPageChangeListenerAdapter.onPageSelected(0);
+                mPageChangeListenerAdapter.onPageSelected(index);
                 mContentTv.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });

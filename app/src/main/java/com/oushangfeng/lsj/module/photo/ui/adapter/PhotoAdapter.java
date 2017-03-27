@@ -9,12 +9,11 @@ import android.view.ViewGroup;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.oushangfeng.lsj.R;
-import com.oushangfeng.lsj.bean.SinaPhotoDetail;
+import com.oushangfeng.lsj.bean.PhotoModel;
 import com.oushangfeng.lsj.utils.GlideUtils;
 import com.oushangfeng.lsj.utils.MeasureUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -29,12 +28,12 @@ public class PhotoAdapter extends PagerAdapter {
 
     private Context mContext;
     private final int mWidth;
-    private List<SinaPhotoDetail.SinaPhotoDetailPicsEntity> mPics;
+	private ArrayList<PhotoModel> mPics;
 
     private OnPhotoExpandListener mOnPhotoExpandListener;
 
-    public PhotoAdapter(Context context, List<SinaPhotoDetail.SinaPhotoDetailPicsEntity> pics) {
-        mPics = pics == null ? new ArrayList<SinaPhotoDetail.SinaPhotoDetailPicsEntity>() : pics;
+    public PhotoAdapter(Context context, ArrayList<PhotoModel> pics) {
+        mPics = pics == null ? new ArrayList<PhotoModel>() : pics;
         mContext = context;
         mWidth = MeasureUtil.getScreenSize(mContext).x;
     }
@@ -50,7 +49,7 @@ public class PhotoAdapter extends PagerAdapter {
         final PhotoView photoView = new PhotoView(mContext);
 
 
-        final String kpic = mPics.get(position).kpic;
+        final String kpic = mPics.get(position).img;
         if (kpic.contains("gif")) {
             GlideUtils.loadDefault(kpic, photoView, true, null, DiskCacheStrategy.SOURCE);
             //            Glide.with(mContext).load(kpic).asGif().placeholder(R.drawable.ic_loading).animate(R.anim.image_load).error(R.drawable.ic_fail).diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -105,8 +104,9 @@ public class PhotoAdapter extends PagerAdapter {
         void onExpand(boolean show, int position);
     }
 
-    public List<SinaPhotoDetail.SinaPhotoDetailPicsEntity> getPics() {
-        return mPics;
-    }
+	public ArrayList<PhotoModel> getPics(){
+		return mPics;
+	}
+
 
 }

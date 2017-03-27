@@ -20,7 +20,7 @@ public class IPhotoDetailPresenterImpl extends BasePresenterImpl<IPhotoDetailVie
         super(view);
         mDetailInteractor = new IPhotoDetailInteractorImpl();
         if (data != null) {
-            mView.initViewPager(data);
+//            mView.initViewPager(data);
         } else {
             mSubscription = mDetailInteractor.requestPhotoDetail(this, id);
         }
@@ -28,7 +28,7 @@ public class IPhotoDetailPresenterImpl extends BasePresenterImpl<IPhotoDetailVie
 
     @Override
     public void requestSuccess(SinaPhotoDetail data) {
-        mView.initViewPager(data);
+//        mView.initViewPager(data);
     }
 
     @Override

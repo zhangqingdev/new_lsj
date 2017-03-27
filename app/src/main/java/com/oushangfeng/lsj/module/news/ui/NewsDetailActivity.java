@@ -15,7 +15,6 @@ import com.oushangfeng.lsj.annotation.ActivityFragmentInject;
 import com.oushangfeng.lsj.base.BaseActivity;
 import com.oushangfeng.lsj.bean.NeteastNewsDetail;
 import com.oushangfeng.lsj.module.news.presenter.INewsDetailPresenter;
-import com.oushangfeng.lsj.module.news.presenter.INewsDetailPresenterImpl;
 import com.oushangfeng.lsj.module.news.view.INewsDetailView;
 import com.oushangfeng.lsj.utils.MeasureUtil;
 import com.oushangfeng.lsj.utils.ViewUtil;
@@ -38,7 +37,8 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
     private ThreePointLoadingView mLoadingView;
 
 	private LockWebView mWebView;
-	private LockWebViewClient mWebViewClient;
+
+	private String url;
 
 
     @Override
@@ -52,7 +52,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
         }
 
         getWindow().setBackgroundDrawable(null);
-
+		url = getIntent().getStringExtra("url");
         super.onCreate(savedInstanceState);
     }
 
@@ -93,9 +93,9 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 
 
 
-        mPresenter = new INewsDetailPresenterImpl(this, getIntent().getStringExtra("postid"));
+//        mPresenter = new INewsDetailPresenterImpl(this, getIntent().getStringExtra("postid"));
 
-		mWebView.loadUrl("http://www.baidu.com");
+		mWebView.loadUrl(url);
 		mWebView.setOnKeyListener(new View.OnKeyListener() {
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {

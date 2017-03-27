@@ -1,9 +1,11 @@
 package com.oushangfeng.lsj.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import com.oushangfeng.lsj.R;
 import com.oushangfeng.lsj.annotation.ActivityFragmentInject;
 import com.oushangfeng.lsj.app.App;
+import com.oushangfeng.lsj.module.news.ui.NewsDetailActivity;
 import com.oushangfeng.lsj.utils.RxBus;
 import com.oushangfeng.lsj.widget.refresh.RefreshLayout;
 import com.squareup.leakcanary.RefWatcher;
@@ -178,4 +181,14 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment
     public void onClick(View v) {
 
     }
+
+	public void startUrl(String url){
+		if(TextUtils.isEmpty(url)){
+			toast("这篇新闻浏览不了");
+		}else {
+			Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+			intent.putExtra("url",url);
+			startActivity(intent);
+		}
+	}
 }

@@ -6,7 +6,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.oushangfeng.lsj.R;
 import com.oushangfeng.lsj.annotation.ActivityFragmentInject;
@@ -167,7 +166,7 @@ public class NewsListFragment extends BaseFragment<ILSJNewsPresenter> implements
 					return ;
 				}else {
 					IndexPageModel.IndexArticleContent content = (IndexPageModel.IndexArticleContent) wapper.data;
-					Toast.makeText(getActivity(),"id="+content.id,Toast.LENGTH_SHORT).show();
+					startUrl(content.url);
 				}
 
 			}
@@ -177,7 +176,7 @@ public class NewsListFragment extends BaseFragment<ILSJNewsPresenter> implements
 			@Override
 			public void onBannerClick(IndexPageBannerModel item) {
 				if(item != null){
-					Toast.makeText(getActivity(),"banner id="+item.id,Toast.LENGTH_SHORT).show();
+					startUrl(item.url);
 				}
 			}
 		});

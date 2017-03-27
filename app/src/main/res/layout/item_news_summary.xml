@@ -16,12 +16,15 @@
                     android:layout_height="wrap_content"
 
                     android:orientation="vertical"
-        android:padding="10dp">
+                    android:layout_margin="5dp"
+        >
         <!--android:background="?android:attr/itemBackground"-->
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/iv_news_summary_photo"
-            android:layout_width="120dp"
+            app:riv_mutate_background="true"
+            app:riv_corner_radius="4dip"
+            android:layout_width="110dp"
             android:layout_height="80dp"
             android:layout_margin="4dp"
             android:scaleType="centerCrop"
@@ -39,7 +42,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="#333333"
             android:textSize="16sp"
-            tools:text="中石油:美国油价便宜因不含税"/>
+            tools:text="中石油:美国油价便宜因不含税"
+            android:layout_marginLeft="5dp"/>
 
         <TextView
             android:id="@+id/tv_news_summary_digest"

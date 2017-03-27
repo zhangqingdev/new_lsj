@@ -1,12 +1,18 @@
 package com.oushangfeng.lsj.module.photo.ui;
 
 import android.animation.ValueAnimator;
+import android.graphics.Bitmap;
 import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.oushangfeng.lsj.R;
 import com.oushangfeng.lsj.annotation.ActivityFragmentInject;
 import com.oushangfeng.lsj.base.BaseActivity;
@@ -18,6 +24,7 @@ import com.oushangfeng.lsj.module.photo.view.IPhotoDetailView;
 import com.oushangfeng.lsj.utils.MeasureUtil;
 import com.oushangfeng.lsj.utils.SpUtil;
 import com.oushangfeng.lsj.utils.StringUtils;
+import com.oushangfeng.lsj.utils.Utils;
 import com.oushangfeng.lsj.widget.HackyViewPager;
 import com.oushangfeng.lsj.widget.ThreePointLoadingView;
 import com.socks.library.KLog;
@@ -49,6 +56,7 @@ public class PhotoDetailActivity extends BaseActivity<IPhotoDetailPresenter> imp
     private ValueAnimator mAnimator;
     private int mContentTvWidth;
     private int mPageTvWidth;
+	private ImageView ivSave;
 
     @Override
     protected void onDestroy() {
@@ -74,6 +82,8 @@ public class PhotoDetailActivity extends BaseActivity<IPhotoDetailPresenter> imp
         mPageTv = (TextView) findViewById(R.id.tv_photo_detail_page);
 
         mContentTv = (RichText) findViewById(R.id.tv_photo_detail_content);
+		ivSave = (ImageView) findViewById(R.id.iv_save);
+
 
 		int index = getIntent().getIntExtra("index",0);
 		ArrayList<PhotoModel> data = (ArrayList<PhotoModel>) getIntent().getSerializableExtra("data");
@@ -94,6 +104,22 @@ public class PhotoDetailActivity extends BaseActivity<IPhotoDetailPresenter> imp
 
         final PhotoAdapter photoAdapter = new PhotoAdapter(this, images);
         mViewPager.setAdapter(photoAdapter);
+		ivSave.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				loadingDialog.show();
+				int current = mViewPager.getCurrentItem();
+				PhotoModel model = images.get(current);
+				Glide.with(PhotoDetailActivity.this).load(model.img).asBitmap().into(new SimpleTarget<Bitmap>() {
+					@Override
+					public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+						loadingDialog.dismiss();
+						boolean result = Utils.saveImageToGallery(PhotoDetailActivity.this,resource);
+						toast(result?"保存成功":"保存失败");
+					}
+				});
+			}
+		});
 
 
         final OnPageChangeListenerAdapter mPageChangeListenerAdapter = new OnPageChangeListenerAdapter() {

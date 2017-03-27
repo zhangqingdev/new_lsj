@@ -37,9 +37,6 @@ import com.oushangfeng.lsj.annotation.ActivityFragmentInject;
 import com.oushangfeng.lsj.app.App;
 import com.oushangfeng.lsj.app.AppManager;
 import com.oushangfeng.lsj.bean.IndexPageBannerModel;
-import com.oushangfeng.lsj.bean.IndexPageModel;
-import com.oushangfeng.lsj.bean.IndexPhotoModel;
-import com.oushangfeng.lsj.bean.InitModel;
 import com.oushangfeng.lsj.callback.RequestCallback;
 import com.oushangfeng.lsj.http.manager.LSJRetrofitManager;
 import com.oushangfeng.lsj.module.news.ui.NewsActivity;
@@ -67,7 +64,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import rx.Observable;
-import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Action1;
 
@@ -141,7 +137,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
 	private Tencent mTencent;
 
-	private LoadingDialog loadingDialog;
+	public LoadingDialog loadingDialog;
 
 	private Handler handler = new Handler(){
 

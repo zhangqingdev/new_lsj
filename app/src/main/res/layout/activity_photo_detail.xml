@@ -79,4 +79,13 @@
         android:visibility="invisible"
         app:pointColor="?attr/pointColor"/>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iv_save"
+        android:src="@drawable/ic_bmp_d"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"/>
+
 </RelativeLayout>

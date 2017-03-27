@@ -21,11 +21,15 @@ import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -42,7 +46,26 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import static android.R.attr.path;
+
 public class Utils {
+
+
+	public static boolean saveImageToGallery(Context context, Bitmap bmp) {
+		boolean result = false;
+
+		try {
+			// 其次把文件插入到系统图库
+			String imageUrl = MediaStore.Images.Media.insertImage(context.getContentResolver(),bmp,"","");
+			// 最后通知图库更新
+			context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(imageUrl)));
+			result = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	public static int dip2px(Context context, float dipValue) {
 		final float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (dipValue * scale + 0.5f);

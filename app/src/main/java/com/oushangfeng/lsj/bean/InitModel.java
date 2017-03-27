@@ -25,4 +25,8 @@ public class InitModel {
         @JsonProperty("download")
         public String download;
     }
+	@JsonProperty("errorCode")
+	public String errorCode;
+	@JsonProperty("errorMsg")
+	public String errorMsg;
 }

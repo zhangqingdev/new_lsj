@@ -1,20 +1,22 @@
 package com.oushangfeng.lsj.http.manager;
 
-import android.util.Log;
 import android.util.SparseArray;
+
 import com.oushangfeng.lsj.app.App;
 import com.oushangfeng.lsj.base.BaseSchedulerTransformer;
 import com.oushangfeng.lsj.bean.IndexPageBannerModel;
 import com.oushangfeng.lsj.bean.IndexPageModel;
 import com.oushangfeng.lsj.bean.IndexPhotoModel;
 import com.oushangfeng.lsj.bean.InitModel;
-import com.oushangfeng.lsj.bean.NeteastNewsSummary;
 import com.oushangfeng.lsj.http.Api;
 import com.oushangfeng.lsj.http.HostType;
 import com.oushangfeng.lsj.http.service.LSJService;
 import com.oushangfeng.lsj.utils.NetUtil;
 import com.oushangfeng.lsj.utils.Utils;
 import com.socks.library.KLog;
+
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -22,11 +24,13 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
@@ -34,7 +38,6 @@ import okio.BufferedSource;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
-import retrofit2.http.Path;
 import rx.Observable;
 
 public class LSJRetrofitManager {
@@ -232,6 +235,8 @@ public class LSJRetrofitManager {
      * @return
      */
     public Observable<InitModel> initEnv(Map<String,String> map){
-        return mNewsService.initEnv(map);
+		JSONObject jsonObject = new JSONObject(map);
+		RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
+        return mNewsService.initEnv(body);
     }
 }

@@ -9,12 +9,15 @@ import com.oushangfeng.lsj.app.AppManager;
 import com.oushangfeng.lsj.base.BaseActivity;
 import com.oushangfeng.lsj.base.BaseFragment;
 import com.oushangfeng.lsj.base.BaseFragmentAdapter;
+import com.oushangfeng.lsj.bean.InitModel;
+import com.oushangfeng.lsj.callback.RequestCallback;
 import com.oushangfeng.lsj.greendao.NewsChannelTable;
 import com.oushangfeng.lsj.module.news.presenter.INewsPresenter;
 import com.oushangfeng.lsj.module.news.presenter.INewsPresenterImpl;
 import com.oushangfeng.lsj.module.news.view.INewsView;
 import com.oushangfeng.lsj.module.photo.ui.PhotoListFragment;
 import com.oushangfeng.lsj.utils.RxBus;
+import com.oushangfeng.lsj.utils.Utils;
 import com.oushangfeng.lsj.utils.ViewUtil;
 
 import java.util.ArrayList;
@@ -54,6 +57,27 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 
         AppManager.getAppManager().orderNavActivity(getClass().getName(), false);
         mPresenter = new INewsPresenterImpl(this);
+		((INewsPresenterImpl)mPresenter).init(new RequestCallback<InitModel>() {
+			@Override
+			public void beforeRequest() {
+
+			}
+
+			@Override
+			public void requestError(String msg) {
+
+			}
+
+			@Override
+			public void requestComplete() {
+
+			}
+
+			@Override
+			public void requestSuccess(InitModel data) {
+
+			}
+		}, Utils.getDeviceInfo(this));
     }
 
     @Override

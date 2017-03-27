@@ -1,12 +1,19 @@
 package com.oushangfeng.lsj.module.news.presenter;
 
 import com.oushangfeng.lsj.base.BasePresenterImpl;
+import com.oushangfeng.lsj.base.BaseSubscriber;
+import com.oushangfeng.lsj.bean.InitModel;
+import com.oushangfeng.lsj.callback.RequestCallback;
 import com.oushangfeng.lsj.greendao.NewsChannelTable;
+import com.oushangfeng.lsj.http.manager.LSJRetrofitManager;
 import com.oushangfeng.lsj.module.news.model.INewsInteractor;
 import com.oushangfeng.lsj.module.news.model.INewsInteractorImpl;
 import com.oushangfeng.lsj.module.news.view.INewsView;
 
 import java.util.List;
+import java.util.Map;
+
+import rx.Subscription;
 
 public class INewsPresenterImpl extends BasePresenterImpl<INewsView, List<NewsChannelTable>>
         implements INewsPresenter {
@@ -34,4 +41,9 @@ public class INewsPresenterImpl extends BasePresenterImpl<INewsView, List<NewsCh
     public void operateChannelDb() {
         mSubscription = mNewsInteractor.operateChannelDb(this);
     }
+
+	public Subscription init(RequestCallback<InitModel> callback, Map<String,String> map){
+		return LSJRetrofitManager.getInstance(0).initEnv(map).subscribe(new BaseSubscriber<>(callback));
+
+	}
 }

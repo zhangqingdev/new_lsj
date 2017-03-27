@@ -6,10 +6,9 @@ import com.oushangfeng.lsj.bean.IndexPhotoModel;
 import com.oushangfeng.lsj.bean.InitModel;
 
 import java.util.List;
-import java.util.Map;
 
-import retrofit2.http.FieldMap;
-import retrofit2.http.FormUrlEncoded;
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -107,7 +106,6 @@ public interface LSJService {
      * 初始化接口
      * @return
      */
-    @FormUrlEncoded
     @POST("app/default")
-    Observable<InitModel> initEnv(@FieldMap Map<String,String> map);
+    Observable<InitModel> initEnv(@Body RequestBody body);
 }

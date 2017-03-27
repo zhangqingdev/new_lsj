@@ -187,6 +187,7 @@ public class Utils {
                     + getNetworkInfo(context);
             params+="&"+MainConstants.CHANNEL+"="+"需要配合打包脚本";
             params+="&"+MainConstants.UUID+"="+"邀请码，需要配合打包脚本";
+			params+="&"+MainConstants.DEVICE_FIRM+"="+ Build.MANUFACTURER;
 
         } catch (Exception ex) {
 

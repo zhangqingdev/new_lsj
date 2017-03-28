@@ -1,9 +1,7 @@
 package com.oushangfeng.lsj.module.news.ui;
 
-import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 
 import com.oushangfeng.lsj.R;
 import com.oushangfeng.lsj.annotation.ActivityFragmentInject;
@@ -189,17 +187,7 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 		}
 	}
 
-	private void showUpdateDialog(){
-		AlertDialog dialog = new AlertDialog.Builder(this).setTitle("版本升级").setMessage("发现新版本，请立即升级").setPositiveButton("确认", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialogInterface, int i) {
-				File file = new File(getExternalFilesDir(null)+ File.separator+getPackageName()+".apk");
-				Utils.installApkFile(NewsActivity.this,file);
-				dialogInterface.dismiss();
-			}
-		}).setCancelable(false).create();
-		dialog.show();
-	}
+
 
     @Override
     public void initViewPager(List<NewsChannelTable> newsChannels) {

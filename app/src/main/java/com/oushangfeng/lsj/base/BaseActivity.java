@@ -2,6 +2,7 @@ package com.oushangfeng.lsj.base;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -61,6 +63,7 @@ import com.zhy.changeskin.SkinManager;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -475,7 +478,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                         break;
                     case R.id.action_update:
                         //检查更新
-                        //mClass = SettingsActivity.class;
+						if(Utils.isNewVersionApk(BaseActivity.this)){
+							showUpdateDialog();
+						}else {
+							toast("当前已是最新版本");
+						}
                         break;
                 }
                 mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -539,6 +546,18 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 			loadingDialog.dismiss();
 		}
 	};
+
+	protected void showUpdateDialog(){
+		AlertDialog dialog = new AlertDialog.Builder(this).setTitle("版本升级").setMessage("发现新版本，请立即升级").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialogInterface, int i) {
+				File file = new File(getExternalFilesDir(null)+ File.separator+getPackageName()+".apk");
+				Utils.installApkFile(BaseActivity.this,file);
+				dialogInterface.dismiss();
+			}
+		}).setCancelable(false).create();
+		dialog.show();
+	}
 
 	public void  qqAuth() {
 		loadingDialog.show("登录中...");

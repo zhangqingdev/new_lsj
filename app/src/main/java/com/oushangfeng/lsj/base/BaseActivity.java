@@ -40,6 +40,7 @@ import com.oushangfeng.lsj.bean.IndexPageBannerModel;
 import com.oushangfeng.lsj.callback.RequestCallback;
 import com.oushangfeng.lsj.http.manager.LSJRetrofitManager;
 import com.oushangfeng.lsj.module.news.ui.NewsActivity;
+import com.oushangfeng.lsj.module.news.ui.NewsDetailActivity;
 import com.oushangfeng.lsj.module.settings.ui.SettingsActivity;
 import com.oushangfeng.lsj.utils.GlideCircleTransform;
 import com.oushangfeng.lsj.utils.GlideUtils;
@@ -450,9 +451,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-                if (item.isChecked()) {
-                    return true;
-                }
+//                if (item.isChecked()) {
+//                    return true;
+//                }
                 switch (item.getItemId()) {
                     case R.id.action_info:
                         //我的消息
@@ -464,7 +465,13 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                         break;
                     case R.id.action_feed_back:
                          //意见反馈
-                        //mClass = PhotoActivity.class;
+						String url = Utils.getPreferenceStr(BaseActivity.this,"feedback","");
+						if(!Utils.isEmpty(url)){
+							Intent intent = new Intent(BaseActivity.this, NewsDetailActivity.class);
+							intent.putExtra("url",url);
+							intent.putExtra("title","意见反馈");
+							startActivity(intent);
+						}
                         break;
                     case R.id.action_update:
                         //检查更新

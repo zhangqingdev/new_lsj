@@ -17,6 +17,7 @@ import com.oushangfeng.lsj.bean.NeteastNewsDetail;
 import com.oushangfeng.lsj.module.news.presenter.INewsDetailPresenter;
 import com.oushangfeng.lsj.module.news.view.INewsDetailView;
 import com.oushangfeng.lsj.utils.MeasureUtil;
+import com.oushangfeng.lsj.utils.Utils;
 import com.oushangfeng.lsj.utils.ViewUtil;
 import com.oushangfeng.lsj.widget.LockWebView;
 import com.oushangfeng.lsj.widget.LockWebViewClient;
@@ -108,6 +109,10 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 				return false;
 			}
 		});
+		String title = getIntent().getStringExtra("title");
+		if(!Utils.isEmpty(title)){
+			setToolbarTitle(title);
+		}
 
     }
 

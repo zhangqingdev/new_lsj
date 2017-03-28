@@ -2,6 +2,8 @@ package com.oushangfeng.lsj.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -36,6 +38,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.NetworkInterface;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -45,8 +48,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import static android.R.attr.path;
+import static com.tencent.open.utils.Global.getPackageName;
 
 public class Utils {
 
@@ -135,64 +141,77 @@ public class Utils {
 		return result;
 	}
     public static HashMap<String, String>getDeviceInfo(Context context) {
-        String params = "";
-        String deviceId = getDevId(context);
-        String screenDensity = "";
-        String screenLayoutSize = "";
-        String screenWidth = "";
-        String screenHeight = "";
-        try {
-            DisplayMetrics metrics = new DisplayMetrics();
-            WindowManager windowManager = (WindowManager) context
-                    .getSystemService(Context.WINDOW_SERVICE);
-            windowManager.getDefaultDisplay().getMetrics(metrics);
-            Configuration configuration = context.getResources()
-                    .getConfiguration();
-            screenDensity = "" + metrics.densityDpi;
-            screenLayoutSize = ""
-                    + (configuration.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK);
-            screenWidth = "" + metrics.widthPixels;
-            screenHeight = "" + metrics.heightPixels;
-            params = MainConstants.DEVICE_ID + "=" + deviceId + "&";
-            params += MainConstants.IMSI_ID + "="
-                    + getSubscriberImsiId(context) + "&";
-            params += MainConstants.DEVICE_NAME + "="
-                    + URLEncoder.encode(Build.MODEL) + "&";
-            params += MainConstants.OS_TYPE + "=android&";
-            params += MainConstants.OS_VERSION
-                    + "="
-                    + URLEncoder
-                    .encode(Build.VERSION.RELEASE) + "&";
-            params += MainConstants.COUNTRY_CODE + "="
-                    + Locale.getDefault().getCountry() + "&";
-            params += MainConstants.LANGUAGE + "="
-                    + Locale.getDefault().getLanguage() + "&";
-            params += MainConstants.CURRENT_PACKAGE_NAME + "="
-                    + context.getPackageName() + "&";
-            params += MainConstants.APP_VERSION + "="
-                    + getAppVerInfo(context, 1) + "&";
-            params += MainConstants.CURRENT_VERSION_CODE + "="
-                    + getAppVerInfo(context, 2) + "&";
-            params += MainConstants.SCREEN_DENSITY + "=" + screenDensity + "&";
-            params += MainConstants.SCREEN_LAYOUT_SIZE + "=" + screenLayoutSize;
-            params += "&";
-            params += MainConstants.SCREEN_WIDTH + "=" + screenWidth;
-            params += "&";
-            params += MainConstants.SCREEN_HEIGHT + "=" + screenHeight;
-            params += "&";
-            params += MainConstants.SERIAL_NUMBER + "=" + getSerialNumber(context);
-            params += "&";
-            params += MainConstants.ANDROID_ID + "=" + getAndroidId(context);
-            params += "&" + MainConstants.NET_WORK_TYPE + "="
-                    + getNetworkInfo(context);
-            params+="&"+MainConstants.CHANNEL+"="+"需要配合打包脚本";
-            params+="&"+MainConstants.UUID+"="+"邀请码，需要配合打包脚本";
-			params+="&"+MainConstants.DEVICE_FIRM+"="+ Build.MANUFACTURER;
+//        String params = "";
+//        String deviceId = getDevId(context);
+//        String screenDensity = "";
+//        String screenLayoutSize = "";
+//        String screenWidth = "";
+//        String screenHeight = "";
+//        try {
+//            DisplayMetrics metrics = new DisplayMetrics();
+//            WindowManager windowManager = (WindowManager) context
+//                    .getSystemService(Context.WINDOW_SERVICE);
+//            windowManager.getDefaultDisplay().getMetrics(metrics);
+//            Configuration configuration = context.getResources()
+//                    .getConfiguration();
+//            screenDensity = "" + metrics.densityDpi;
+//            screenLayoutSize = ""
+//                    + (configuration.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK);
+//            screenWidth = "" + metrics.widthPixels;
+//            screenHeight = "" + metrics.heightPixels;
+//            params = MainConstants.DEVICE_ID + "=" + deviceId + "&";
+//            params += MainConstants.IMSI_ID + "="
+//                    + getSubscriberImsiId(context) + "&";
+//            params += MainConstants.DEVICE_NAME + "="
+//                    + URLEncoder.encode(Build.MODEL) + "&";
+//            params += MainConstants.OS_TYPE + "=android&";
+//            params += MainConstants.OS_VERSION
+//                    + "="
+//                    + URLEncoder
+//                    .encode(Build.VERSION.RELEASE) + "&";
+//            params += MainConstants.COUNTRY_CODE + "="
+//                    + Locale.getDefault().getCountry() + "&";
+//            params += MainConstants.LANGUAGE + "="
+//                    + Locale.getDefault().getLanguage() + "&";
+//            params += MainConstants.CURRENT_PACKAGE_NAME + "="
+//                    + context.getPackageName() + "&";
+//            params += MainConstants.APP_VERSION + "="
+//                    + getAppVerInfo(context, 1) + "&";
+//            params += MainConstants.CURRENT_VERSION_CODE + "="
+//                    + getAppVerInfo(context, 2) + "&";
+//            params += MainConstants.SCREEN_DENSITY + "=" + screenDensity + "&";
+//            params += MainConstants.SCREEN_LAYOUT_SIZE + "=" + screenLayoutSize;
+//            params += "&";
+//            params += MainConstants.SCREEN_WIDTH + "=" + screenWidth;
+//            params += "&";
+//            params += MainConstants.SCREEN_HEIGHT + "=" + screenHeight;
+//            params += "&";
+//            params += MainConstants.SERIAL_NUMBER + "=" + getSerialNumber(context);
+//            params += "&";
+//            params += MainConstants.ANDROID_ID + "=" + getAndroidId(context);
+//            params += "&" + MainConstants.NET_WORK_TYPE + "="
+//                    + getNetworkInfo(context);
+//            params+="&"+MainConstants.CHANNEL+"="+"需要配合打包脚本";
+//            params+="&"+MainConstants.UUID+"="+"邀请码，需要配合打包脚本";
+//			params+="&"+MainConstants.DEVICE_FIRM+"="+ Build.MANUFACTURER;
+//
+//
+//
+//        } catch (Exception ex) {
+//
+//        }
 
-        } catch (Exception ex) {
-
-        }
-        return getGetKeyValue(params);
+		HashMap<String,String> data = new HashMap<>();
+		data.put(MainConstants.DEVICE_ID,Utils.getDevId(context));
+		data.put(MainConstants.IMSI_ID,getSubscriberImsiId(context)+"");
+		data.put(MainConstants.CURRENT_VERSION_CODE,getAppVerInfo(context, 2));
+		data.put(MainConstants.APP_VERSION,getAppVerInfo(context, 1));
+		data.put(MainConstants.OS_TYPE,"android");
+		data.put(MainConstants.OS_VERSION,Build.VERSION.RELEASE);
+		data.put(MainConstants.DEVICE_FIRM,Build.MANUFACTURER);
+		data.put(MainConstants.CHANNEL,"testid");
+		data.put(MainConstants.UUID,"2123123");
+		return data;
     }
 
     /**
@@ -335,6 +354,61 @@ public class Utils {
         }
         return deviceID;
     }
+
+	public synchronized static void setPreferenceStr(Context context,
+													 String name, String value) {
+		int mode = 0;
+		if (android.os.Build.VERSION.SDK_INT > 11) {
+			// 4.0以上
+			mode = Context.MODE_MULTI_PROCESS;
+		}
+		SharedPreferences preferences = context.getSharedPreferences(
+				"preferences", mode);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putString(name, value);
+		editor.commit();
+	}
+
+	public static String MD5(String src) {
+		MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("MD5");
+			StringBuffer deviceIDString = new StringBuffer(src);
+			src = convertToHex(md.digest(deviceIDString.toString().getBytes()));
+		} catch (Exception e) {
+			src = "00000000000000000000000000000000";
+		}
+		return src;
+	}
+
+	private static String convertToHex(byte[] data) {
+		StringBuffer buf = new StringBuffer();
+		for (int i = 0; i < data.length; i++) {
+			int halfbyte = (data[i] >>> 4) & 0x0F;
+			int two_halfs = 0;
+			do {
+				if ((0 <= halfbyte) && (halfbyte <= 9))
+					buf.append((char) ('0' + halfbyte));
+				else
+					buf.append((char) ('a' + (halfbyte - 10)));
+				halfbyte = data[i] & 0x0F;
+			} while (two_halfs++ < 1);
+		}
+		return buf.toString();
+	}
+
+	public synchronized static String getPreferenceStr(Context context,
+													   String name, String defValue) {
+		int mode = 0;
+		if (android.os.Build.VERSION.SDK_INT > 11) {
+			// 4.0以上
+			mode = Context.MODE_MULTI_PROCESS;
+		}
+		SharedPreferences preferences = context.getSharedPreferences(
+				"preferences", mode);
+		String result = preferences.getString(name, defValue);
+		return result;
+	}
 
     static String getNetworkType(Context context) {
         if (context
@@ -548,14 +622,6 @@ public class Utils {
         return carrier;
     }
 
-    public static void installApkFile(Context mContext, File file) {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setDataAndType(Uri.fromFile(file),
-                "application/vnd.android.package-archive");
-        mContext.startActivity(intent);
-    }
 
     public static Bitmap mergeBitmap(Context activity, Bitmap firstBitmap, Bitmap secondBitmap, String title) {
         Bitmap bitmap = Bitmap.createBitmap(firstBitmap.getWidth(), firstBitmap.getHeight(),
@@ -601,4 +667,66 @@ public class Utils {
         }
         return image;
     }
+
+	private static String getStringFromZip(Context context) {
+		String channel = "";
+		String start_flag = "META-INF/dchannel";
+		ApplicationInfo appinfo = context.getApplicationInfo();
+		String sourceDir = appinfo.sourceDir;
+		ZipFile zipfile = null;
+		try {
+			zipfile = new ZipFile(sourceDir);
+			Enumeration<?> entries = zipfile.entries();
+			while (entries.hasMoreElements()) {
+				ZipEntry entry = ((ZipEntry) entries.nextElement());
+				String entryName = entry.getName();
+				if (entryName.contains(start_flag)) {
+//					channel = entryName.replace(start_flag, "");
+					String strs[] = entryName.split("@");
+					if(strs != null && strs.length >=2){
+						channel = strs[1];
+						break;
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (zipfile != null) {
+				try {
+					zipfile.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return channel;
+	}
+
+
+	public static boolean isNewVersionApk(Context context) {
+		String filePath = context.getExternalFilesDir(null)+ File.separator+context.getPackageName()+".apk";
+			final File file = new File(filePath);
+			if (file.exists()) {
+				PackageManager pm = context.getPackageManager();
+				PackageInfo pInfo = pm.getPackageArchiveInfo(filePath,
+						PackageManager.GET_ACTIVITIES);
+				if (pInfo != null) {
+					int currentVersionCode = Integer.parseInt(Utils.getAppVerInfo(context,2));
+					if (pInfo.versionCode > currentVersionCode) {
+						return true;
+					}
+				}
+			}
+		return false;
+	}
+
+	public static void installApkFile(Context mContext, File file) {
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_VIEW);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.setDataAndType(Uri.fromFile(file),
+				"application/vnd.android.package-archive");
+		mContext.startActivity(intent);
+	}
 }

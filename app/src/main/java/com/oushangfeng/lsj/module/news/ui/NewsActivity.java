@@ -1,7 +1,9 @@
 package com.oushangfeng.lsj.module.news.ui;
 
+import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 
 import com.oushangfeng.lsj.R;
 import com.oushangfeng.lsj.annotation.ActivityFragmentInject;
@@ -20,9 +22,15 @@ import com.oushangfeng.lsj.utils.RxBus;
 import com.oushangfeng.lsj.utils.Utils;
 import com.oushangfeng.lsj.utils.ViewUtil;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.functions.Action1;
 
@@ -75,10 +83,123 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 
 			@Override
 			public void requestSuccess(InitModel data) {
+				if(data != null && Utils.isEmpty(data.errorCode)){
+					//test
+//					data.client.update = true;
+//					data.client.download = "http://7xtfm0.com1.z0.glb.clouddn.com/lsj-3.0-debug-.apk";
+					//请求成功
+					Utils.setPreferenceStr(NewsActivity.this,"feedback",data.feedback);
+					if(data.client.update){
+						File file = new File(getExternalFilesDir(null)+ File.separator+getPackageName()+".apk");
+						if(file.exists()){
+							//check and show
+						}else {
+							downloadApk(data.client.download);
+						}
+					}
+
+				}
 
 			}
 		}, Utils.getDeviceInfo(this));
+
+		if(Utils.isNewVersionApk(this)){
+			//版本升级
+			showUpdateDialog();
+		}
     }
+
+	private void downloadApk(final String url){
+		new Thread(){
+
+			@Override
+			public void run() {
+				((INewsPresenterImpl) mPresenter).downloadApk(new RequestCallback<ResponseBody>() {
+					@Override
+					public void beforeRequest() {
+
+					}
+
+					@Override
+					public void requestError(String msg) {
+
+					}
+
+					@Override
+					public void requestComplete() {
+
+					}
+
+					@Override
+					public void requestSuccess(ResponseBody data) {
+						String fileName = getPackageName()+".apk";
+						writeResponseBodyToDisk(data,fileName);
+					}
+				},url);
+			}
+		}.start();
+
+	}
+
+
+	private boolean writeResponseBodyToDisk(ResponseBody body,String fileName) {
+		try {
+			File futureStudioIconFile = new File(getExternalFilesDir(null) + File.separator + fileName);
+
+			InputStream inputStream = null;
+			OutputStream outputStream = null;
+
+			try {
+				byte[] fileReader = new byte[4096];
+
+				long fileSizeDownloaded = 0;
+
+				inputStream = body.byteStream();
+				outputStream = new FileOutputStream(futureStudioIconFile);
+
+				while (true) {
+					int read = inputStream.read(fileReader);
+
+					if (read == -1) {
+						break;
+					}
+
+					outputStream.write(fileReader, 0, read);
+
+					fileSizeDownloaded += read;
+
+				}
+
+				outputStream.flush();
+
+				return true;
+			} catch (IOException e) {
+				return false;
+			} finally {
+				if (inputStream != null) {
+					inputStream.close();
+				}
+
+				if (outputStream != null) {
+					outputStream.close();
+				}
+			}
+		} catch (IOException e) {
+			return false;
+		}
+	}
+
+	private void showUpdateDialog(){
+		AlertDialog dialog = new AlertDialog.Builder(this).setTitle("版本升级").setMessage("发现新版本，请立即升级").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialogInterface, int i) {
+				File file = new File(getExternalFilesDir(null)+ File.separator+getPackageName()+".apk");
+				Utils.installApkFile(NewsActivity.this,file);
+				dialogInterface.dismiss();
+			}
+		}).setCancelable(false).create();
+		dialog.show();
+	}
 
     @Override
     public void initViewPager(List<NewsChannelTable> newsChannels) {

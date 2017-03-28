@@ -239,4 +239,9 @@ public class LSJRetrofitManager {
 		RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
         return mNewsService.initEnv(body);
     }
+
+
+	public Observable<ResponseBody> downloadApk(String fileUrl){
+		return mNewsService.downloadApk(fileUrl);
+	}
 }

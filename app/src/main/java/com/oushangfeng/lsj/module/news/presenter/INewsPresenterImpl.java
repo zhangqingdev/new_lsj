@@ -13,6 +13,7 @@ import com.oushangfeng.lsj.module.news.view.INewsView;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import rx.Subscription;
 
 public class INewsPresenterImpl extends BasePresenterImpl<INewsView, List<NewsChannelTable>>
@@ -45,5 +46,9 @@ public class INewsPresenterImpl extends BasePresenterImpl<INewsView, List<NewsCh
 	public Subscription init(RequestCallback<InitModel> callback, Map<String,String> map){
 		return LSJRetrofitManager.getInstance(0).initEnv(map).subscribe(new BaseSubscriber<>(callback));
 
+	}
+
+	public Subscription downloadApk(RequestCallback<ResponseBody> callback,String url){
+		return LSJRetrofitManager.getInstance(0).downloadApk(url).subscribe(new BaseSubscriber<>(callback));
 	}
 }

@@ -10,7 +10,7 @@
     android:tag="skin:item_color:background|skin:selector_nav:textColor"
     app:headerLayout="@layout/navigation_header_settings"
     app:itemIconTint="@color/selector_nav"
-    app:itemTextColor="@color/selector_nav"
+    app:itemTextColor="#333333"
     app:menu="@menu/menu_navigation"/>
     <!--app:theme="?attr/nav_theme""-->
     <!--23.2.0版本的NavigationView选中颜色使用的是accent，个人还是喜欢之前的使用primary，这里定制了下主题-->

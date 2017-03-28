@@ -8,7 +8,7 @@
     android:layout_gravity="start"
     android:background="?android:attr/itemBackground"
     app:headerLayout="@layout/navigation_header"
-    app:itemTextColor="?attr/navColor"
+    app:itemTextColor="#333333"
     app:itemIconTint="?attr/navColor"
     app:menu="@menu/menu_navigation"/>
     <!--app:theme="?attr/nav_theme""-->

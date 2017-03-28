@@ -5,22 +5,22 @@
         <item
             android:id="@+id/action_info"
             android:checked="true"
-            android:icon="@drawable/ic_news_black"
+            android:icon="@drawable/ic_invite"
             android:title="邀请兄弟入伙"/>
 
         <item
             android:id="@+id/action_invite_friend"
-            android:icon="@drawable/ic_ondemand_video_black"
+            android:icon="@drawable/ic_message"
             android:title="我的消息"/>
 
         <item
             android:id="@+id/action_feed_back"
-            android:icon="@drawable/ic_insert_photo_black"
+            android:icon="@drawable/ic_feedback"
             android:title="意见反馈"/>
 
         <item
             android:id="@+id/action_update"
-            android:icon="@drawable/ic_more_black"
+            android:icon="@drawable/ic_check_update"
             android:title="检查更新"/>
 
     </group>

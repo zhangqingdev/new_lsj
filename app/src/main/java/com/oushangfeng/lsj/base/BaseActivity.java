@@ -443,9 +443,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         handleAppBarLayoutOffset();
 
         mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
-        if (mMenuDefaultCheckedItem != -1 && mNavigationView != null) {
-            mNavigationView.setCheckedItem(mMenuDefaultCheckedItem);
-        }
+		mNavigationView.setItemIconTintList(null);
+//        if (mMenuDefaultCheckedItem != -1 && mNavigationView != null) {
+//            mNavigationView.setCheckedItem(mMenuDefaultCheckedItem);
+//        }
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {

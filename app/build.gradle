@@ -18,6 +18,7 @@ android {
             storePassword "123456789"
             keyAlias "lsj"
             keyPassword "123456789"
+            v2SigningEnabled false;
         }
     }
 

@@ -209,8 +209,8 @@ public class Utils {
 		data.put(MainConstants.OS_TYPE,"android");
 		data.put(MainConstants.OS_VERSION,Build.VERSION.RELEASE);
 		data.put(MainConstants.DEVICE_FIRM,Build.MANUFACTURER);
-		data.put(MainConstants.CHANNEL,"testid");
-		data.put(MainConstants.UUID,"2123123");
+		data.put(MainConstants.CHANNEL,getChannel(context));
+		data.put(MainConstants.UUID,getInviteID(context));
 		return data;
     }
 
@@ -729,4 +729,77 @@ public class Utils {
 				"application/vnd.android.package-archive");
 		mContext.startActivity(intent);
 	}
+
+	public static String getInviteID(Context context) {
+		String invite = "00000000";
+		String start_flag = "META-INF/dchannel";
+		ApplicationInfo appinfo = context.getApplicationInfo();
+		String sourceDir = appinfo.sourceDir;
+		ZipFile zipfile = null;
+		try {
+			zipfile = new ZipFile(sourceDir);
+			Enumeration<?> entries = zipfile.entries();
+			while (entries.hasMoreElements()) {
+				ZipEntry entry = ((ZipEntry) entries.nextElement());
+				String entryName = entry.getName();
+				if (entryName.contains(start_flag)) {
+					String strs[] = entryName.split("@");
+					if(strs != null && strs.length ==3){
+						invite = strs[2];
+						break;
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (zipfile != null) {
+				try {
+					zipfile.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return invite;
+	}
+
+
+	public static String getChannel(Context context){
+		String channel = "default";
+		String start_flag = "META-INF/dchannel";
+		ApplicationInfo appinfo = context.getApplicationInfo();
+		String sourceDir = appinfo.sourceDir;
+		ZipFile zipfile = null;
+		try {
+			zipfile = new ZipFile(sourceDir);
+			Enumeration<?> entries = zipfile.entries();
+			while (entries.hasMoreElements()) {
+				ZipEntry entry = ((ZipEntry) entries.nextElement());
+				String entryName = entry.getName();
+				if (entryName.contains(start_flag)) {
+//					channel = entryName.replace(start_flag, "");
+					String strs[] = entryName.split("@");
+					if(strs != null && strs.length >=2){
+						channel = strs[1];
+						break;
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (zipfile != null) {
+				try {
+					zipfile.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return channel;
+	}
+
+
+
 }

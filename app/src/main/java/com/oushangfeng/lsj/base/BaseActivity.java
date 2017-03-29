@@ -29,7 +29,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.oubowu.slideback.SlideBackHelper;
 import com.oubowu.slideback.SlideConfig;
@@ -151,7 +150,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 			switch (msg.what){
 				case 1:
 					loadingDialog.dismiss();
-					Toast.makeText(BaseActivity.this,(String)msg.obj,Toast.LENGTH_SHORT).show();
+					toast((String)msg.obj);
 					break;
 			}
 			super.handleMessage(msg);

@@ -29,6 +29,7 @@ import com.oushangfeng.lsj.utils.MeasureUtil;
 import com.oushangfeng.lsj.utils.Utils;
 import com.oushangfeng.lsj.widget.ThreePointLoadingView;
 import com.oushangfeng.lsj.widget.refresh.RefreshLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,6 +150,7 @@ public class NewsListFragment extends BaseFragment<ILSJNewsPresenter> implements
 				if(wapper.type == 100){
 					return ;
 				}else {
+					MobclickAgent.onEvent(getActivity().getApplicationContext(),"news_click");
 					IndexPageModel.IndexArticleContent content = (IndexPageModel.IndexArticleContent) wapper.data;
 					startUrl(content.url);
 				}
@@ -160,6 +162,7 @@ public class NewsListFragment extends BaseFragment<ILSJNewsPresenter> implements
 			@Override
 			public void onBannerClick(IndexPageBannerModel item) {
 				if(item != null){
+					MobclickAgent.onEvent(getActivity().getApplicationContext(),"banner_click");
 					startUrl(item.url);
 				}
 			}
@@ -241,6 +244,7 @@ public class NewsListFragment extends BaseFragment<ILSJNewsPresenter> implements
         mAdapter.setOnLoadMoreListener(10, new OnLoadMoreListener() {
             @Override
             public void loadMore() {
+				MobclickAgent.onEvent(getActivity().getApplicationContext(),"news_next_page");
                 mPresenter.loadMoreData();
                 // mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
             }

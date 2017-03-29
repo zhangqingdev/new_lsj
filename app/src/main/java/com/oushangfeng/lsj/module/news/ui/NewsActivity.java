@@ -18,6 +18,7 @@ import com.oushangfeng.lsj.module.photo.ui.PhotoListFragment;
 import com.oushangfeng.lsj.utils.RxBus;
 import com.oushangfeng.lsj.utils.Utils;
 import com.oushangfeng.lsj.utils.ViewUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -61,6 +62,11 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
         // 设了默认的windowBackground使得冷启动没那么突兀，这里再设置为空减少过度绘制
         getWindow().setBackgroundDrawable(null);
         ViewUtil.quitFullScreen(this);
+
+		//Umeng
+
+		MobclickAgent.startWithConfigure(new MobclickAgent.UMAnalyticsConfig(this.getApplicationContext(),"58d481eb5312dd0fc90000a4",Utils.getChannel(this), MobclickAgent.EScenarioType.E_UM_NORMAL,false));
+		MobclickAgent.onEvent(this.getApplicationContext(),"open_home");
 
         AppManager.getAppManager().orderNavActivity(getClass().getName(), false);
         mPresenter = new INewsPresenterImpl(this);

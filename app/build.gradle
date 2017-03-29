@@ -112,4 +112,5 @@ dependencies {
     compile project(':slideback')
 
     compile 'com.makeramen:roundedimageview:2.3.0'
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }

@@ -34,6 +34,7 @@ import com.oushangfeng.lsj.utils.MeasureUtil;
 import com.oushangfeng.lsj.utils.Utils;
 import com.oushangfeng.lsj.widget.ThreePointLoadingView;
 import com.oushangfeng.lsj.widget.refresh.RefreshLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,13 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 		return fragment;
 	}
 
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		if(isVisibleToUser){
+			MobclickAgent.onEvent(getActivity().getApplicationContext(),"photo_list_show");
+		}
+		super.setUserVisibleHint(isVisibleToUser);
+	}
 
 	@Override
 	protected void initView(View fragmentRootView) {
@@ -134,6 +142,8 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 					return;
 				}
 
+				MobclickAgent.onEvent(getActivity(),"photo_item_click");
+
 
 				view = view.findViewById(R.id.iv_photo_summary);
 				Intent intent = new Intent(getActivity(), PhotoDetailActivity.class);
@@ -165,6 +175,7 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 		mAdapter.setOnLoadMoreListener(10, new OnLoadMoreListener() {
 			@Override
 			public void loadMore() {
+				MobclickAgent.onEvent(getActivity().getApplicationContext(),"photo_next_page");
 				mPresenter.loadPhotoData();
 				// mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
 			}

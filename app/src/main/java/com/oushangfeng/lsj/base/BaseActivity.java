@@ -59,6 +59,7 @@ import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
+import com.umeng.analytics.MobclickAgent;
 import com.zhy.changeskin.SkinManager;
 
 import org.json.JSONObject;
@@ -215,9 +216,16 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     }
 
-    @Override
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
     protected void onResume() {
         super.onResume();
+		MobclickAgent.onResume(this);
         if (mPresenter != null) {
             mPresenter.onResume();
         }
@@ -467,6 +475,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                     case R.id.action_invite_friend:
                         //邀请好友
                         //mClass = VideoActivity.class;
+						MobclickAgent.onEvent(BaseActivity.this,"click_invite");
                         break;
                     case R.id.action_feed_back:
                          //意见反馈
@@ -563,6 +572,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
 	public void  qqAuth() {
 		loadingDialog.show("登录中...");
+		MobclickAgent.onEvent(BaseActivity.this,"qq_login");
 		if (mTencent == null) {
 			mTencent = Tencent.createInstance(MainConstants.QQ_APPID, this);
 		}

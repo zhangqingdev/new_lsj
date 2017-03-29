@@ -7,9 +7,9 @@ import com.oushangfeng.lsj.callback.RequestCallback;
 import com.oushangfeng.lsj.greendao.NewsChannelTable;
 import com.oushangfeng.lsj.http.manager.LSJRetrofitManager;
 import com.oushangfeng.lsj.module.news.model.INewsInteractor;
-import com.oushangfeng.lsj.module.news.model.INewsInteractorImpl;
 import com.oushangfeng.lsj.module.news.view.INewsView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,9 +23,13 @@ public class INewsPresenterImpl extends BasePresenterImpl<INewsView, List<NewsCh
 
     public INewsPresenterImpl(INewsView newsView) {
         super(newsView);
-        mNewsInteractor = new INewsInteractorImpl();
-        mSubscription = mNewsInteractor.operateChannelDb(this);
-        mView.initRxBusEvent();
+//        mNewsInteractor = new INewsInteractorImpl();
+//        mSubscription = mNewsInteractor.operateChannelDb(this);
+//        mView.initRxBusEvent();
+		List<String> data = new ArrayList<>();
+		data.add("精选");
+		data.add("看图");
+		mView.initViewPager(data);
     }
 
     @Override
@@ -35,7 +39,6 @@ public class INewsPresenterImpl extends BasePresenterImpl<INewsView, List<NewsCh
 
     @Override
     public void requestSuccess(List<NewsChannelTable> data) {
-        mView.initViewPager(data);
     }
 
     @Override

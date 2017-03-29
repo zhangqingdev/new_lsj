@@ -43,12 +43,6 @@ import java.util.List;
         handleRefreshLayout = true)
 public class NewsListFragment extends BaseFragment<ILSJNewsPresenter> implements ILSJNewsView {
 
-    protected static final String NEWS_ID = "news_id";
-    protected static final String NEWS_TYPE = "news_type";
-    protected static final String POSITION = "position";
-
-    protected String mNewsId;
-    protected String mNewsType;
 
     private NewsListRecyclerAdapter mAdapter;
     private RecyclerView mRecyclerView;
@@ -62,20 +56,10 @@ public class NewsListFragment extends BaseFragment<ILSJNewsPresenter> implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mNewsId = getArguments().getString(NEWS_ID);
-            mNewsType = getArguments().getString(NEWS_TYPE);
-            mPosition = getArguments().getInt(POSITION);
-        }
     }
 
-    public static NewsListFragment newInstance(String newsId, String newsType, int position) {
+    public static NewsListFragment newInstance() {
         NewsListFragment fragment = new NewsListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(NEWS_ID, newsId);
-        bundle.putString(NEWS_TYPE, newsType);
-        bundle.putInt(POSITION, position);
-        fragment.setArguments(bundle);
         return fragment;
     }
 

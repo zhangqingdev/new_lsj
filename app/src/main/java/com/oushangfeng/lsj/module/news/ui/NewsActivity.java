@@ -11,7 +11,6 @@ import com.oushangfeng.lsj.base.BaseFragment;
 import com.oushangfeng.lsj.base.BaseFragmentAdapter;
 import com.oushangfeng.lsj.bean.InitModel;
 import com.oushangfeng.lsj.callback.RequestCallback;
-import com.oushangfeng.lsj.greendao.NewsChannelTable;
 import com.oushangfeng.lsj.module.news.presenter.INewsPresenter;
 import com.oushangfeng.lsj.module.news.presenter.INewsPresenterImpl;
 import com.oushangfeng.lsj.module.news.view.INewsView;
@@ -32,6 +31,8 @@ import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.functions.Action1;
 
+import static com.oushangfeng.lsj.R.string.news;
+
 /**
  * ClassName: NewsActivity<p>
  * Fuction: 新闻界面<p>
@@ -41,7 +42,7 @@ import rx.functions.Action1;
 @ActivityFragmentInject(contentViewId = R.layout.activity_news,
         menuId = R.menu.menu_news,
         hasNavigationView = true,
-        toolbarTitle = R.string.news,
+        toolbarTitle = news,
         toolbarIndicator = R.drawable.ic_list_white
 		)
 public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsView {
@@ -51,7 +52,7 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RxBus.get().unregister("channelChange", mChannelObservable);
+//        RxBus.get().unregister("channelChange", mChannelObservable);
     }
 
     @Override
@@ -190,7 +191,7 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 
 
     @Override
-    public void initViewPager(List<NewsChannelTable> newsChannels) {
+    public void initViewPager(List<String> newsChannels) {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
@@ -201,19 +202,17 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 
         if (newsChannels != null) {
             // 有除了固定的其他频道被选中，添加
-            for (NewsChannelTable news : newsChannels) {
-				if(news.getNewsChannelName().equals("看图")){
+            for (String news : newsChannels) {
+				if(news.equals("看图")){
 					PhotoListFragment photoListFragment = PhotoListFragment.newInstance();
 					fragments.add(photoListFragment);
-					title.add(news.getNewsChannelName());
+					title.add(news);
 
 				}else {
 					final NewsListFragment fragment = NewsListFragment
-							.newInstance(news.getNewsChannelId(), news.getNewsChannelType(),
-									news.getNewsChannelIndex());
-
+							.newInstance();
 					fragments.add(fragment);
-					title.add(news.getNewsChannelName());
+					title.add(news);
 				}
             }
 

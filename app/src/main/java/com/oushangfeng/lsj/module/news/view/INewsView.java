@@ -1,7 +1,6 @@
 package com.oushangfeng.lsj.module.news.view;
 
 import com.oushangfeng.lsj.base.BaseView;
-import com.oushangfeng.lsj.greendao.NewsChannelTable;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
  */
 public interface INewsView extends BaseView {
 
-    void initViewPager(List<NewsChannelTable> newsChannels);
+    void initViewPager(List<String> newsChannels);
 
     void initRxBusEvent();
 

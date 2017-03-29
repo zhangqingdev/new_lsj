@@ -42,8 +42,8 @@ import rx.functions.Action1;
         menuId = R.menu.menu_news,
         hasNavigationView = true,
         toolbarTitle = R.string.news,
-        toolbarIndicator = R.drawable.ic_list_white,
-        menuDefaultCheckedItem = R.id.action_info)
+        toolbarIndicator = R.drawable.ic_list_white
+		)
 public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsView {
 
     private Observable<Boolean> mChannelObservable;

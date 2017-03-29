@@ -283,7 +283,9 @@ public class NewsListFragment extends BaseFragment<ILSJNewsPresenter> implements
 
 	@Override
 	public void onDestroyView() {
-		mAdapter.stopBannerScroll();
+		if(mAdapter != null){
+			mAdapter.stopBannerScroll();
+		}
 		super.onDestroyView();
 	}
 

@@ -197,6 +197,10 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 		if (mAdapter == null) {
 			initNewsList(data);
 		}
+		if((data.list == null || data.list.isEmpty())&&type == DataLoadType.TYPE_REFRESH_SUCCESS){
+			type = DataLoadType.TYPE_REFRESH_FAIL;
+			errorMsg = "获取数据失败，请稍后再试";
+		}
 
 		switch (type) {
 			case DataLoadType.TYPE_REFRESH_SUCCESS:

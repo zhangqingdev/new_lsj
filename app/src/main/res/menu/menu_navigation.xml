@@ -8,10 +8,6 @@
             android:icon="@drawable/ic_invite"
             android:title="邀请兄弟入伙"/>
 
-        <item
-            android:id="@+id/action_info"
-            android:icon="@drawable/ic_message"
-            android:title="我的消息"/>
 
         <item
             android:id="@+id/action_feed_back"

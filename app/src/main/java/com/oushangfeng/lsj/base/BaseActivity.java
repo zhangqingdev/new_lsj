@@ -458,10 +458,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 //                    return true;
 //                }
                 switch (item.getItemId()) {
-                    case R.id.action_info:
-                        //我的消息
-                       // mClass = NewsActivity.class;
-                        break;
                     case R.id.action_invite_friend:
                         //邀请好友
                         //mClass = VideoActivity.class;

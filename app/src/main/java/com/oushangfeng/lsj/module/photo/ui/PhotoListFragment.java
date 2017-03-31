@@ -140,8 +140,6 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 					holder.getImageView(R.id.iv_photo_summary).setImageResource(R.drawable.ic_error_outline_black);
 
 				}
-
-
 //                holder.getTextView(R.id.tv_photo_summary).setText(item.title);
 			}
 		};
@@ -184,7 +182,7 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 			}
 		});
 
-		mAdapter.setOnLoadMoreListener(10, new OnLoadMoreListener() {
+		mAdapter.setOnLoadMoreListener(mAdapter.getData().size(), new OnLoadMoreListener() {
 			@Override
 			public void loadMore() {
 				MobclickAgent.onEvent(getActivity().getApplicationContext(),"photo_next_page");

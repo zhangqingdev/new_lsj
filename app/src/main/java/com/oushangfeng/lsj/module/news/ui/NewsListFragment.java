@@ -241,7 +241,7 @@ public class NewsListFragment extends BaseFragment<ILSJNewsPresenter> implements
             }
         });
 
-        mAdapter.setOnLoadMoreListener(10, new OnLoadMoreListener() {
+        mAdapter.setOnLoadMoreListener(mAdapter.getData().size(), new OnLoadMoreListener() {
             @Override
             public void loadMore() {
 				MobclickAgent.onEvent(getActivity().getApplicationContext(),"news_next_page");

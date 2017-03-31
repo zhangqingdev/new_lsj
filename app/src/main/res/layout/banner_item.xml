@@ -7,6 +7,12 @@
         android:layout_height="match_parent"
         android:id="@+id/iv_banner"
         android:scaleType="fitXY"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_shadow"
+        android:layout_alignParentBottom="true"/>
     <TextView
         android:layout_width="300dp"
         android:layout_height="wrap_content"

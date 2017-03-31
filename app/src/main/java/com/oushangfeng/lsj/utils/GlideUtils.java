@@ -16,9 +16,12 @@ import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.target.Target;
 import com.oushangfeng.lsj.BuildConfig;
 import com.oushangfeng.lsj.R;
+import com.oushangfeng.lsj.widget.PlaceScaleBitmapTarget;
+import com.oushangfeng.lsj.widget.PlaceScaleImageViewTarget;
 
 import java.io.File;
 
@@ -50,7 +53,7 @@ public class GlideUtils {
      * @param diskcacheStrategy 硬盘缓存策略
      */
     public static void loadDefaultTransformation(Object loadObj, ImageView imageView, Boolean asGif, DecodeFormat format, Transformation transformation, DiskCacheStrategy diskcacheStrategy) {
-        load(imageView.getContext(), loadObj, imageView, 0, 0, R.drawable.ic_loading, R.drawable.ic_fail, R.anim.image_load, asGif, format, transformation,
+        load(imageView.getContext(), loadObj, imageView, 0, 0, R.drawable.ic_loading_default, R.drawable.ic_fail, R.anim.image_load, asGif, format, transformation,
                 diskcacheStrategy);
     }
 
@@ -64,7 +67,7 @@ public class GlideUtils {
      * @param diskcacheStrategy 硬盘缓存策略
      */
     public static void loadDefault(Object loadObj, ImageView imageView, Boolean asGif, DecodeFormat format, DiskCacheStrategy diskcacheStrategy) {
-        load(imageView.getContext(), loadObj, imageView, 0, 0, R.drawable.ic_loading, R.drawable.ic_fail, R.anim.image_load, asGif, format, null, diskcacheStrategy);
+        load(imageView.getContext(), loadObj, imageView, 0, 0, R.drawable.ic_loading_default, R.drawable.ic_fail, R.anim.image_load, asGif, format, null, diskcacheStrategy);
     }
 
     /**
@@ -184,19 +187,26 @@ public class GlideUtils {
                 requestBuilder = request.override(overrideW, overrideH);
             }
         }
+
+
+		ImageViewTarget target = null;
+
         if (asGif != null && !asGif) {
+			target = new PlaceScaleBitmapTarget(imageView, ImageView.ScaleType.CENTER_INSIDE);
             if (requestBuilder != null && requestBuilder instanceof BitmapRequestBuilder) {
                 // bitmap格式的特殊处理图片质量
                 final BitmapRequestBuilder bitmapRequestBuilder = ((BitmapRequestBuilder) requestBuilder).format(format);
-                bitmapRequestBuilder.into(imageView);
+                bitmapRequestBuilder.into(target);
                 return;
             } else if (requestBuilder == null && request instanceof BitmapTypeRequest) {
                 // bitmap格式的特殊处理图片质量
                 final BitmapRequestBuilder bitmapRequestBuilder = ((BitmapTypeRequest) request).format(format);
-                bitmapRequestBuilder.into(imageView);
+                bitmapRequestBuilder.into(target);
                 return;
             }
-        }
+        }else {
+			target = new PlaceScaleImageViewTarget(imageView, ImageView.ScaleType.FIT_CENTER);
+		}
         if (requestBuilder != null) {
             if (BuildConfig.DEBUG) {
                 requestBuilder.listener(new RequestListener() {
@@ -212,9 +222,9 @@ public class GlideUtils {
                     }
                 });
             }
-            requestBuilder.into(imageView);
+            requestBuilder.into(target);
         } else {
-            request.into(imageView);
+            request.into(target);
         }
     }
 

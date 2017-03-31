@@ -44,8 +44,6 @@ import com.oushangfeng.lsj.http.manager.LSJRetrofitManager;
 import com.oushangfeng.lsj.module.news.ui.NewsActivity;
 import com.oushangfeng.lsj.module.news.ui.NewsDetailActivity;
 import com.oushangfeng.lsj.module.settings.ui.SettingsActivity;
-import com.oushangfeng.lsj.utils.GlideCircleTransform;
-import com.oushangfeng.lsj.utils.GlideUtils;
 import com.oushangfeng.lsj.utils.MainConstants;
 import com.oushangfeng.lsj.utils.MeasureUtil;
 import com.oushangfeng.lsj.utils.RxBus;
@@ -505,9 +503,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             public void run() {
                 final ImageView imageView = (ImageView) BaseActivity.this.findViewById(R.id.avatar);
                 if (imageView != null) {
-                    GlideUtils.loadDefaultTransformation(R.drawable.ic_header, imageView, false, null, new GlideCircleTransform(imageView.getContext()), null);
+//                    GlideUtils.loadDefaultTransformation(R.drawable.ic_header, imageView, false, null, new GlideCircleTransform(imageView.getContext()), null);
                     //                    Glide.with(mNavigationView.getContext()).load(R.drawable.ic_header).animate(R.anim.image_load).transform(new GlideCircleTransform(mNavigationView.getContext()))
                     //                            .into(imageView);
+					imageView.setImageResource(R.drawable.ic_header);
                 }
             }
         });

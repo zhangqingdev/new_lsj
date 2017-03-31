@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -55,6 +56,8 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 
 	private ThreePointLoadingView mLoadingView;
 
+	private int itemWidth;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -84,6 +87,8 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 		mRefreshLayout = (RefreshLayout) fragmentRootView.findViewById(R.id.refresh_layout);
 
 		mPresenter = new ILSJPhotoListPresenterImpl(this, Utils.getDevId(getActivity()), 0, 10);
+
+		itemWidth = (MeasureUtil.getScreenSize(getActivity()).x - MeasureUtil.dip2px(getActivity(),12))/2;
 	}
 
 	@Override
@@ -116,11 +121,18 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 				if (imgs != null && !imgs.isEmpty()) {
 					//宽度340dp
 					IndexPhotoModel.ImgEntity entity = imgs.get(0);
-					layoutParams.height = entity.height * Utils.dip2px(mContext, 340) / entity.width;
+					layoutParams.height = entity.height * itemWidth / entity.width;
 					holder.itemView.setLayoutParams(layoutParams);
-
 //				Glide.with(getActivity()).load(item.img.get(0)).dontAnimate().thumbnail(0.2f).into(holder.getImageView(R.id.iv_photo_summary));
-					GlideUtils.loadDefault(item.img.get(0).url, holder.getImageView(R.id.iv_photo_summary), false, DecodeFormat.PREFER_ARGB_8888, DiskCacheStrategy.RESULT);
+					ImageView imageView = holder.getImageView(R.id.iv_photo_summary);
+
+					String tag = (String) imageView.getTag(R.string.app_name);
+					if(!Utils.isEmpty(tag)&&tag.equals(item.img.get(0).url)){
+
+					}else {
+						GlideUtils.loadDefault(item.img.get(0).url, imageView, false, DecodeFormat.PREFER_ARGB_8888, DiskCacheStrategy.RESULT);
+						imageView.setTag(R.string.app_name,item.img.get(0).url);
+					}
 //				Glide.with(getActivity()).load(item.img.get(0)).into(holder.getImageView(R.id.iv_photo_summary));
 					//                Glide.with(getActivity()).load(item.kpic).asBitmap().animate(R.anim.image_load).placeholder(R.drawable.ic_loading).error(R.drawable.ic_fail).format(DecodeFormat.PREFER_ARGB_8888)
 					//                        .diskCacheStrategy(DiskCacheStrategy.RESULT).into(holder.getImageView(R.id.iv_photo_summary));
@@ -205,6 +217,16 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 		if (data == null) {
 			data = new IndexPhotoModel();
 		}
+//		data = new IndexPhotoModel();
+//		IndexPhotoModel.PhotoModel item = new IndexPhotoModel.PhotoModel();
+//		IndexPhotoModel.ImgEntity img = new IndexPhotoModel.ImgEntity();
+//		img.url = "http://img3.duitang.com/uploads/item/201608/16/20160816125631_eSW3L.jpeg";
+//		img.height = 1130;
+//		img.width = 750;
+//		item.img = new ArrayList<>();
+//		item.img.add(img);
+//		data.list = new ArrayList<>();
+//		data.list.add(item);
 		if (mAdapter == null) {
 			initNewsList(data);
 		}

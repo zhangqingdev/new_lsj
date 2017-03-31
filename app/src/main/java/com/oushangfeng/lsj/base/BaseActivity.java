@@ -473,6 +473,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                     case R.id.action_invite_friend:
                         //邀请好友
                         //mClass = VideoActivity.class;
+						shareText("邀请分享链接需要服务器下发");
 						MobclickAgent.onEvent(BaseActivity.this,"click_invite");
                         break;
                     case R.id.action_feed_back:
@@ -804,5 +805,17 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             }
         });
     }
+
+
+	//分享文字
+	public void shareText(String text) {
+		Intent shareIntent = new Intent();
+		shareIntent.setAction(Intent.ACTION_SEND);
+		shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+		shareIntent.setType("text/plain");
+
+		//设置分享列表的标题，并且每次都显示分享列表
+		startActivity(Intent.createChooser(shareIntent, "分享到"));
+	}
 
 }

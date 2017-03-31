@@ -38,10 +38,10 @@
             android:layout_alignTop="@+id/iv_news_summary_photo"
             android:layout_toRightOf="@+id/iv_news_summary_photo"
             android:gravity="center_vertical"
-            android:singleLine="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="#333333"
             android:textSize="16sp"
+            android:maxLines="2"
             tools:text="中石油:美国油价便宜因不含税"
             android:layout_marginLeft="5dp"/>
 

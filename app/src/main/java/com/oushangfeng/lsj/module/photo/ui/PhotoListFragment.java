@@ -21,11 +21,11 @@ import com.oushangfeng.lsj.base.BaseRecyclerAdapter;
 import com.oushangfeng.lsj.base.BaseRecyclerViewHolder;
 import com.oushangfeng.lsj.base.BaseSpacesItemDecoration;
 import com.oushangfeng.lsj.bean.IndexPhotoModel;
-import com.oushangfeng.lsj.bean.PhotoModel;
 import com.oushangfeng.lsj.callback.OnEmptyClickListener;
 import com.oushangfeng.lsj.callback.OnItemClickAdapter;
 import com.oushangfeng.lsj.callback.OnLoadMoreListener;
 import com.oushangfeng.lsj.common.DataLoadType;
+import com.oushangfeng.lsj.module.news.ui.NewsDetailActivity;
 import com.oushangfeng.lsj.module.photo.presenter.ILSJPhotoListPresenter;
 import com.oushangfeng.lsj.module.photo.presenter.ILSJPhotoListPresenterImpl;
 import com.oushangfeng.lsj.module.photo.view.ILSJPhotoListView;
@@ -37,7 +37,6 @@ import com.oushangfeng.lsj.widget.ThreePointLoadingView;
 import com.oushangfeng.lsj.widget.refresh.RefreshLayout;
 import com.umeng.analytics.MobclickAgent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -156,17 +155,21 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 
 
 				view = view.findViewById(R.id.iv_photo_summary);
-				Intent intent = new Intent(getActivity(), PhotoDetailActivity.class);
 				IndexPhotoModel.PhotoModel item = mAdapter.getData().get(position);
+//				Intent intent = new Intent(getActivity(), PhotoDetailActivity.class);
 
-
-				ArrayList<PhotoModel> data = new ArrayList<>();
-				PhotoModel model = new PhotoModel();
-				model.img = item.img.get(0).url;
-				data.add(model);
-
-				intent.putExtra("data", data);
-				intent.putExtra("title", item.title);
+//
+//
+//				ArrayList<PhotoModel> data = new ArrayList<>();
+//				PhotoModel model = new PhotoModel();
+//				model.img = item.img.get(0).url;
+//				data.add(model);
+//
+//				intent.putExtra("data", data);
+//				intent.putExtra("title", item.title);
+				Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+				intent.putExtra("url",item.url);
+				intent.putExtra("title","查看大图");
 				//让新的Activity从一个小的范围扩大到全屏
 				ActivityOptionsCompat options = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
 				ActivityCompat.startActivity(getActivity(), intent, options.toBundle());

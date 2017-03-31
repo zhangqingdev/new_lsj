@@ -130,7 +130,7 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 					if(!Utils.isEmpty(tag)&&tag.equals(item.img.get(0).url)){
 
 					}else {
-						GlideUtils.loadDefault(item.img.get(0).url, imageView, false, DecodeFormat.PREFER_ARGB_8888, DiskCacheStrategy.RESULT);
+						GlideUtils.loadDefault(item.img.get(0).url, imageView, false, DecodeFormat.PREFER_ARGB_8888, DiskCacheStrategy.ALL);
 						imageView.setTag(R.string.app_name,item.img.get(0).url);
 					}
 //				Glide.with(getActivity()).load(item.img.get(0)).into(holder.getImageView(R.id.iv_photo_summary));

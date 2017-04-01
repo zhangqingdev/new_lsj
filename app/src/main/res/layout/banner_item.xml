@@ -11,7 +11,9 @@
         app:riv_mutate_background="true"
         app:riv_corner_radius="4dip"
         android:scaleType="fitXY"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:background="#cccccc"
+        />
 
     <View
         android:layout_width="match_parent"

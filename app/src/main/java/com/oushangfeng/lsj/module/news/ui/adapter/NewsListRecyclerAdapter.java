@@ -252,7 +252,13 @@ public  class NewsListRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerV
 			IndexNewsWapper item = mData.get(position);
 			IndexPageModel.IndexArticleContent itemContent = (IndexPageModel.IndexArticleContent) item.data;
 
-			GlideUtils.loadDefault(itemContent.img.get(0).url,holder.getImageView(R.id.iv_news_summary_photo), null, null, DiskCacheStrategy.RESULT);
+			try{
+				GlideUtils.loadDefault(itemContent.img.get(0).url,holder.getImageView(R.id.iv_news_summary_photo), null, null, DiskCacheStrategy.RESULT);
+			}catch (Exception e){
+				holder.getImageView(R.id.iv_news_summary_photo).setImageResource(R.drawable.ic_fail);
+				e.printStackTrace();
+			}
+
 			//                Glide.with(getActivity()).load(item.imgsrc).asBitmap().animate(R.anim.image_load).diskCacheStrategy(DiskCacheStrategy.RESULT)
 			//                        .placeholder(R.drawable.ic_loading).error(R.drawable.ic_fail).into(holder.getImageView(R.id.iv_news_summary_photo));
 			holder.getTextView(R.id.tv_news_summary_title).setText(itemContent.title);

@@ -226,7 +226,13 @@ public  class NewsListRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerV
 							}
 						}
 					});
-					GlideUtils.loadDefault(item.img.get(0).url,imageView, null, null, DiskCacheStrategy.RESULT);
+					try{
+						GlideUtils.loadDefault(item.img.get(0).url,imageView, null, null, DiskCacheStrategy.RESULT);
+					}catch (Exception e){
+						imageView.setImageResource(R.drawable.ic_fail);
+						e.printStackTrace();
+					}
+
 					TextView tvBanner = (TextView) view.findViewById(R.id.tv_banner);
 					tvBanner.setText(item.title);
 					views.add(view);

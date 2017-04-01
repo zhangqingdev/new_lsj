@@ -10,7 +10,6 @@ import android.view.View;
 import com.oushangfeng.lsj.R;
 import com.oushangfeng.lsj.annotation.ActivityFragmentInject;
 import com.oushangfeng.lsj.base.BaseFragment;
-import com.oushangfeng.lsj.base.BaseSpacesItemDecoration;
 import com.oushangfeng.lsj.bean.IndexNewsWapper;
 import com.oushangfeng.lsj.bean.IndexPageBannerModel;
 import com.oushangfeng.lsj.bean.IndexPageModel;
@@ -25,7 +24,6 @@ import com.oushangfeng.lsj.module.news.presenter.ILSJNewsPresenterImpl;
 import com.oushangfeng.lsj.module.news.ui.adapter.NewsListRecyclerAdapter;
 import com.oushangfeng.lsj.module.news.view.ILSJNewsView;
 import com.oushangfeng.lsj.utils.ClickUtils;
-import com.oushangfeng.lsj.utils.MeasureUtil;
 import com.oushangfeng.lsj.utils.Utils;
 import com.oushangfeng.lsj.widget.ThreePointLoadingView;
 import com.oushangfeng.lsj.widget.refresh.RefreshLayout;
@@ -253,7 +251,7 @@ public class NewsListFragment extends BaseFragment<ILSJNewsPresenter> implements
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.addItemDecoration(new BaseSpacesItemDecoration(MeasureUtil.dip2px(getActivity(), 4)));
+//        mRecyclerView.addItemDecoration(new BaseSpacesItemDecoration(MeasureUtil.dip2px(getActivity(), 4)));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.getItemAnimator().setAddDuration(250);
         mRecyclerView.getItemAnimator().setMoveDuration(250);

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,7 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 		mWebView.setWebViewClient(new LockWebViewClient(this){
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				Log.i("info","override:"+url);
 				return super.shouldOverrideUrlLoading(view, url);
 			}
 

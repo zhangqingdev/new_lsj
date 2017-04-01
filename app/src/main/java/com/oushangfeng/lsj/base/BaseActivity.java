@@ -71,6 +71,7 @@ import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
 
+
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements View.OnClickListener, BaseView {
 
     /**

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        app:riv_corner_radius="5dip"
+        app:riv_corner_radius="2dip"
         app:riv_mutate_background="true"
         android:background="#cccccc"
         android:src="@drawable/ic_loading_default"

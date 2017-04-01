@@ -19,7 +19,7 @@
         android:layout_margin="4dp"
         android:scaleType="centerCrop"
         android:transitionName="photos"
-        app:riv_corner_radius="4dip"
+        app:riv_corner_radius="2dip"
         app:riv_mutate_background="true"
         tools:src="@drawable/ic_header"
         android:src="@drawable/ic_loading_default"

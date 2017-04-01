@@ -102,6 +102,7 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 							downloadApk(data.client.download);
 						}
 					}
+					setUid("ID:"+data.uuid);
 
 				}
 

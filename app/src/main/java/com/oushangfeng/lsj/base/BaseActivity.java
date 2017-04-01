@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.oubowu.slideback.SlideBackHelper;
 import com.oubowu.slideback.SlideConfig;
@@ -141,6 +142,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 	private Tencent mTencent;
 
 	public LoadingDialog loadingDialog;
+
+	private TextView tvUid;
 
 	private Handler handler = new Handler(){
 
@@ -511,6 +514,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 }
             }
         });
+		tvUid = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.tv_uid);
         mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
 
             @Override
@@ -530,6 +534,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 		});
 
     }
+
+	public void setUid(String text){
+		tvUid.setText(text);
+	}
 
 	IUiListener loginListener = new IUiListener() {
 

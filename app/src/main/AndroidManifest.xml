@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/BaseAppTheme">
         <meta-data
-            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
+            android:name="com.oushangfeng.lsj.app.CutsomGlideModule"
             android:value="GlideModule"/>
 
         <activity

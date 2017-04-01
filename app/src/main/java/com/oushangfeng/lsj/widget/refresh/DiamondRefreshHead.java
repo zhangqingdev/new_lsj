@@ -3,14 +3,12 @@ package com.oushangfeng.lsj.widget.refresh;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
-
-import com.oushangfeng.lsj.R;
 
 
 public class DiamondRefreshHead extends RefreshHead {
@@ -126,7 +124,7 @@ public class DiamondRefreshHead extends RefreshHead {
         // KLog.e("alpha: " + mAlpha);
 
         // 绘制第一组方块矩阵
-        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.material_green_a700));
+        mPaint.setColor(Color.parseColor("#333333"));
         mPaint.setAlpha(mAlpha);
 
         for (int i = 0; i < 2; i++) {
@@ -142,7 +140,7 @@ public class DiamondRefreshHead extends RefreshHead {
                 mCubeSize * 2 + mCubeSize * 2 * 2 + mCubeSize - mFirstBottomOffset - mLoadingOffset + getPaddingTop(), mPaint);
 
         // 绘制第二组方块矩阵
-        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.material_purple_700));
+        mPaint.setColor(Color.parseColor("#333333"));
         mPaint.setAlpha(mAlpha);
 
         for (int i = 0; i < 3; i++) {
@@ -153,7 +151,7 @@ public class DiamondRefreshHead extends RefreshHead {
         }
 
         // 绘制第三组方块矩阵
-        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.material_deep_purple_a700));
+        mPaint.setColor(Color.parseColor("#333333"));
         mPaint.setAlpha(mAlpha);
 
         for (int i = 0; i < 3; i++) {
@@ -165,7 +163,7 @@ public class DiamondRefreshHead extends RefreshHead {
         }
 
         // 绘制第四组方块矩阵
-        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.material_deep_orange_a200));
+        mPaint.setColor(Color.parseColor("#333333"));
         mPaint.setAlpha(mAlpha);
 
         for (int i = 0; i < 4; i++) {

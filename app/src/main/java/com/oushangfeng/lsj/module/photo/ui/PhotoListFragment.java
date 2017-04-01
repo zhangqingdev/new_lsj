@@ -195,7 +195,7 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 		});
 
 		mRecyclerView.setLayoutManager(layoutManager);
-		mRecyclerView.addItemDecoration(new BaseSpacesItemDecoration(MeasureUtil.dip2px(getActivity(), 4)));
+		mRecyclerView.addItemDecoration(new BaseSpacesItemDecoration(MeasureUtil.dip2px(getActivity(), 10)));
 		mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 		mRecyclerView.getItemAnimator().setAddDuration(250);
 		mRecyclerView.getItemAnimator().setMoveDuration(250);

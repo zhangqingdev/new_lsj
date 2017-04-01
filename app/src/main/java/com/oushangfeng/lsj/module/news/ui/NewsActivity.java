@@ -44,7 +44,7 @@ import static com.oushangfeng.lsj.R.string.news;
         menuId = R.menu.menu_news,
         hasNavigationView = true,
         toolbarTitle = news,
-        toolbarIndicator = R.drawable.ic_list_white
+        toolbarIndicator = R.drawable.ic_toolbar_left
 		)
 public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsView {
 

@@ -39,6 +39,19 @@
         android:textSize="16sp"
         tools:text="中石油:美国油价便宜因不含税"/>
 
+
+
+    <TextView
+        android:id="@+id/tv_zan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/iv_news_summary_photo"
+        android:layout_marginTop="5dp"
+        android:drawableLeft="@drawable/ic_zan"
+        android:drawablePadding="5dp"
+        android:textColor="#cccccc"/>
+
     <TextView
         android:id="@+id/tv_news_summary_digest"
         android:layout_width="match_parent"
@@ -51,18 +64,8 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="#333333"
         android:textSize="14sp"
+        android:layout_toLeftOf="@id/tv_zan"
         tools:text="中国油价的48%交税了，美国价税分离，价是价，税是税。"/>
-
-    <TextView
-        android:id="@+id/tv_zan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/tv_news_summary_digest"
-        android:layout_marginTop="5dp"
-        android:drawableLeft="@drawable/ic_zan"
-        android:drawablePadding="5dp"
-        android:textColor="#cccccc"/>
 
     <View
         android:layout_below="@id/tv_zan"

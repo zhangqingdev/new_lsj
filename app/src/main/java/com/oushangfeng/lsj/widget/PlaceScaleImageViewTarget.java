@@ -16,15 +16,16 @@ public class PlaceScaleImageViewTarget extends GlideDrawableImageViewTarget {
 	ImageView.ScaleType placeScale;
 	ImageView.ScaleType originScale;
 
-	public PlaceScaleImageViewTarget(ImageView view, ImageView.ScaleType placeScale) {
+	public PlaceScaleImageViewTarget(ImageView view, ImageView.ScaleType originScale,ImageView.ScaleType placeScale) {
 		super(view);
 		this.placeScale = placeScale;
-		originScale = view.getScaleType();
+		this.originScale = originScale;
 	}
 
 	@Override
 	public void onLoadStarted(Drawable placeholder) {
 		getView().setScaleType(placeScale);
+
 		super.onLoadStarted(placeholder);
 	}
 
@@ -38,6 +39,7 @@ public class PlaceScaleImageViewTarget extends GlideDrawableImageViewTarget {
 	@Override
 	public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
 		getView().setScaleType(originScale);
+
 		super.onResourceReady(resource, animation);
 	}
 }

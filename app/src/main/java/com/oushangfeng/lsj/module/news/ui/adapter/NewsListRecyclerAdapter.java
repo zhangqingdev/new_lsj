@@ -227,7 +227,7 @@ public  class NewsListRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerV
 						}
 					});
 					try{
-						GlideUtils.loadDefault(item.img.get(0).url,imageView, null, null, DiskCacheStrategy.RESULT);
+						GlideUtils.loadDefault(item.img.get(0).url,imageView, null, null, DiskCacheStrategy.RESULT, ImageView.ScaleType.FIT_XY, ImageView.ScaleType.FIT_CENTER);
 					}catch (Exception e){
 						imageView.setImageResource(R.drawable.ic_fail);
 						e.printStackTrace();
@@ -249,7 +249,7 @@ public  class NewsListRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerV
 			ImageView[] imageViews = new ImageView[]{holder.getImageView(R.id.iv1),holder.getImageView(R.id.iv2),holder.getImageView(R.id.iv3)};
 			for(int i = 0;i<imageViews.length;i++){
 				if(i<imgs.size()){
-					GlideUtils.loadDefault(imgs.get(i).url,imageViews[i], null, null, DiskCacheStrategy.RESULT);
+					GlideUtils.loadDefault(imgs.get(i).url,imageViews[i], null, null, DiskCacheStrategy.RESULT, ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER);
 				}
 			}
 			holder.getTextView(R.id.tv_zan).setText(itemContent.laud+"");
@@ -259,7 +259,7 @@ public  class NewsListRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerV
 			IndexPageModel.IndexArticleContent itemContent = (IndexPageModel.IndexArticleContent) item.data;
 
 			try{
-				GlideUtils.loadDefault(itemContent.img.get(0).url,holder.getImageView(R.id.iv_news_summary_photo), null, null, DiskCacheStrategy.RESULT);
+				GlideUtils.loadDefault(itemContent.img.get(0).url,holder.getImageView(R.id.iv_news_summary_photo), null, null, DiskCacheStrategy.RESULT, ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER);
 			}catch (Exception e){
 				holder.getImageView(R.id.iv_news_summary_photo).setImageResource(R.drawable.ic_fail);
 				e.printStackTrace();

@@ -39,7 +39,7 @@ public class GlideUtils {
      * @param diskcacheStrategy 硬盘缓存策略
      */
     public static void loadDefaultOverrideNoAnim(Object loadObj, ImageView imageView, int overrideW, int overrideH, Boolean asGif, DecodeFormat format, DiskCacheStrategy diskcacheStrategy) {
-        load(imageView.getContext(), loadObj, imageView, overrideW, overrideH, R.drawable.ic_loading, R.drawable.ic_fail, 0, asGif, format, null, diskcacheStrategy);
+//        load(imageView.getContext(), loadObj, imageView, overrideW, overrideH, R.drawable.ic_loading, R.drawable.ic_fail, 0, asGif, format, null, diskcacheStrategy);
     }
 
     /**
@@ -53,8 +53,8 @@ public class GlideUtils {
      * @param diskcacheStrategy 硬盘缓存策略
      */
     public static void loadDefaultTransformation(Object loadObj, ImageView imageView, Boolean asGif, DecodeFormat format, Transformation transformation, DiskCacheStrategy diskcacheStrategy) {
-        load(imageView.getContext(), loadObj, imageView, 0, 0, R.drawable.ic_loading_default, R.drawable.ic_fail, R.anim.image_load, asGif, format, transformation,
-                diskcacheStrategy);
+//        load(imageView.getContext(), loadObj, imageView, 0, 0, R.drawable.ic_loading_default, R.drawable.ic_fail, R.anim.image_load, asGif, format, transformation,
+//                diskcacheStrategy);
     }
 
     /**
@@ -66,8 +66,8 @@ public class GlideUtils {
      * @param format            图片质量，只有设置图片为bitmap类型时才有效
      * @param diskcacheStrategy 硬盘缓存策略
      */
-    public static void loadDefault(Object loadObj, ImageView imageView, Boolean asGif, DecodeFormat format, DiskCacheStrategy diskcacheStrategy) {
-        load(imageView.getContext(), loadObj, imageView, 0, 0, R.drawable.ic_loading_default, R.drawable.ic_fail, R.anim.image_load, asGif, format, null, diskcacheStrategy);
+    public static void loadDefault(Object loadObj, ImageView imageView, Boolean asGif, DecodeFormat format, DiskCacheStrategy diskcacheStrategy, ImageView.ScaleType originScale, ImageView.ScaleType placeScale) {
+        load(imageView.getContext(), loadObj, imageView, 0, 0, R.drawable.ic_loading_default, R.drawable.ic_fail, R.anim.image_load, asGif, format, null, diskcacheStrategy,originScale,placeScale);
     }
 
     /**
@@ -80,7 +80,7 @@ public class GlideUtils {
      * @param diskcacheStrategy 硬盘缓存策略
      */
     public static void loadDefaultNoAnim(Object loadObj, ImageView imageView, Boolean asGif, DecodeFormat format, DiskCacheStrategy diskcacheStrategy) {
-        load(imageView.getContext(), loadObj, imageView, 0, 0, R.drawable.ic_loading, R.drawable.ic_fail, 0, asGif, format, null, diskcacheStrategy);
+//        load(imageView.getContext(), loadObj, imageView, 0, 0, R.drawable.ic_loading, R.drawable.ic_fail, 0, asGif, format, null, diskcacheStrategy);
     }
 
     /**
@@ -99,7 +99,8 @@ public class GlideUtils {
      * @param transformation    图片转换
      * @param diskcacheStrategy 硬盘缓存策略
      */
-    private static void load(Context context, Object loadObj, ImageView imageView, int overrideW, int overrideH, int holderId, int errorId, int animId, Boolean asGif, DecodeFormat format, Transformation transformation, DiskCacheStrategy diskcacheStrategy) {
+    private static void load(Context context, Object loadObj, ImageView imageView, int overrideW, int overrideH, int holderId, int errorId, int animId, Boolean asGif, DecodeFormat format, Transformation transformation,
+							 DiskCacheStrategy diskcacheStrategy, ImageView.ScaleType originScale, ImageView.ScaleType placeScale) {
         final RequestManager manager = Glide.with(context);
 
         DrawableTypeRequest request = null;
@@ -120,13 +121,13 @@ public class GlideUtils {
         if (asGif != null) {
             if (asGif) {
                 final GifTypeRequest gifTypeRequest = request.asGif();
-                load(gifTypeRequest, imageView, overrideW, overrideH, holderId, errorId, animId, true, format, transformation, diskcacheStrategy);
+                load(gifTypeRequest, imageView, overrideW, overrideH, holderId, errorId, animId, true, format, transformation, diskcacheStrategy,originScale,placeScale);
             } else {
                 final BitmapTypeRequest bitmapTypeRequest = request.asBitmap();
-                load(bitmapTypeRequest, imageView, overrideW, overrideH, holderId, errorId, animId, false, format, transformation, diskcacheStrategy);
+                load(bitmapTypeRequest, imageView, overrideW, overrideH, holderId, errorId, animId, false, format, transformation, diskcacheStrategy,originScale,placeScale);
             }
         } else {
-            load(request, imageView, overrideW, overrideH, holderId, errorId, animId, null, format, transformation, diskcacheStrategy);
+            load(request, imageView, overrideW, overrideH, holderId, errorId, animId, null, format, transformation, diskcacheStrategy,originScale,placeScale);
         }
     }
 
@@ -146,7 +147,8 @@ public class GlideUtils {
      * @param diskcacheStrategy 硬盘缓存策略
      */
     @SuppressWarnings("unchecked")
-    private static void load(GenericRequestBuilder request, ImageView imageView, int overrideW, int overrideH, int holderId, int errorId, int animId, Boolean asGif, DecodeFormat format, Transformation transformation, DiskCacheStrategy diskcacheStrategy) {
+    private static void load(GenericRequestBuilder request, ImageView imageView, int overrideW, int overrideH, int holderId, int errorId, int animId, Boolean asGif, DecodeFormat format,
+							 Transformation transformation, DiskCacheStrategy diskcacheStrategy, ImageView.ScaleType originScale, ImageView.ScaleType placeScale) {
         // 通过builder一步一步构建，最后调用into才能设置生效；如果只是request调into不行
         GenericRequestBuilder requestBuilder = null;
         if (holderId != 0) {
@@ -192,7 +194,7 @@ public class GlideUtils {
 		ImageViewTarget target = null;
 
         if (asGif != null && !asGif) {
-			target = new PlaceScaleBitmapTarget(imageView, ImageView.ScaleType.CENTER_INSIDE);
+			target = new PlaceScaleBitmapTarget(imageView, originScale,placeScale);
             if (requestBuilder != null && requestBuilder instanceof BitmapRequestBuilder) {
                 // bitmap格式的特殊处理图片质量
                 final BitmapRequestBuilder bitmapRequestBuilder = ((BitmapRequestBuilder) requestBuilder).format(format);
@@ -205,7 +207,7 @@ public class GlideUtils {
                 return;
             }
         }else {
-			target = new PlaceScaleImageViewTarget(imageView, ImageView.ScaleType.FIT_CENTER);
+			target = new PlaceScaleImageViewTarget(imageView, originScale,placeScale);
 		}
         if (requestBuilder != null) {
             if (BuildConfig.DEBUG) {

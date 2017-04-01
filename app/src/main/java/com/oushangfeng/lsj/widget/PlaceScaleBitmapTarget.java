@@ -16,10 +16,10 @@ public class PlaceScaleBitmapTarget extends BitmapImageViewTarget {
 	ImageView.ScaleType placeScale;
 	ImageView.ScaleType originScale;
 
-	public PlaceScaleBitmapTarget(ImageView view, ImageView.ScaleType placeScale) {
+	public PlaceScaleBitmapTarget(ImageView view, ImageView.ScaleType originScale,ImageView.ScaleType placeScale) {
 		super(view);
 		this.placeScale = placeScale;
-		originScale = view.getScaleType();
+		this.originScale = originScale;
 	}
 
 	@Override

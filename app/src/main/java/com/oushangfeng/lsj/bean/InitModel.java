@@ -29,4 +29,6 @@ public class InitModel {
 	public String errorCode;
 	@JsonProperty("errorMsg")
 	public String errorMsg;
+	@JsonProperty("shareAppLink")
+	public String shareAppLink;
 }

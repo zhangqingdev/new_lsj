@@ -94,6 +94,7 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 //					data.client.download = "http://7xtfm0.com1.z0.glb.clouddn.com/lsj-3.0-debug-.apk";
 					//请求成功
 					Utils.setPreferenceStr(NewsActivity.this,"feedback",data.feedback);
+					Utils.setPreferenceStr(NewsActivity.this,"share_url",data.shareAppLink);
 					if(data.client.update){
 						File file = new File(getExternalFilesDir(null)+ File.separator+getPackageName()+".apk");
 						if(file.exists()){
@@ -103,7 +104,6 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 						}
 					}
 					setUid("ID:"+data.uuid);
-
 				}
 
 			}

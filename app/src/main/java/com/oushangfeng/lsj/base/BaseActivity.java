@@ -477,7 +477,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                     case R.id.action_invite_friend:
                         //邀请好友
                         //mClass = VideoActivity.class;
-						shareText("邀请分享链接需要服务器下发");
+						shareText("老司机在飙车...赶快上车你懂的！"+Utils.getPreferenceStr(BaseActivity.this,"share_url",""));
 						MobclickAgent.onEvent(BaseActivity.this,"click_invite");
                         break;
                     case R.id.action_feed_back:

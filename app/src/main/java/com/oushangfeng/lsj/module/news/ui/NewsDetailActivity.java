@@ -1,10 +1,10 @@
 package com.oushangfeng.lsj.module.news.ui;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +15,24 @@ import com.oushangfeng.lsj.R;
 import com.oushangfeng.lsj.annotation.ActivityFragmentInject;
 import com.oushangfeng.lsj.base.BaseActivity;
 import com.oushangfeng.lsj.bean.NeteastNewsDetail;
+import com.oushangfeng.lsj.bean.PhotoModel;
 import com.oushangfeng.lsj.module.news.presenter.INewsDetailPresenter;
 import com.oushangfeng.lsj.module.news.view.INewsDetailView;
+import com.oushangfeng.lsj.module.photo.ui.PhotoDetailActivity;
 import com.oushangfeng.lsj.utils.MeasureUtil;
 import com.oushangfeng.lsj.utils.Utils;
 import com.oushangfeng.lsj.utils.ViewUtil;
 import com.oushangfeng.lsj.widget.LockWebView;
 import com.oushangfeng.lsj.widget.LockWebViewClient;
 import com.oushangfeng.lsj.widget.ThreePointLoadingView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * ClassName: NewsDetailActivity<p>
@@ -75,7 +85,33 @@ public class NewsDetailActivity extends BaseActivity<INewsDetailPresenter> imple
 		mWebView.setWebViewClient(new LockWebViewClient(this){
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				Log.i("info","override:"+url);
+				if(url.startsWith("lsj://gallery")){
+					HashMap<String,String> params = Utils.getUrlParams(url);
+					String data = URLDecoder.decode(params.get("data"));
+					if(!Utils.isEmpty(data)){
+						try {
+							JSONObject jsonObject = new JSONObject(data);
+							JSONArray jsonArray = jsonObject.getJSONArray("img");
+							if(jsonArray != null && jsonArray.length() > 0){
+								ArrayList<PhotoModel> photos = new ArrayList<>();
+								for(int i = 0;i<jsonArray.length();i++){
+									JSONObject item = jsonArray.getJSONObject(i);
+									PhotoModel model = new PhotoModel();
+									model.img = item.getString("url");
+									photos.add(model);
+								}
+								Intent intent = new Intent(NewsDetailActivity.this, PhotoDetailActivity.class);
+								intent.putExtra("data",photos);
+								intent.putExtra("title","查看大图");
+								intent.putExtra("index",jsonObject.optInt("index"));
+								startActivity(intent);
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+					return true;
+				}
 				return super.shouldOverrideUrlLoading(view, url);
 			}
 

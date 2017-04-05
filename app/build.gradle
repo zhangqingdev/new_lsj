@@ -28,6 +28,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.demo
+            debuggable true
         }
         debug {
 //            applicationIdSuffix ".debug"

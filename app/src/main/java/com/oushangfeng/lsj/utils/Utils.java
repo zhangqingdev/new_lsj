@@ -57,6 +57,31 @@ import static com.tencent.open.utils.Global.getPackageName;
 public class Utils {
 
 
+	/**
+	 * 解析url key-value
+	 *
+	 * @param url
+	 * @return
+	 */
+	public static HashMap<String, String> getUrlParams(String url) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		try {
+			String parm = url.substring(url.indexOf("?") + 1);
+			String[] arr = parm.split("&");
+			for (String string : arr) {
+				String[] kv = string.split("=");
+				if (kv.length == 1) {
+					map.put(kv[0], "");
+				} else {
+					map.put(kv[0], kv[1]);
+				}
+			}
+		} catch (Exception e) {
+		}
+		return map;
+		// return "data=" + mapToJson(map);
+	}
+
 	public static boolean saveImageToGallery(Context context, Bitmap bmp) {
 		boolean result = false;
 

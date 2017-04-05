@@ -404,7 +404,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             // 24.0.0版本后导航图标会有默认的与标题的距离，这里设置去掉
-			if(Build.VERSION.SDK_INT < 20){
+			if(Build.VERSION.SDK_INT < 20 && this instanceof NewsDetailActivity){
 				ViewGroup.LayoutParams params = toolbar.getLayoutParams();
 				if(params instanceof RelativeLayout.LayoutParams){
 					((RelativeLayout.LayoutParams)params).addRule(RelativeLayout.BELOW);

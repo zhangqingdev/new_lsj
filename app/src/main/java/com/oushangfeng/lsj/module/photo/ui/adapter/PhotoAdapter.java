@@ -52,12 +52,12 @@ public class PhotoAdapter extends PagerAdapter {
 
         final String kpic = mPics.get(position).img;
         if (kpic.contains("gif")) {
-            GlideUtils.loadDefault(kpic, photoView, true, null, DiskCacheStrategy.SOURCE, ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER);
+            GlideUtils.loadDefault(kpic, photoView, true, null, DiskCacheStrategy.SOURCE, ImageView.ScaleType.FIT_CENTER, ImageView.ScaleType.CENTER_INSIDE);
             //            Glide.with(mContext).load(kpic).asGif().placeholder(R.drawable.ic_loading).animate(R.anim.image_load).error(R.drawable.ic_fail).diskCacheStrategy(DiskCacheStrategy.SOURCE)
             //                    .into(photoView);
             photoView.setZoomable(false);
         } else {
-            GlideUtils.loadDefault(kpic, photoView, false, DecodeFormat.PREFER_ARGB_8888, DiskCacheStrategy.ALL, ImageView.ScaleType.CENTER_CROP, ImageView.ScaleType.FIT_CENTER);
+            GlideUtils.loadDefault(kpic, photoView, false, DecodeFormat.PREFER_ARGB_8888, DiskCacheStrategy.ALL, ImageView.ScaleType.FIT_CENTER, ImageView.ScaleType.CENTER_INSIDE);
             //            Glide.with(mContext).load(kpic).asBitmap().animate(R.anim.image_load).placeholder(R.drawable.ic_loading).error(R.drawable.ic_fail)
             //                    .format(DecodeFormat.PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.ALL).into(photoView);
             photoView.setZoomable(true);

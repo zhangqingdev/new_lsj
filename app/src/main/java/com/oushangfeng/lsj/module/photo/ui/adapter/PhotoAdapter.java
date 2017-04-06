@@ -33,6 +33,12 @@ public class PhotoAdapter extends PagerAdapter {
 
     private OnPhotoExpandListener mOnPhotoExpandListener;
 
+	private PhotoViewAttacher.OnViewTapListener onViewTapListener;
+
+	public void setOnViewTapListener(PhotoViewAttacher.OnViewTapListener listener){
+		this.onViewTapListener = listener;
+	}
+
     public PhotoAdapter(Context context, ArrayList<PhotoModel> pics) {
         mPics = pics == null ? new ArrayList<PhotoModel>() : pics;
         mContext = context;
@@ -81,6 +87,8 @@ public class PhotoAdapter extends PagerAdapter {
         });
 
         container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+		PhotoViewAttacher attacher = new PhotoViewAttacher(photoView);
+		attacher.setOnViewTapListener(onViewTapListener);
         return photoView;
     }
 

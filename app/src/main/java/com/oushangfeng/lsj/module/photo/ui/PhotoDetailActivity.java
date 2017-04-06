@@ -1,7 +1,9 @@
 package com.oushangfeng.lsj.module.photo.ui;
 
 import android.animation.ValueAnimator;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -25,12 +27,14 @@ import com.oushangfeng.lsj.utils.MeasureUtil;
 import com.oushangfeng.lsj.utils.SpUtil;
 import com.oushangfeng.lsj.utils.StringUtils;
 import com.oushangfeng.lsj.utils.Utils;
+import com.oushangfeng.lsj.utils.ViewUtil;
 import com.oushangfeng.lsj.widget.HackyViewPager;
 import com.oushangfeng.lsj.widget.ThreePointLoadingView;
 import com.socks.library.KLog;
 
 import java.util.ArrayList;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
 import zhou.widget.RichText;
 
 /**
@@ -104,6 +108,12 @@ public class PhotoDetailActivity extends BaseActivity<IPhotoDetailPresenter> imp
 
         final PhotoAdapter photoAdapter = new PhotoAdapter(this, images);
         mViewPager.setAdapter(photoAdapter);
+		photoAdapter.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+			@Override
+			public void onViewTap(View view, float x, float y) {
+				updateToolBar();
+			}
+		});
 		ivSave.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -118,6 +128,7 @@ public class PhotoDetailActivity extends BaseActivity<IPhotoDetailPresenter> imp
 						toast(result?"保存成功":"保存失败");
 					}
 				});
+
 			}
 		});
 
@@ -187,6 +198,24 @@ public class PhotoDetailActivity extends BaseActivity<IPhotoDetailPresenter> imp
         });
 
     }
+
+	private void updateToolBar(){
+		try{
+			View statsView = findViewById(R.id.status_view);
+			if(getSupportActionBar().isShowing()){
+				getSupportActionBar().hide();
+				ViewUtil.setFullScreen(PhotoDetailActivity.this);
+				statsView.setBackgroundColor(Color.BLACK);
+			}else {
+				getSupportActionBar().show();
+				ViewUtil.quitFullScreen(PhotoDetailActivity.this);
+				TypedArray array = getTheme().obtainStyledAttributes(new int[]{R.attr.colorPrimary});
+				statsView.setBackgroundColor(array.getColor(0,0x000000));
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 
     /**
      * 根据文本的长度动态设置对齐方式

@@ -57,7 +57,8 @@
         android:paddingTop="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@color/material_white"
-        tools:text="澳大利亚发现奇怪深海生物"/>
+        tools:text="澳大利亚发现奇怪深海生物"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/tv_photo_detail_page"
@@ -69,6 +70,7 @@
         android:maxLines="1"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/material_white"
+        android:visibility="invisible"
         tools:text="@string/photo_page"/>
 
     <com.oushangfeng.lsj.widget.ThreePointLoadingView

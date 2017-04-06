@@ -107,13 +107,13 @@ public class PhotoDetailActivity extends BaseActivity<IPhotoDetailPresenter> imp
 		mTitleTv.setTag(true);
 
         final PhotoAdapter photoAdapter = new PhotoAdapter(this, images);
-        mViewPager.setAdapter(photoAdapter);
-		photoAdapter.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+		photoAdapter.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
 			@Override
-			public void onViewTap(View view, float x, float y) {
+			public void onPhotoTap(View view, float x, float y) {
 				updateToolBar();
 			}
 		});
+        mViewPager.setAdapter(photoAdapter);
 		ivSave.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

@@ -215,6 +215,10 @@ public class NewsActivity extends BaseActivity<INewsPresenter> implements INewsV
 					fragments.add(photoListFragment);
 					title.add(news);
 
+				}else if(news.equals("社区")){
+					SheQuFragment sheQuFragment = new SheQuFragment();
+					fragments.add(sheQuFragment);
+					title.add(news);
 				}else {
 					final NewsListFragment fragment = NewsListFragment
 							.newInstance();

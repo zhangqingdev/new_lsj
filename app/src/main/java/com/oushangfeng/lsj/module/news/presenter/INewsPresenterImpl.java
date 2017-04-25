@@ -29,6 +29,7 @@ public class INewsPresenterImpl extends BasePresenterImpl<INewsView, List<NewsCh
 		List<String> data = new ArrayList<>();
 		data.add("精选");
 		data.add("看图");
+		data.add("社区");
 		mView.initViewPager(data);
     }
 

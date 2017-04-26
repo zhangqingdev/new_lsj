@@ -11,6 +11,7 @@ import com.oushangfeng.lsj.base.BaseFragment;
 import com.oushangfeng.lsj.widget.LockWebView;
 import com.oushangfeng.lsj.widget.LockWebViewClient;
 import com.oushangfeng.lsj.widget.ThreePointLoadingView;
+import com.oushangfeng.lsj.widget.refresh.RefreshLayout;
 
 /**
  * Created by wudi on 17/4/25.
@@ -20,12 +21,21 @@ import com.oushangfeng.lsj.widget.ThreePointLoadingView;
 public class SheQuFragment extends BaseFragment {
 	ThreePointLoadingView mLoadingView;
 	private LockWebView mWebView;
-	private String url = "https://chaojilaosiji.kuaizhan.com";
+//	private String url = "https://chaojilaosiji.kuaizhan.com";
+	private String url = "http://www.kuaizhan.com/club/apiv1/forums/WPDLi-RQajc0yMMw/jump-to";
+	private RefreshLayout mRefreshLayout;
+
 	@Override
 	protected void initView(View fragmentRootView) {
 		mLoadingView = (ThreePointLoadingView) fragmentRootView.findViewById(R.id.tpl_view);
 		mLoadingView.setOnClickListener(this);
-
+		mRefreshLayout = (RefreshLayout) fragmentRootView.findViewById(R.id.refresh_layout);
+		mRefreshLayout.setRefreshListener(new RefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefreshing() {
+				mWebView.loadUrl(mWebView.getUrl());
+			}
+		});
 		mWebView = (LockWebView)fragmentRootView.findViewById(R.id.webview);
 		mWebView.setWebViewClient(new LockWebViewClient(getActivity()){
 			@Override
@@ -37,6 +47,7 @@ public class SheQuFragment extends BaseFragment {
 			public void onPageFinished(WebView view, String url) {
 				mLoadingView.stop();
 				mWebView.setVisibility(View.VISIBLE);
+				mRefreshLayout.refreshFinish();
 				super.onPageFinished(view, url);
 			}
 

@@ -120,6 +120,12 @@ public class PhotoListFragment extends BaseFragment<ILSJPhotoListPresenter> impl
 				if (imgs != null && !imgs.isEmpty()) {
 					//宽度340dp
 					IndexPhotoModel.ImgEntity entity = imgs.get(0);
+					if(entity.width == 0){
+						entity.width = itemWidth;
+					}
+					if(entity.height == 0){
+						entity.height = itemWidth;
+					}
 					layoutParams.height = entity.height * itemWidth / entity.width;
 					holder.itemView.setLayoutParams(layoutParams);
 //				Glide.with(getActivity()).load(item.img.get(0)).dontAnimate().thumbnail(0.2f).into(holder.getImageView(R.id.iv_photo_summary));

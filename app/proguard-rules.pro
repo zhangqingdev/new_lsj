@@ -23,7 +23,7 @@
 #是要保留的。将你项目中实体类都拎出来，用以下语法进行保留。
 #-keep class 你的实体类所在的包.** { *; }
 
--keep class com.oushangfeng.ounews.bean.** { *; }
+-keep class com.oushangfeng.lsj.bean.** { *; }
 
 #-------------------------------------------------------------------------
 
